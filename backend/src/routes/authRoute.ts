@@ -1,24 +1,21 @@
-import express from 'express'
+import express,{Request,Response}from 'express'
 import authController from '../controller/authController'
 
 
-const authRoute=()=>{
-    const router = express.Router()
+
+const authRoute = express.Router()
 
 
-//user login and signup
-    
-    router.post('/login',authController.userLogin)
-    router.post('/signup',authController.UserSignup)
+
+    authRoute.post('/login',authController.userLogin)
+    authRoute.post('/signup',authController.UserSignup)
 //theater login and signup
    
-    router.post('/theater/login',authController.TheaterLogin)
-    router.post('/theater/signup',authController.TheaterSignUp)
+authRoute.post('/theater/login',authController.TheaterLogin)
+authRoute.post('/theater/signup',authController.TheaterSignUp)
 //admin login
-    router.post('/admin/login',authController.adminLogin)
+authRoute.post('/admin/login',authController.adminLogin)
 
 
 
-
-}
 export default authRoute

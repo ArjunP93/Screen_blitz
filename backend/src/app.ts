@@ -1,5 +1,5 @@
 // Importing module
-import express,{Application} from 'express';
+import express,{Application,Request,Response} from 'express';
 import expressConfig from './config/expressConfig';
 import http from 'http'
 import connectDB from './config/databaseConfig';
@@ -20,8 +20,11 @@ connectDB()
 expressConfig(app)
 
 //routes
-app.use('/api/',userRoute)
-app.use('/api/auth',authRoute)
+app.get('/api',(req:Request,res:Response)=>{
+    res.send('thisl is test to postman')
+})
+app.use('/api/auth', authRoute)
+app.use('/api',userRoute)
 app.use('/api/theater',theaterRoute)
 app.use('/api/admin',adminRoute)
 

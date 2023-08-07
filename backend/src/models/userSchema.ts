@@ -6,7 +6,7 @@ import {Schema,model} from 'mongoose'
 
 const userSchema = new Schema (
     {
-        Name:{
+        name:{
             type:String,
             required:true
         },
@@ -22,10 +22,19 @@ const userSchema = new Schema (
             minlength:6
         },
         profilePic:{
-            type:String
+            type:Array
         },
+        blockedstatus:{
+            type:Boolean,
+            default:false
+        },
+        mobile:{
+            type:Number
+        }
 
     }
 
 )
+const User = model('User',userSchema)
 
+export default User

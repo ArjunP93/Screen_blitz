@@ -1,4 +1,6 @@
 import React from "react";
+import{toast} from 'react-toastify'
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -14,6 +16,7 @@ import {
  
 export function HomeNavbar() {
   const [openNav, setOpenNav] = React.useState(false);
+  const navigate = useNavigate()
  
   React.useEffect(() => {
     window.addEventListener(
@@ -21,6 +24,12 @@ export function HomeNavbar() {
       () => window.innerWidth >= 960 && setOpenNav(false)
     );
   }, []);
+  const signOut=()=>{
+    localStorage.removeItem('token')
+    toast.success("Signout success")
+    navigate('/user')
+
+  }
  
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -63,9 +72,9 @@ export function HomeNavbar() {
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <a href="#" className="flex items-center">
-          Docs
-        </a>
+        <button onClick={signOut} className="flex items-center">
+          logout
+        </button>
       </Typography>
     </ul>
   );
