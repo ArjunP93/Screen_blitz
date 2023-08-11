@@ -44,6 +44,7 @@ function App() {
                   heading="User Sign In"
                   locateHome="/userhome"
                   locateSignUp="/user/signup"
+                  google="true"
                 />
               )
             }
@@ -52,12 +53,17 @@ function App() {
           <Route
             path="/user"
             element={
-              <SignInForm
-                onSubmit={logIn}
-                heading="User Sign In"
-                locateHome="/userhome"
-                locateSignUp="/user/signup"
-              />
+              userReduxToken ? (
+                <HomePage />
+              ) : (
+                <SignInForm
+                  onSubmit={logIn}
+                  heading="User Sign In"
+                  locateHome="/userhome"
+                  locateSignUp="/user/signup"
+                  google="true"
+                />
+              )
             }
           ></Route>
           <Route
@@ -68,6 +74,8 @@ function App() {
                 heading="User Sign Up"
                 locateLogin="/user"
                 locateAftersignup="/user"
+               
+
               />
             }
           ></Route>
@@ -80,6 +88,7 @@ function App() {
                 heading="Theater Sign In"
                 locateHome="/theaterdash"
                 locateSignUp="/theater/signup"
+                google="false"
               />
             }
           ></Route>
@@ -91,6 +100,8 @@ function App() {
                 heading="Theater Sign Up"
                 locateLogin="/theater"
                 locateAftersignup="/theater"
+                
+
               />
             }
           ></Route>
@@ -105,6 +116,8 @@ function App() {
                   heading="Theater Sign In"
                   locateHome="/theaterdash"
                   locateSignUp="/theater/signup"
+                 
+
                 />
               )
             }

@@ -19,36 +19,40 @@ const authController = {
       const userFile = await User.findOne({ email });
 
       if (userFile) {
-        bcrypt.compare(password, userFile.password, function (err, result) {
-          if (result === true) {
-            if (userFile.blockedstatus) {
-              return res.json({
-                userBlocked: true,
-                message: "OOPS!! you are blocked by admin",
-              });
-            } else {
-              //generate jwt and send to client
-              const user_id = userFile._id.toString();
-              const jwt = generateJWT(user_id);
+        if (userFile.password) {
+          bcrypt.compare(password, userFile.password, function (err, result) {
+            if (result === true) {
+              if (userFile.blockedstatus) {
+                return res.json({
+                  userBlocked: true,
+                  message: "OOPS!! you are blocked by admin",
+                });
+              } else {
+                //generate jwt and send to client
+                const user_id = userFile._id.toString();
+                const jwt = generateJWT(user_id);
 
-              res.json({
-                user: userFile,
-                created: true,
-                token: jwt,
-                status: "success",
-              });
+                res.json({
+                  user: userFile,
+                  created: true,
+                  token: jwt,
+                  status: "success",
+                });
+              }
+            } else {
+              return (
+                res
+                  // .status(401)
+                  .json({ login_status: false, message: "invalid credentials" })
+              );
             }
-          } else {
-            return res
-              // .status(401)
-              .json({ login_status: false, message: "invalid credentials" });
-          }
-        });
-      } else {
-        return res.json({
-          login_status: false,
-          message: "invalid username or password",
-        });
+          });
+        } else {
+          return res.json({
+            login_status: false,
+            message: "invalid username or password",
+          });
+        }
       }
     } catch (error) {
       res.json({ error, loginStatus: false, message: "login failed" });
@@ -124,9 +128,11 @@ const authController = {
               });
             }
           } else {
-            return res
-              // .status(401)
-              .json({ login_status: false, message: "invalid credentials" });
+            return (
+              res
+                // .status(401)
+                .json({ login_status: false, message: "invalid credentials" })
+            );
           }
         });
       } else {
@@ -185,7 +191,7 @@ const authController = {
     }
   },
 
-  adminLogin:async (req: Request, res: Response) => {
+  adminLogin: async (req: Request, res: Response) => {
     try {
       const { email, password }: { email: string; password: string } = req.body;
       //find user in db
@@ -193,30 +199,81 @@ const authController = {
 
       if (adminFile) {
         bcrypt.compare(password, adminFile.password, function (err, result) {
-          if (result === true) 
-           
-            {
-              //generate jwt and send to client
-              const admin_id = adminFile._id.toString();
-              const jwt = generateJWT(admin_id);
+          if (result === true) {
+            //generate jwt and send to client
+            const admin_id = adminFile._id.toString();
+            const jwt = generateJWT(admin_id);
 
-              res.json({
-                admin: adminFile,
-                created: true,
-                token: jwt,
-                status: "success",
-              });
-            }
-          else {
-            return res
-              // .status(401)
-              .json({ login_status: false, message: "invalid admin credentials" });
+            res.json({
+              admin: adminFile,
+              created: true,
+              token: jwt,
+              status: "success",
+            });
+          } else {
+            return (
+              res
+                // .status(401)
+                .json({
+                  login_status: false,
+                  message: "invalid admin credentials",
+                })
+            );
           }
         });
       } else {
         return res.json({
           login_status: false,
           message: "invalid admin username or password",
+        });
+      }
+    } catch (error) {
+      res.json({ error, loginStatus: false, message: "login failed" });
+    }
+  },
+  userGoogleAuth: async (req: Request, res: Response) => {
+    console.log("data fron frrooont", req.body);
+
+    try {
+      const { name, email }: { name: string; email: string } = req.body;
+      //find user in db
+      const userFile = await User.findOne({ email });
+
+      if (userFile) {
+        if (userFile.blockedstatus) {
+          return res.json({
+            userBlocked: true,
+            message: "OOPS!! you are blocked by admin",
+          });
+        } else {
+          //generate jwt and send to client
+          const user_id = userFile._id.toString();
+          const jwt = generateJWT(user_id);
+
+          res.json({
+            user: userFile,
+            created: true,
+            token: jwt,
+            status: "success",
+          });
+        }
+      } else {
+        // Creating a new user
+        const newUserData = new User({
+          email,
+          name,
+        });
+        const returnData = await newUserData.save();
+
+        const newUserId = returnData._id;
+
+        const jwt = generateJWT(newUserId.toString());
+
+        res.json({
+          user: newUserData,
+          created: true,
+          token: jwt,
+          status: "success",
         });
       }
     } catch (error) {

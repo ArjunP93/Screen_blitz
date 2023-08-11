@@ -7,10 +7,61 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux"; 
 import { setTheater } from "../../redux/theaterSlice";
 import { setUser } from "../../redux/userSlice";
+import {googleLogIn} from '../../api/userApi'
+import { auth,googleProvider } from '../../firebase/googleAuth/config';
+import {signInWithPopup} from 'firebase/auth'
 
 export function SignInForm(props) {
   const navigate = useNavigate();
   const dispatch=useDispatch()
+
+
+
+  const handleGlogin =async()=>{
+    signInWithPopup(auth,googleProvider).then(async(data)=>{
+      console.log(data,'datta from firebse')
+      const gData = {name:data.user.displayName,
+      email:data.user.email}
+      const response = await googleLogIn(gData)
+      console.log("sigin jsx google page ", response);
+      if (response?.user) {
+        const userData={
+          userToken:response.token,
+          userId:response.user._id
+        }
+        localStorage.setItem("userData",JSON.stringify(userData) );
+        dispatch(setUser(userData))
+      }
+      if (response?.status === "success") {
+        
+        toast.success(`sign success !!`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        navigate(props.locateHome);
+      }else {
+        console.log(`${response.message}`);
+        toast.error(`${response.message}`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+
+  })}
+
+
  
 
   const formik = useFormik({
@@ -125,6 +176,17 @@ export function SignInForm(props) {
             </a>
           </Typography>
         </form>
+       {props.google==="true"?<Button
+        onClick={handleGlogin}
+        size="sm"
+        variant="outlined"
+        color="blue-gray"
+        className="flex items-center gap-3"
+      >
+        <img src="https://img.icons8.com/office/40/google-logo.png" alt="googleicon" className="h-6 w-6" />
+        Continue with Google
+      </Button>: null
+}
       </Card>
     </div>
   );

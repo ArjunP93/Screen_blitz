@@ -21,7 +21,7 @@ user_baseURL.interceptors.request.use(
     return config;
   },
   (error) => {
-    console.log("theater interceptor error");
+    console.log("user interceptor error");
     return Promise.reject(error);
   }
 );

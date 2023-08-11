@@ -1,8 +1,9 @@
-
+import { useState,useEffect } from 'react';
 import {useFormik} from 'formik'
 import * as Yup from 'yup'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+
 
 
 import {
@@ -15,7 +16,12 @@ import {
 
 
   export function SignUpForm(props) {
+    
     const navigate = useNavigate()
+    
+
+
+    
 
   const formik = useFormik({
 
@@ -43,6 +49,7 @@ import {
   
   
     }),
+  
     onSubmit:async(values) => {
       console.log(values);
       const response=await props.onSubmit(values)
@@ -132,6 +139,7 @@ import {
             </a>
           </Typography>
         </form>
+
       </Card>
       </div>
     );

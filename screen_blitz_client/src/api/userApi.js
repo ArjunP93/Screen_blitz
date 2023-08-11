@@ -9,6 +9,7 @@ const signUp = async (values) => {
 return response?.data
 }
 
+
 const logIn = async (values)=>{
     console.log('valus in sign in user api',values)
     const response = await user_baseURL.post('auth/login',values)
@@ -17,4 +18,13 @@ const logIn = async (values)=>{
 
 }
 
-export  {signUp,logIn};
+const googleLogIn = async (values)=>{
+    console.log('valus in goole sign in user api',values)
+    const response = await user_baseURL.post('auth/glogin',values)
+    console.log('res inside api post usersignin',response);
+    return response?.data
+
+}
+
+
+export  {signUp,logIn,googleLogIn};

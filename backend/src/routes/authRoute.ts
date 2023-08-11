@@ -9,6 +9,7 @@ const authRoute = express.Router()
 
     authRoute.post('/login',authController.userLogin)
     authRoute.post('/signup',authController.UserSignup)
+    authRoute.post('/glogin',authController.userGoogleAuth)
 //theater login and signup
    
 authRoute.post('/theater/login',authController.TheaterLogin)
