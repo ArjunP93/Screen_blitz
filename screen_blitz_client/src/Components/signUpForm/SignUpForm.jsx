@@ -2,6 +2,7 @@
 import {useFormik} from 'formik'
 import * as Yup from 'yup'
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 
 import {
@@ -46,7 +47,20 @@ import {
       console.log(values);
       const response=await props.onSubmit(values)
       console.log('signup jsx page ',response);
-      navigate(props.locateLogin)
+      if(response?.status==='success'){
+        toast.success(`signup successfull !!`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
+
+        navigate(props.locateLogin)
+      }
     },
 
     

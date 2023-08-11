@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { HomeNavbar } from '../../../Components/user/navbar/HomeNavbar'
 
 function HomePage() {

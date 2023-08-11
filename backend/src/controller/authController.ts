@@ -1,8 +1,9 @@
 import { Request, Response, json } from "express";
 import User from "../models/userSchema";
 import Theater from "../models/theaterSchema";
+import Admin from "../models/adminSchema";
 import bcrypt from "bcrypt";
-import { Document } from "mongoose";
+
 import { generateJWT, verifyJWT } from "../authService/JwtAuth";
 
 const adminCredentials = {
@@ -39,12 +40,12 @@ const authController = {
             }
           } else {
             return res
-              .status(401)
+              // .status(401)
               .json({ login_status: false, message: "invalid credentials" });
           }
         });
       } else {
-        return res.status(401).json({
+        return res.json({
           login_status: false,
           message: "invalid username or password",
         });
@@ -116,7 +117,7 @@ const authController = {
               const jwt = generateJWT(theater_id);
 
               res.json({
-                user: theaterFile,
+                theater: theaterFile,
                 created: true,
                 token: jwt,
                 status: "success",
@@ -124,12 +125,12 @@ const authController = {
             }
           } else {
             return res
-              .status(401)
+              // .status(401)
               .json({ login_status: false, message: "invalid credentials" });
           }
         });
       } else {
-        return res.status(401).json({
+        return res.json({
           login_status: false,
           message: "invalid username or password",
         });
@@ -184,6 +185,43 @@ const authController = {
     }
   },
 
-  adminLogin: (req: Request, res: Response) => {},
+  adminLogin:async (req: Request, res: Response) => {
+    try {
+      const { email, password }: { email: string; password: string } = req.body;
+      //find user in db
+      const adminFile = await Admin.findOne({ email });
+
+      if (adminFile) {
+        bcrypt.compare(password, adminFile.password, function (err, result) {
+          if (result === true) 
+           
+            {
+              //generate jwt and send to client
+              const admin_id = adminFile._id.toString();
+              const jwt = generateJWT(admin_id);
+
+              res.json({
+                admin: adminFile,
+                created: true,
+                token: jwt,
+                status: "success",
+              });
+            }
+          else {
+            return res
+              // .status(401)
+              .json({ login_status: false, message: "invalid admin credentials" });
+          }
+        });
+      } else {
+        return res.json({
+          login_status: false,
+          message: "invalid admin username or password",
+        });
+      }
+    } catch (error) {
+      res.json({ error, loginStatus: false, message: "login failed" });
+    }
+  },
 };
 export default authController;

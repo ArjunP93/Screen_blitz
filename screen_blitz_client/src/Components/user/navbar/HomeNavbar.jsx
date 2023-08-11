@@ -1,6 +1,8 @@
 import React from "react";
 import{toast} from 'react-toastify'
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logOut } from "../../../redux/userSlice";
 
 
 
@@ -17,6 +19,7 @@ import {
 export function HomeNavbar() {
   const [openNav, setOpenNav] = React.useState(false);
   const navigate = useNavigate()
+  const dispatch = useDispatch()
  
   React.useEffect(() => {
     window.addEventListener(
@@ -25,7 +28,8 @@ export function HomeNavbar() {
     );
   }, []);
   const signOut=()=>{
-    localStorage.removeItem('token')
+    localStorage.removeItem('userData')
+    dispatch(logOut())
     toast.success("Signout success")
     navigate('/user')
 
@@ -138,7 +142,7 @@ export function HomeNavbar() {
             </IconButton>
           </div>
         </div>
-        <MobileNav open={openNav}>
+        <MobileNav  open={openNav}>
           {navList}
           <Button variant="gradient" size="sm" fullWidth className="mb-2">
             <span>Buy Now</span>

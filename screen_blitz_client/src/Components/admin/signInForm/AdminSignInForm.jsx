@@ -1,17 +1,15 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux"; 
-import { setTheater } from "../../redux/theaterSlice";
-import { setUser } from "../../redux/userSlice";
+import { adminLogIn } from "../../../api/adminApi";
+import { setAdmin } from "../../../redux/adminSlice";
 
-export function SignInForm(props) {
+export function AdminSignInForm() {
   const navigate = useNavigate();
-  const dispatch=useDispatch()
- 
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -26,29 +24,18 @@ export function SignInForm(props) {
     }),
     onSubmit: async (values) => {
       console.log(values);
-      const response = await props.onSubmit(values);
-      console.log("sigin jsx page ", response);
-      if (response?.user) {
-        const userData={
-          userToken:response.token,
-          userId:response.user._id
-        }
-        localStorage.setItem("userData",JSON.stringify(userData) );
-        dispatch(setUser(userData))
-        
-        
-        
-      } else if (response?.theater) {
-        const theaterData= {
-          theaterToken:response.token,
-          theaterId:response.theater_id
-        }
-        localStorage.setItem("theaterData", JSON.stringify(theaterData));
-        dispatch(setTheater(theaterData))
+      const response = await adminLogIn(values);
+      console.log("admin sigin jsx page ", response);
+      if (response?.admin) {
+        const adminData = {
+          adminToken: response.token,
+          adminId: response.admin._id,
+        };
+        localStorage.setItem("adminData", JSON.stringify(adminData));
+        dispatch(setAdmin(adminData));
       }
       if (response?.status === "success") {
-        
-        toast.success(`sign success !!`, {
+        toast.success(`adminsign in success !!`, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -58,7 +45,7 @@ export function SignInForm(props) {
           progress: undefined,
           theme: "light",
         });
-        navigate(props.locateHome);
+        navigate("/admindash");
       } else {
         console.log(`${response.message}`);
         toast.error(`${response.message}`, {
@@ -79,7 +66,7 @@ export function SignInForm(props) {
     <div className="flex items-center justify-center h-screen bg-black">
       <Card color="transparent" shadow={false}>
         <Typography variant="h4" color="blue-gray">
-          {props.heading}
+          Admin Sign In
         </Typography>
 
         <form
@@ -115,15 +102,6 @@ export function SignInForm(props) {
           <Button type="submit" className="mt-6" fullWidth>
             Log In
           </Button>
-          <Typography color="gray" className="mt-4 text-center font-normal">
-            create account{" "}
-            <a
-              href={props.locateSignUp}
-              className="font-medium text-deep-purple-700 transition-colors hover:text-deep-purple-700"
-            >
-              Sign Up
-            </a>
-          </Typography>
         </form>
       </Card>
     </div>
