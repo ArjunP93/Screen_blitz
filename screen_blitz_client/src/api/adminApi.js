@@ -9,4 +9,11 @@ const adminLogIn = async (values)=>{
 
 }
 
-export  {adminLogIn};
+const userFetch = async()=>{
+    console.log('hello this is admin api')
+    const response = await admin_baseURL.get('admin/userlist')
+    console.log('res inside api get userfetch',response)
+    return response?.data
+}
+
+export  {adminLogIn,userFetch};

@@ -12,8 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { AdminSignInForm } from "./Components/admin/signInForm/AdminSignInForm";
 import AdminDashboard from "./Pages/admin/adminDash/AdminDashboard";
 import { useSelector } from "react-redux";
-
-// import './App.css'
+import UserList from "./Pages/admin/UserList";
 
 function App() {
   const userReduxToken = useSelector((state) => state.user.userRedux.userToken);
@@ -24,12 +23,10 @@ function App() {
     (state) => state.admin.adminRedux.adminToken
   );
 
-  // console.log('reduxuserr',userReduxToken)
-  // console.log('theaterReduxToken',theaterReduxToken)
 
   return (
     <>
-      {/* <div className='container mx-auto max-w-screen-xl py-4'> */}
+      
       <ToastContainer />
       <BrowserRouter>
         <Routes>
@@ -74,8 +71,6 @@ function App() {
                 heading="User Sign Up"
                 locateLogin="/user"
                 locateAftersignup="/user"
-               
-
               />
             }
           ></Route>
@@ -83,13 +78,16 @@ function App() {
           <Route
             path="/theater"
             element={
-              <SignInForm
-                onSubmit={theaterLogIn}
-                heading="Theater Sign In"
-                locateHome="/theaterdash"
-                locateSignUp="/theater/signup"
-                google="false"
-              />
+              theaterReduxToken ? (
+                <TheaterDashboard />
+              ) : (
+                <SignInForm
+                  onSubmit={theaterLogIn}
+                  heading="Theater Sign In"
+                  locateHome="/theaterdash"
+                  locateSignUp="/theater/signup"
+                />
+              )
             }
           ></Route>
           <Route
@@ -100,8 +98,6 @@ function App() {
                 heading="Theater Sign Up"
                 locateLogin="/theater"
                 locateAftersignup="/theater"
-                
-
               />
             }
           ></Route>
@@ -116,22 +112,23 @@ function App() {
                   heading="Theater Sign In"
                   locateHome="/theaterdash"
                   locateSignUp="/theater/signup"
-                 
-
                 />
               )
             }
           ></Route>
 
-          <Route path="/admin" element={<AdminSignInForm />}></Route>
+          <Route path="/admin" element={adminReduxToken ? <AdminDashboard /> : <AdminSignInForm />}></Route>
           <Route
             path="/admindash"
             element={adminReduxToken ? <AdminDashboard /> : <AdminSignInForm />}
           ></Route>
+          <Route path="/admin/userlist" element={adminReduxToken ? <UserList/> : <AdminSignInForm />}>
+
+          </Route>
         </Routes>
       </BrowserRouter>
 
-      {/* </div> */}
+      
     </>
   );
 }

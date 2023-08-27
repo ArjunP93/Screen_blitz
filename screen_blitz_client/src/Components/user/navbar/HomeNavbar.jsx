@@ -40,20 +40,21 @@ export function HomeNavbar() {
       <div className="relative flex w-full gap-2 md:w-max">
           <Input
             type="search"
+            color="deep-purple"
             label="Type here..."
             className="pr-20"
             containerProps={{
               className: "min-w-[288px]",
             }}
           />
-          <Button size="sm" className="!absolute right-1 top-1 rounded">
+          <Button size="sm" color="deep-purple" className="!absolute right-1 top-1 rounded">
             Search
           </Button>
         </div>
       <Typography
         as="li"
         variant="small"
-        color="blue-gray"
+        color="white"
         className="p-1 font-normal"
       >
         <a href="#" className="flex items-center">
@@ -63,7 +64,7 @@ export function HomeNavbar() {
       <Typography
         as="li"
         variant="small"
-        color="blue-gray"
+        color="white"
         className="p-1 font-normal"
       >
         <a href="#" className="flex items-center">
@@ -73,7 +74,7 @@ export function HomeNavbar() {
       <Typography
         as="li"
         variant="small"
-        color="blue-gray"
+        color="white"
         className="p-1 font-normal"
       >
         <button onClick={signOut} className="flex items-center">
@@ -84,13 +85,13 @@ export function HomeNavbar() {
   );
  
   return (
-    <div className="-m-6 max-h-[768px] w-[calc(100%+48px)] overflow-scroll">
-      <Navbar className="sticky top-0 z-10 h-max max-w-full rounded-none py-2 px-4 lg:px-8 lg:py-4">
-        <div className="flex items-center justify-between text-blue-gray-900">
+    <div className=" max-h-[768px] ">
+      <Navbar  className="bg-black fixed top-0 z-10 h-max max-w-full rounded-none py-2 px-4 lg:px-8 lg:py-4 border-none">
+        <div className="flex items-center justify-between text-white">
           <Typography
             as="a"
             href="#"
-            className="mr-4 cursor-pointer py-1.5 font-medium"
+            className="mr-4 cursor-pointer py-1.5 font-bold"
           >
             Screen Blitz
           </Typography>
@@ -100,6 +101,7 @@ export function HomeNavbar() {
               variant="gradient"
               size="sm"
               className="hidden lg:inline-block"
+              color="deep-purple"
             >
               <span>Book Now</span>
             </Button>
@@ -152,7 +154,7 @@ export function HomeNavbar() {
 
 
       
-      {/* <div className="mx-auto max-w-screen-md py-12">
+      { /* <div className="mx-auto max-w-screen-md py-12">
         <Card className="mb-12 overflow-hidden">
           <img
             alt="nature"
@@ -178,7 +180,7 @@ export function HomeNavbar() {
           to be a chunk of change. There are more projects lined up charge extra
           the next time.
         </Typography>
-      </div> */}
-    </div>
-  );
+      </div>  */}
+     </div>
+  )
 }

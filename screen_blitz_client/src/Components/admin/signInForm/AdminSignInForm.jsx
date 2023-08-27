@@ -63,7 +63,7 @@ export function AdminSignInForm() {
   });
 
   return (
-    <div className="flex items-center justify-center h-screen bg-black">
+    <div className="flex items-center justify-center h-screen bg-blue-gray-100">
       <Card color="transparent" shadow={false}>
         <Typography variant="h4" color="blue-gray">
           Admin Sign In

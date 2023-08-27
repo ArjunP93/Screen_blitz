@@ -13,7 +13,7 @@ import {signInWithPopup} from 'firebase/auth'
 
 export function SignInForm(props) {
   const navigate = useNavigate();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch()
 
 
 
@@ -127,7 +127,7 @@ export function SignInForm(props) {
   });
 
   return (
-    <div className="flex items-center justify-center h-screen bg-black">
+    <div className="flex items-center justify-center h-screen bg-blue-gray-100">
       <Card color="transparent" shadow={false}>
         <Typography variant="h4" color="blue-gray">
           {props.heading}
@@ -163,14 +163,14 @@ export function SignInForm(props) {
             </p>
           </div>
 
-          <Button type="submit" className="mt-6" fullWidth>
+          <Button ripple={true} color="purple" variant="gradient" type="submit" className="mt-6 " fullWidth>
             Log In
           </Button>
           <Typography color="gray" className="mt-4 text-center font-normal">
             create account{" "}
             <a
               href={props.locateSignUp}
-              className="font-medium text-deep-purple-700 transition-colors hover:text-deep-purple-700"
+              className="font-medium text-deep-purple-500 transition-colors hover:text-deep-purple-700"
             >
               Sign Up
             </a>

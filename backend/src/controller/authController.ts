@@ -47,7 +47,7 @@ const authController = {
               );
             }
           });
-        } else {
+          } else {
           return res.json({
             login_status: false,
             message: "invalid username or password",

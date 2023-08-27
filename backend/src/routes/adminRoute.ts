@@ -1,8 +1,11 @@
+import express from 'express'
+import adminController from '../controller/adminController'
 
 
+const adminRoute = express.Router()
 
-const adminRoute =()=>{
 
-}
+adminRoute.get('/userlist',adminController.userFetch)
 
-export default adminRoute
+
+export default  adminRoute

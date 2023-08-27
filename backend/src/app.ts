@@ -24,9 +24,9 @@ app.get('/api',(req:Request,res:Response)=>{
     res.send('thisl is test to postman')
 })
 app.use('/api/auth', authRoute)
+app.use('/api/admin',adminRoute)
 app.use('/api',userRoute)
 app.use('/api/theater',theaterRoute)
-app.use('/api/admin',adminRoute)
 
 //start the server
 serverConfig(server)

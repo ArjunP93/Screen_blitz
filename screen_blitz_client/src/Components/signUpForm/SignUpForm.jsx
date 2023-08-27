@@ -79,7 +79,7 @@ import {
    
   
     return (
-      <div className="flex items-center justify-center h-screen bg-black">
+      <div className="flex items-center justify-center h-screen bg-blue-gray-100">
       <Card color="transparent" shadow={false}>
         <Typography variant="h4" color="blue-gray">
           {props.heading}
@@ -126,7 +126,7 @@ import {
             }
             containerProps={{ className: "-ml-2.5" }}
           />
-          <Button type='submit' className="mt-6" fullWidth>
+          <Button type='submit' color='deep-purple' className="mt-6" fullWidth>
             Register
           </Button>
           <Typography color="gray" className="mt-4 text-center font-normal">
