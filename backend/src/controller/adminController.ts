@@ -18,6 +18,19 @@ const adminController ={
             
         }
 
+    },
+
+    theaterFetch:async(req:Request,res:Response)=>{
+        console.log('backend therrerfetch')
+        try {
+            const theatersData = await Theater.find()
+            console.log('db respomse data',theatersData)
+
+            res.json({theatersDetails:theatersData})
+            
+        } catch (error) {
+            res.json({message:"couldn't fetch theaterdetails",error})
+        }
     }
 
 

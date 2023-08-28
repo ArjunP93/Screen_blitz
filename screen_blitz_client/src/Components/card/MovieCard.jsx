@@ -20,10 +20,10 @@ import {
         <CardBody className="mt-0">
           <div className=" flex items-center justify-between">
             <Typography color="blue-gray" className="font-medium">
-              Apple AirPods
+            Oppenheimer
             </Typography>
             <Typography color="blue-gray" className="font-medium">
-              $95.00
+              Biography
             </Typography>
           </div>
           

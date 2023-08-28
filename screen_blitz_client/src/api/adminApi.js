@@ -16,4 +16,10 @@ const userFetch = async()=>{
     return response?.data
 }
 
-export  {adminLogIn,userFetch};
+const TheaterFetch = async()=>{
+    console.log('hello this is admin api')
+    const response = await admin_baseURL.get('admin/theaterlist')
+    console.log('res inside api get userfetch',response)
+    return response?.data
+}
+export  {adminLogIn,userFetch,TheaterFetch};

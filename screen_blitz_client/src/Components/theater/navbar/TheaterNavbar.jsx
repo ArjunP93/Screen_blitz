@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux'
-import {logOut} from '../../../redux/adminSlice'
+import {logOut} from '../../../redux/theaterSlice'
 import {
   Navbar,
   MobileNav,
@@ -39,14 +39,14 @@ import {
  
 function ProfileMenu() {
   const navigate = useNavigate()
-const dispatch= useDispatch()
+  const dispatch = useDispatch()
+  const signOut = ()=>{
+      localStorage.removeItem('theaterData')
+      dispatch(logOut())
+      toast.success("Signout success")
+      navigate('/theater')
 
-const signOut=() => {
-  localStorage.removeItem("adminData");
-  dispatch(logOut());
-  toast.success('logout success');
-  navigate('/admin');
-}
+  }
  
 // profile menu component
 const profileMenuItems = [
@@ -251,7 +251,7 @@ const navListItems = [
 //   );
 // }
  
-export function AdminNavbar() {
+export function TheaterNavbar() {
   const [isNavOpen, setIsNavOpen] = React.useState(false);
  
   const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
@@ -271,7 +271,7 @@ export function AdminNavbar() {
           href="#"
           className="mr-4 ml-2 cursor-pointer py-1.5 font-medium"
         >
-          Screen Blitz Admin
+          Screen Blitz Theater Admin
         </Typography>
         {/* <div className="absolute top-2/4 left-2/4 hidden -translate-x-2/4 -translate-y-2/4 lg:block">
           <NavList />

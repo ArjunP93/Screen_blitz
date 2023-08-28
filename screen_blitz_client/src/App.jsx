@@ -13,6 +13,8 @@ import { AdminSignInForm } from "./Components/admin/signInForm/AdminSignInForm";
 import AdminDashboard from "./Pages/admin/adminDash/AdminDashboard";
 import { useSelector } from "react-redux";
 import UserList from "./Pages/admin/UserList";
+import TheaterList from "./Pages/admin/TheaterList";
+
 
 function App() {
   const userReduxToken = useSelector((state) => state.user.userRedux.userToken);
@@ -123,6 +125,9 @@ function App() {
             element={adminReduxToken ? <AdminDashboard /> : <AdminSignInForm />}
           ></Route>
           <Route path="/admin/userlist" element={adminReduxToken ? <UserList/> : <AdminSignInForm />}>
+
+          </Route>
+          <Route path="/admin/theaterlist" element={adminReduxToken ? <TheaterList/> : <AdminSignInForm />}>
 
           </Route>
         </Routes>

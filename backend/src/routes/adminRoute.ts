@@ -6,6 +6,7 @@ const adminRoute = express.Router()
 
 
 adminRoute.get('/userlist',adminController.userFetch)
+adminRoute.get('/theaterlist',adminController.theaterFetch)
 
 
 export default  adminRoute

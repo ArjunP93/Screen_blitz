@@ -22,7 +22,7 @@ import {
    
   
    
-  const TABLE_HEAD = ["Member","Status", "Action"];
+  const TABLE_HEAD = ["Owner","Status", "Action"];
    
   // const TABLE_ROWS = [
   //   {
@@ -72,14 +72,14 @@ import {
   //   },
   // ];
    
-  export function UserListTable(props) {
+  export function TheaterListTable(props) {
     return (
       <Card className="h-full w-full rounded-none">
         <CardHeader floated={false} shadow={false} className="rounded-none">
           <div className="mb-8 flex items-center justify-between gap-8">
             <div>
               <Typography variant="h5" color="blue-gray">
-                User list
+                Theaters list
               </Typography>
              
             </div>
@@ -120,9 +120,9 @@ import {
               </tr>
             </thead>
             <tbody>
-              {console.log('test',props.data)}
+              {console.log('test theater',props.data)}
               {props.data.map(
-                ({ _id, name, email, blockedstatus, profilePic}, index) => {
+                ({ _id, theatername, email, blockedstatus,approvalStatus}, index) => {
                   const isLast = index === props.data.length - 1;
                   const classes = isLast
                     ? "p-4"
@@ -132,14 +132,14 @@ import {
                     <tr key={_id}>
                       <td className={classes}>
                         <div className="flex items-center gap-3">
-                       { profilePic.length!==0 ?<Avatar src={profilePic[0]} alt={name} size="sm" /> :null}
+                       
                           <div className="flex flex-col">
                             <Typography
                               variant="small"
                               color="blue-gray"
                               className="font-normal"
                             >
-                              {name}
+                              {theatername}
                             </Typography>
                             <Typography
                               variant="small"

@@ -22,7 +22,7 @@ import {
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
  
-export function AdminSideBar() {
+export function TheaterSideBar() {
   const [open, setOpen] = React.useState(0);
 
   const navigate = useNavigate()
@@ -34,7 +34,7 @@ export function AdminSideBar() {
   
  
   return (
-    <Card className=" bg-black rounded-none fixed h-[calc(100vh-2rem)] w-[20rem] max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
+    <Card className=" bg-teal-900 rounded-none fixed h-[calc(100vh-2rem)] w-[20rem] max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
       {/* <div className="mb-2 p-4">
         <Typography variant="h5" color="blue-gray">
           Sidebar
@@ -98,17 +98,17 @@ export function AdminSideBar() {
                 <ShoppingBagIcon className="h-5 w-5" />
               </ListItemPrefix>
               <Typography color="white" className="mr-auto font-normal">
-                Users
+                Movie
               </Typography>
             </AccordionHeader>
           </ListItem>
           <AccordionBody className="py-1">
             <List className="p-0">
-              <ListItem onClick={()=>{navigate("/admin/userlist")}}>
+              <ListItem>
                 <ListItemPrefix>
                   <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                 </ListItemPrefix>
-                User list
+                Add Movie
               </ListItem>
               {/* <ListItem>
                 <ListItemPrefix>
@@ -119,7 +119,6 @@ export function AdminSideBar() {
             </List>
           </AccordionBody>
         </Accordion>
-
 
 
         <Accordion
@@ -137,24 +136,58 @@ export function AdminSideBar() {
                 <ShoppingBagIcon className="h-5 w-5" />
               </ListItemPrefix>
               <Typography color="white" className="mr-auto font-normal">
-                Theaters
+                Screens
               </Typography>
             </AccordionHeader>
           </ListItem>
           <AccordionBody className="py-1">
             <List className="p-0">
-              <ListItem onClick={()=>{navigate("/admin/theaterlist")}}>
-                <ListItemPrefix>
-                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                </ListItemPrefix>
-                Theater list
-              </ListItem>
               <ListItem>
                 <ListItemPrefix>
                   <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                 </ListItemPrefix>
-                Approvals
+                Add Screen
               </ListItem>
+              {/* <ListItem>
+                <ListItemPrefix>
+                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                </ListItemPrefix>
+                Products
+              </ListItem> */}
+            </List>
+          </AccordionBody>
+        </Accordion>
+
+
+
+        <Accordion
+          open={open === 4}
+          icon={
+            <ChevronDownIcon
+              strokeWidth={2.5}
+              className={`mx-auto h-4 w-4 transition-transform ${open === 4 ? "rotate-180" : ""}`}
+            />
+          }
+        >
+          <ListItem className="p-0" selected={open === 4}>
+            <AccordionHeader onClick={() => handleOpen(4)} className="border-b-0 p-3">
+              <ListItemPrefix>
+                <ShoppingBagIcon className="h-5 w-5" />
+              </ListItemPrefix>
+              <Typography color="white" className="mr-auto font-normal">
+                Requests
+              </Typography>
+            </AccordionHeader>
+          </ListItem>
+          <AccordionBody className="py-1">
+            <List className="p-0">
+              <ListItem >
+                <ListItemPrefix>
+                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                </ListItemPrefix>
+                Theater Application Form
+              </ListItem>
+              
               {/* <ListItem>
                 <ListItemPrefix>
                   <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
@@ -178,7 +211,7 @@ export function AdminSideBar() {
 
 
         <hr className="my-2 border-blue-gray-50" />
-        <ListItem>
+        <ListItem >
           <ListItemPrefix>
             <InboxIcon className="h-5 w-5" />
           </ListItemPrefix>
