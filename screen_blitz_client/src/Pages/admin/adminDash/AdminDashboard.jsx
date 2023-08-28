@@ -30,7 +30,7 @@ function AdminDashboard() {
        
         <AdminSideBar/>
         <div className='  ms-[20rem]   bg-blue-gray-900 w-[calc(100vw-20rem)] h-[calc(100vh-56px)]'>
-        <UserListTable/>
+        {/* <UserListTable/> */}
 
         </div>
 

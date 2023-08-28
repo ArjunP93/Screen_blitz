@@ -119,18 +119,19 @@ import {
               </tr>
             </thead>
             <tbody>
-              {TABLE_ROWS.map(
-                ({ name, email,blockedstatus}, index) => {
-                  const isLast = index === TABLE_ROWS.length - 1;
+              {console.log('test',props.data)}
+              {props.data.map(
+                ({ _id, name, email, blockedstatus, profilePic}, index) => {
+                  const isLast = index === props.data.length - 1;
                   const classes = isLast
                     ? "p-4"
                     : "p-4 border-b border-blue-gray-50";
    
                   return (
-                    <tr key={name}>
+                    <tr key={_id}>
                       <td className={classes}>
                         <div className="flex items-center gap-3">
-                          <Avatar src={img} alt={name} size="sm" />
+                       { profilePic.length!==0 ?<Avatar src={profilePic[0]} alt={name} size="sm" /> :null}
                           <div className="flex flex-col">
                             <Typography
                               variant="small"
@@ -149,7 +150,7 @@ import {
                           </div>
                         </div>
                       </td>
-                      <td className={classes}>
+                      {/* <td className={classes}>
                         <div className="flex flex-col">
                           <Typography
                             variant="small"
@@ -166,18 +167,18 @@ import {
                             {org}
                           </Typography>
                         </div>
-                      </td>
-                      <td className={classes}>
-                        <div className="w-max">
-                          <Chip
-                            variant="ghost"
-                            size="sm"
-                            value={online ? "online" : "offline"}
-                            color={online ? "green" : "blue-gray"}
-                          />
-                        </div>
-                      </td>
-                      <td className={classes}>
+                      </td> */}
+                     <td className={classes}>
+                    <div className="w-max">
+                      <Chip
+                        variant="ghost"
+                        size="sm"
+                        value={blockedstatus ? "Blocked" : "Active"}
+                        color={blockedstatus ? "red" : "green"}
+                      />
+                    </div>
+                  </td>
+                      {/* <td className={classes}>
                         <Typography
                           variant="small"
                           color="blue-gray"
@@ -185,7 +186,7 @@ import {
                         >
                           {date}
                         </Typography>
-                      </td>
+                      </td> */}
                       <td className={classes}>
                         <Tooltip content="Edit User">
                           <IconButton variant="text">
