@@ -10,16 +10,29 @@ const adminLogIn = async (values)=>{
 }
 
 const userFetch = async()=>{
-    console.log('hello this is admin api')
+    
     const response = await admin_baseURL.get('admin/userlist')
-    console.log('res inside api get userfetch',response)
     return response?.data
 }
 
 const TheaterFetch = async()=>{
-    console.log('hello this is admin api')
+    
     const response = await admin_baseURL.get('admin/theaterlist')
-    console.log('res inside api get userfetch',response)
     return response?.data
 }
-export  {adminLogIn,userFetch,TheaterFetch};
+const theaterApprove = async(info)=>{
+    console.log('hello this is admin api theaterapprove',info)
+    const response = await admin_baseURL.put('admin/theaterlist/approval',info)
+    console.log('res inside api get theaterapprove',response)
+    return response?.data
+}
+const userApprove = async (info)=>{
+    console.log('valus in sign in admin api userapprove',info)
+    const response = await admin_baseURL.put('admin/userlist/approval',info)
+    console.log('res inside api get userapprove',response)
+    return response?.data
+
+}
+
+
+export  {adminLogIn,userFetch,TheaterFetch,theaterApprove,userApprove};

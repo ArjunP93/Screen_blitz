@@ -16,6 +16,7 @@ import UserList from "./Pages/admin/UserList";
 import TheaterList from "./Pages/admin/TheaterList";
 
 
+
 function App() {
   const userReduxToken = useSelector((state) => state.user.userRedux.userToken);
   const theaterReduxToken = useSelector(
@@ -24,7 +25,12 @@ function App() {
   const adminReduxToken = useSelector(
     (state) => state.admin.adminRedux.adminToken
   );
+  
 
+
+
+  const theaterReduxData = useSelector((state)=> state.theater.theaterData)
+console.log('the dataaaaa',theaterReduxData)
 
   return (
     <>
@@ -81,7 +87,7 @@ function App() {
             path="/theater"
             element={
               theaterReduxToken ? (
-                <TheaterDashboard />
+                <TheaterDashboard data={theaterReduxData}/>
               ) : (
                 <SignInForm
                   onSubmit={theaterLogIn}
@@ -103,11 +109,20 @@ function App() {
               />
             }
           ></Route>
+
+
+
+
+
+
+
+
+
           <Route
             path="/theaterdash"
             element={
               theaterReduxToken ? (
-                <TheaterDashboard />
+                <TheaterDashboard data={theaterReduxData} />
               ) : (
                 <SignInForm
                   onSubmit={theaterLogIn}

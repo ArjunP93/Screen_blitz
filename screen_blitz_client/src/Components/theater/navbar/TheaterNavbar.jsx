@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { useDispatch } from 'react-redux'
+import { useDispatch,useSelector } from 'react-redux'
 import {logOut} from '../../../redux/theaterSlice'
 import {
   Navbar,
@@ -38,6 +38,9 @@ import {
 
  
 function ProfileMenu() {
+
+  const theaterReduxData = useSelector((state)=> state.theater.theaterData)
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const signOut = ()=>{

@@ -19,60 +19,19 @@ import {
     IconButton,
     Tooltip,
   } from "@material-tailwind/react";
+
+  import { useState } from "react";
+import ListMap from "../../theater/theatreListMap/ListMap";
+  
    
   
    
   const TABLE_HEAD = ["Owner","Status", "Action"];
    
-  // const TABLE_ROWS = [
-  //   {
-  //     img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
-  //     name: "John Michael",
-  //     email: "john@creative-tim.com",
-  //     job: "Manager",
-  //     org: "Organization",
-  //     online: true,
-  //     date: "23/04/18",
-  //   },
-  //   {
-  //     img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg",
-  //     name: "Alexa Liras",
-  //     email: "alexa@creative-tim.com",
-  //     job: "Programator",
-  //     org: "Developer",
-  //     online: false,
-  //     date: "23/04/18",
-  //   },
-  //   {
-  //     img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
-  //     name: "Laurent Perrier",
-  //     email: "laurent@creative-tim.com",
-  //     job: "Executive",
-  //     org: "Projects",
-  //     online: false,
-  //     date: "19/09/17",
-  //   },
-  //   {
-  //     img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-4.jpg",
-  //     name: "Michael Levi",
-  //     email: "michael@creative-tim.com",
-  //     job: "Programator",
-  //     org: "Developer",
-  //     online: true,
-  //     date: "24/12/08",
-  //   },
-  //   {
-  //     img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-5.jpg",
-  //     name: "Richard Gran",
-  //     email: "richard@creative-tim.com",
-  //     job: "Manager",
-  //     org: "Executive",
-  //     online: false,
-  //     date: "04/10/21",
-  //   },
-  // ];
    
   export function TheaterListTable(props) {
+
+    
     return (
       <Card className="h-full w-full rounded-none">
         <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -129,74 +88,7 @@ import {
                     : "p-4 border-b border-blue-gray-50";
    
                   return (
-                    <tr key={_id}>
-                      <td className={classes}>
-                        <div className="flex items-center gap-3">
-                       
-                          <div className="flex flex-col">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {theatername}
-                            </Typography>
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal opacity-70"
-                            >
-                              {email}
-                            </Typography>
-                          </div>
-                        </div>
-                      </td>
-                      {/* <td className={classes}>
-                        <div className="flex flex-col">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {job}
-                          </Typography>
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal opacity-70"
-                          >
-                            {org}
-                          </Typography>
-                        </div>
-                      </td> */}
-                     <td className={classes}>
-                    <div className="w-max">
-                      <Chip
-                        variant="ghost"
-                        size="sm"
-                        value={blockedstatus ? "Blocked" : "Active"}
-                        color={blockedstatus ? "red" : "green"}
-                      />
-                    </div>
-                  </td>
-                      {/* <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {date}
-                        </Typography>
-                      </td> */}
-                      <td className={classes}>
-                        <Switch></Switch>
-                        {/* <Tooltip content="Edit User">
-                          <IconButton variant="text">
-                            <PencilIcon className="h-4 w-4" />
-                          </IconButton>
-                        </Tooltip> */}
-                      </td>
-                    </tr>
+                   <ListMap key={_id} classes={classes} id={_id} theatername={theatername} email={email} approvalStatus={approvalStatus} />
                   );
                 },
               )}

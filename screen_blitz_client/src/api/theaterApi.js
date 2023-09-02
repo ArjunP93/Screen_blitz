@@ -17,4 +17,6 @@ const theaterLogIn = async (values)=>{
 
 }
 
+
+
 export  {theaterSignup,theaterLogIn};

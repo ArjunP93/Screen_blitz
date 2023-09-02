@@ -11,6 +11,7 @@ const checkToken = () => {
 };
 const initialState = {
   theaterRedux: checkToken(),
+  theaterData: {}
 };
 
 const theaterSlice = createSlice({
@@ -18,16 +19,22 @@ const theaterSlice = createSlice({
   initialState,
   reducers: {
     setTheater: (state, action) => {
-      console.log("payload theater", action.payload);
       state.theaterRedux = action.payload;
+    },
+    setTheaterData:(state,action)=>{
+      state.theaterData = action.payload
+
+
+
     },
     logOut: (state) => {
       state.theaterRedux = {
         theaterToken: "",
         theaterId: "",
       };
+      state.theaterData = {}
     },
   },
 });
-export const { setTheater, logOut } = theaterSlice.actions;
+export const { setTheater, logOut,setTheaterData } = theaterSlice.actions;
 export default theaterSlice.reducer;

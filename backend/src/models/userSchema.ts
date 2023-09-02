@@ -23,7 +23,7 @@ const userSchema = new Schema (
         profilePic:{
             type:Array
         },
-        blockedstatus:{
+        blockedStatus:{
             type:Boolean,
             default:false
         },

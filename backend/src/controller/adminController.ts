@@ -21,7 +21,6 @@ const adminController ={
     },
 
     theaterFetch:async(req:Request,res:Response)=>{
-        console.log('backend therrerfetch')
         try {
             const theatersData = await Theater.find()
             console.log('db respomse data',theatersData)
@@ -30,6 +29,40 @@ const adminController ={
             
         } catch (error) {
             res.json({message:"couldn't fetch theaterdetails",error})
+        }
+    },
+
+    theaterApprove:async(req:Request,res:Response)=>{
+        console.log('backend therrerapprove')
+        try {
+            const approvalState = req.body
+            console.log('approvalState',approvalState)
+
+            await Theater.updateOne({_id:approvalState.id},{$set:{approvalStatus:approvalState.state}}).then(()=>{
+                            res.json({approvalState:approvalState.state})
+
+            })
+
+            
+        } catch (error) {
+            res.json({message:"couldn't Approve theater",error})
+        }
+    },
+
+    userApprove:async(req:Request,res:Response)=>{
+        console.log('backend usrtapprove')
+        try {
+            const userApprovalState = req.body
+            console.log('approvalState',userApprovalState)
+
+            await User.updateOne({_id:userApprovalState.id},{$set:{blockedStatus:userApprovalState.state}}).then(()=>{
+                            res.json({approvalState:userApprovalState.state})
+
+            })
+
+            
+        } catch (error) {
+            res.json({message:"couldn't Approve user",error})
         }
     }
 

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux"; 
-import { setTheater } from "../../redux/theaterSlice";
+import { setTheater, setTheaterData } from "../../redux/theaterSlice";
 import { setUser } from "../../redux/userSlice";
 import {googleLogIn} from '../../api/userApi'
 import { auth,googleProvider } from '../../firebase/googleAuth/config';
@@ -92,9 +92,11 @@ export function SignInForm(props) {
       } else if (response?.theater) {
         const theaterData= {
           theaterToken:response.token,
-          theaterId:response.theater_id
+          theaterId:response.theater._id
         }
         localStorage.setItem("theaterData", JSON.stringify(theaterData));
+        console.log("responsem mmmmmmmmmmmm",response.theater)
+        dispatch(setTheaterData(response.theater))
         dispatch(setTheater(theaterData))
       }
       if (response?.status === "success") {

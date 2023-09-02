@@ -22,7 +22,7 @@ const authController = {
         if (userFile.password) {
           bcrypt.compare(password, userFile.password, function (err, result) {
             if (result === true) {
-              if (userFile.blockedstatus) {
+              if (userFile.blockedStatus) {
                 return res.json({
                   userBlocked: true,
                   message: "OOPS!! you are blocked by admin",
@@ -240,7 +240,7 @@ const authController = {
       const userFile = await User.findOne({ email });
 
       if (userFile) {
-        if (userFile.blockedstatus) {
+        if (userFile.blockedStatus) {
           return res.json({
             userBlocked: true,
             message: "OOPS!! you are blocked by admin",

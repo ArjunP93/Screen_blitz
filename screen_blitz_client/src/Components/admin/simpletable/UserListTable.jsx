@@ -19,6 +19,7 @@ import {
     IconButton,
     Tooltip,
   } from "@material-tailwind/react";
+import ListRowComponent from "../../user/userlistMap/ListRowComponent";
    
   
    
@@ -120,83 +121,16 @@ import {
               </tr>
             </thead>
             <tbody>
-              {console.log('test',props.data)}
+            
               {props.data.map(
-                ({ _id, name, email, blockedstatus, profilePic}, index) => {
+                ({ _id, name, email, blockedStatus, profilePic}, index) => {
                   const isLast = index === props.data.length - 1;
                   const classes = isLast
                     ? "p-4"
                     : "p-4 border-b border-blue-gray-50";
    
                   return (
-                    <tr key={_id}>
-                      <td className={classes}>
-                        <div className="flex items-center gap-3">
-                       { profilePic.length!==0 ?<Avatar src={profilePic[0]} alt={name} size="sm" /> :null}
-                          <div className="flex flex-col">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {name}
-                            </Typography>
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal opacity-70"
-                            >
-                              {email}
-                            </Typography>
-                          </div>
-                        </div>
-                      </td>
-                      {/* <td className={classes}>
-                        <div className="flex flex-col">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {job}
-                          </Typography>
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal opacity-70"
-                          >
-                            {org}
-                          </Typography>
-                        </div>
-                      </td> */}
-                     <td className={classes}>
-                    <div className="w-max">
-                      <Chip
-                        variant="ghost"
-                        size="sm"
-                        value={blockedstatus ? "Blocked" : "Active"}
-                        color={blockedstatus ? "red" : "green"}
-                      />
-                    </div>
-                  </td>
-                      {/* <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {date}
-                        </Typography>
-                      </td> */}
-                      <td className={classes}>
-                        <Switch></Switch>
-                        {/* <Tooltip content="Edit User">
-                          <IconButton variant="text">
-                            <PencilIcon className="h-4 w-4" />
-                          </IconButton>
-                        </Tooltip> */}
-                      </td>
-                    </tr>
+                   <ListRowComponent classes={classes} key = {_id} id={_id} name ={name} email={email} blockedStatus={blockedStatus} profilePic = {profilePic} />
                   );
                 },
               )}
