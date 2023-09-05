@@ -83,6 +83,11 @@ console.log('the dataaaaa',theaterReduxData)
             }
           ></Route>
 
+
+
+{/* theater routes */}
+
+
           <Route
             path="/theater"
             element={
@@ -109,6 +114,21 @@ console.log('the dataaaaa',theaterReduxData)
               />
             }
           ></Route>
+          <Route
+          path="/theater/listmovie" element={ theaterReduxToken ? 
+            
+          null : (
+            <SignInForm
+              onSubmit={theaterLogIn}
+              heading="Theater Sign In"
+              locateHome="/theaterdash"
+              locateSignUp="/theater/signup"
+            />
+          )} >
+        
+          </Route>
+
+
 
 
 
@@ -133,6 +153,9 @@ console.log('the dataaaaa',theaterReduxData)
               )
             }
           ></Route>
+
+
+          {/* admin Routes */}
 
           <Route path="/admin" element={adminReduxToken ? <AdminDashboard /> : <AdminSignInForm />}></Route>
           <Route

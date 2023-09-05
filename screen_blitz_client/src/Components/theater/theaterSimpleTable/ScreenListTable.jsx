@@ -19,26 +19,68 @@ import {
     IconButton,
     Tooltip,
   } from "@material-tailwind/react";
-
-  import { useState } from "react";
-import ListMap from "../../admin/theatreListMap/ListMap";
-  
+import ListRowComponent from "../../user/userlistMap/ListRowComponent";
    
   
    
-  const TABLE_HEAD = ["Owner","Status", "Action"];
+  const TABLE_HEAD = ["Member","Status", "Action"];
    
+  // const TABLE_ROWS = [
+  //   {
+  //     img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
+  //     name: "John Michael",
+  //     email: "john@creative-tim.com",
+  //     job: "Manager",
+  //     org: "Organization",
+  //     online: true,
+  //     date: "23/04/18",
+  //   },
+  //   {
+  //     img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg",
+  //     name: "Alexa Liras",
+  //     email: "alexa@creative-tim.com",
+  //     job: "Programator",
+  //     org: "Developer",
+  //     online: false,
+  //     date: "23/04/18",
+  //   },
+  //   {
+  //     img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
+  //     name: "Laurent Perrier",
+  //     email: "laurent@creative-tim.com",
+  //     job: "Executive",
+  //     org: "Projects",
+  //     online: false,
+  //     date: "19/09/17",
+  //   },
+  //   {
+  //     img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-4.jpg",
+  //     name: "Michael Levi",
+  //     email: "michael@creative-tim.com",
+  //     job: "Programator",
+  //     org: "Developer",
+  //     online: true,
+  //     date: "24/12/08",
+  //   },
+  //   {
+  //     img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-5.jpg",
+  //     name: "Richard Gran",
+  //     email: "richard@creative-tim.com",
+  //     job: "Manager",
+  //     org: "Executive",
+  //     online: false,
+  //     date: "04/10/21",
+  //   },
+  // ];
    
-  export function TheaterListTable(props) {
-
-    
+  export function ScreenListTable(props) {
     return (
       <Card className="h-full w-full rounded-none">
         <CardHeader floated={false} shadow={false} className="rounded-none">
           <div className="mb-8 flex items-center justify-between gap-8">
             <div>
               <Typography variant="h5" color="blue-gray">
-                Theaters list
+                User list
               </Typography>
              
             </div>
@@ -79,16 +121,16 @@ import ListMap from "../../admin/theatreListMap/ListMap";
               </tr>
             </thead>
             <tbody>
-              {console.log('test theater',props.data)}
+            
               {props.data.map(
-                ({ _id, theatername, email, blockedstatus,approvalStatus}, index) => {
+                ({ _id, name, email, blockedStatus, profilePic}, index) => {
                   const isLast = index === props.data.length - 1;
                   const classes = isLast
                     ? "p-4"
                     : "p-4 border-b border-blue-gray-50";
    
                   return (
-                   <ListMap key={_id} classes={classes} id={_id} theatername={theatername} email={email} approvalStatus={approvalStatus} />
+                   <ListRowComponent classes={classes} key = {_id} id={_id} name ={name} email={email} blockedStatus={blockedStatus} profilePic = {profilePic} />
                   );
                 },
               )}

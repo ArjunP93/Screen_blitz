@@ -10,6 +10,13 @@ import {
   Accordion,
   AccordionHeader,
   AccordionBody,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+  Button
+
+
 } from "@material-tailwind/react";
 import {
   PresentationChartBarIcon,
@@ -21,6 +28,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
+import { AddMovieForm } from "../addMovieForm/AddMovieForm";
  
 export function TheaterSideBar() {
   const [open, setOpen] = React.useState(0);
@@ -30,6 +38,12 @@ export function TheaterSideBar() {
   const handleOpen = (value) => {
     setOpen(open === value ? 0 : value);
   };
+
+
+  const [addMivieOpen, setaddMivieOpen] = React.useState(false);
+ 
+  const handleMovieAddOpen = () => setaddMivieOpen(!addMivieOpen);
+ 
 
   
  
@@ -104,7 +118,7 @@ export function TheaterSideBar() {
           </ListItem>
           <AccordionBody className="py-1">
             <List className="p-0">
-              <ListItem>
+              <ListItem onClick={handleMovieAddOpen}>
                 <ListItemPrefix>
                   <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                 </ListItemPrefix>
@@ -239,6 +253,51 @@ export function TheaterSideBar() {
           Log Out
         </ListItem> */}
       </List>
+
+
+
+      {/* dialog - ----AddMovie */}
+
+      <Dialog
+        open={addMivieOpen}
+        handler={handleMovieAddOpen}
+        animate={{
+          mount: { scale: 1, y: 0 },
+          unmount: { scale: 0.9, y: -100 },
+        }}
+      >
+        <DialogHeader >Add Movie</DialogHeader>
+        
+        <DialogBody>
+          <AddMovieForm/>
+          
+
+        </DialogBody>
+        
+        {/* <DialogFooter>
+          <Button
+            variant="text"
+            color="red"
+            onClick={handleMovieAddOpen}
+            className="mr-1"
+          >
+            <span>Cancel</span>
+          </Button>
+          <Button variant="gradient" color="green" onClick={handleMovieAddOpen}>
+            <span>Confirm</span>
+          </Button>
+        </DialogFooter> */}
+      </Dialog>
+
+
+
+
+
+
+
+
+
+
     </Card>
   );
 }

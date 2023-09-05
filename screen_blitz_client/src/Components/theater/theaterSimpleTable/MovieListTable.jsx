@@ -21,7 +21,8 @@ import {
   } from "@material-tailwind/react";
 
   import { useState } from "react";
-import ListMap from "../../admin/theatreListMap/ListMap";
+import MovieListMap from "../movieListMap/MovieListMap";
+
   
    
   
@@ -29,7 +30,7 @@ import ListMap from "../../admin/theatreListMap/ListMap";
   const TABLE_HEAD = ["Owner","Status", "Action"];
    
    
-  export function TheaterListTable(props) {
+  export function MovieListTable(props) {
 
     
     return (
@@ -38,7 +39,7 @@ import ListMap from "../../admin/theatreListMap/ListMap";
           <div className="mb-8 flex items-center justify-between gap-8">
             <div>
               <Typography variant="h5" color="blue-gray">
-                Theaters list
+                Movie list
               </Typography>
              
             </div>
@@ -79,7 +80,7 @@ import ListMap from "../../admin/theatreListMap/ListMap";
               </tr>
             </thead>
             <tbody>
-              {console.log('test theater',props.data)}
+              
               {props.data.map(
                 ({ _id, theatername, email, blockedstatus,approvalStatus}, index) => {
                   const isLast = index === props.data.length - 1;
@@ -88,7 +89,7 @@ import ListMap from "../../admin/theatreListMap/ListMap";
                     : "p-4 border-b border-blue-gray-50";
    
                   return (
-                   <ListMap key={_id} classes={classes} id={_id} theatername={theatername} email={email} approvalStatus={approvalStatus} />
+                   <MovieListMap key={_id} classes={classes} id={_id} theatername={theatername} email={email} approvalStatus={approvalStatus} />
                   );
                 },
               )}

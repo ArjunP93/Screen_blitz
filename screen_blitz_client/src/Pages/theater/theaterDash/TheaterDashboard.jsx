@@ -8,7 +8,7 @@ function TheaterDashboard(props) {
 
 
 
-   
+   console.log('props in admin dashboard',props.data)
 
   
   return (

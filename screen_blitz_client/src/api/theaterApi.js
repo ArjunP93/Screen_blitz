@@ -17,6 +17,29 @@ const theaterLogIn = async (values)=>{
 
 }
 
+const addMovie = async(values)=>{
+    console.log('valus in addMovie theater api',values)
+    const response = await theater_baseURL.post('theater/addmovie',values)
+
+    return response?.data
 
 
-export  {theaterSignup,theaterLogIn};
+}
+
+const fetchMovies = async()=>{
+    
+    const response = await theater_baseURL.get('theater/movieslist')
+
+    return response?.data
+
+
+}
+const fetchScreens = async()=>{
+    const response = await theater_baseURL.get('theater/screenlist')
+    return response?.data
+}
+
+
+
+
+export  {theaterSignup,theaterLogIn,addMovie,fetchMovies,fetchScreens};
