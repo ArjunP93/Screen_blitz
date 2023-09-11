@@ -25,15 +25,16 @@ const theaterController = {
           movieName: req.body.title,
           language: req.body.original_language,
           movieId: req.body.id,
-          releaseDate: req.body.release_date,
+          releaseDate: new Date(req.body.release_date),
           poster: movieURLTmdb,
           backgroundPoster: movieBackgroundURLTmdb,
           overview: req.body.overview,
         });
-        // console.log('movieObj',movieObj)
-        await movieObj.save();
+        const resObj =await movieObj.save();
+        console.log('movieObj',resObj)
 
         res.json({
+          addedMovObj:resObj,
           message: "movie added successfully",
           created: true,
           status: "success",
@@ -46,7 +47,7 @@ const theaterController = {
   getMovies: async (req: Request, res: Response) => {
     try {
       console.log("inside get movies");
-      const moviesList = await Movie.find();
+      const moviesList = await Movie.find().sort({releaseDate:-1});
       console.log("inside moviesList", moviesList);
 
       res.json({ movieData: moviesList, status: "success" });
@@ -64,8 +65,7 @@ const theaterController = {
   },
   deleteMovie:async(req:Request,res:Response)=>{
     try {
-      const id = req.body.movie_id
-      console.log('req.body',req.body)
+      const id = req.params?.id
       const response = await Movie.deleteOne({_id:id})
       res.json({status:"success",message:'Movie removed successfully'})
     } catch (error) {

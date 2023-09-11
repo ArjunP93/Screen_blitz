@@ -1,42 +1,51 @@
 import user_baseURL from "./axiosUser";
 
 const signUp = async (values) => {
-    console.log('valuesuserapi',values)
-    const response= await user_baseURL.post("auth/signup", values)
-    console.log('res inside api post usersignup',response);
+  try {
+    const response = await user_baseURL.post("auth/signup", values);
 
+    return response?.data;
+  } catch (error) {
+    console.log("user Api error", error);
+  }
+};
 
-return response?.data
-}
+const logIn = async (values) => {
+  try {
+    const response = await user_baseURL.post("auth/login", values);
 
+    return response?.data;
+  } catch (error) {
+    console.log("user Api error", error);
+  }
+};
 
-const logIn = async (values)=>{
-    console.log('valus in sign in user api',values)
-    const response = await user_baseURL.post('auth/login',values)
-    console.log('res inside api post usersignin',response);
-    return response?.data
+const googleLogIn = async (values) => {
+  try {
+    const response = await user_baseURL.post("auth/glogin", values);
 
-}
+    return response?.data;
+  } catch (error) {
+    console.log("user Api error", error);
+  }
+};
 
-const googleLogIn = async (values)=>{
-    console.log('valus in goole sign in user api',values)
-    const response = await user_baseURL.post('auth/glogin',values)
-    console.log('res inside api post usersignin',response);
-    return response?.data
+const moviesFetchUser = async () => {
+  try {
+    const response = await user_baseURL.get("user/movielist");
+    return response?.data;
+  } catch (error) {
+    console.log("user Api error", error);
+  }
+};
 
-}
+const movieSearch = async (textData) => {
+  try {
+    const response = await user_baseURL.post("user/searchmovie", textData);
+    return response?.data;
+  } catch (error) {
+    console.log("user Api error", error);
+  }
+};
 
-const moviesFetchUser = async()=>{
-    
-    const response = await user_baseURL.get('user/movielist')
-    return response?.data
-}
-
-const movieSearch = async(textData)=>{
-    const response = await user_baseURL.post('user/searchmovie',textData)
-    return response?.data
-
-}
-
-
-export  {signUp,logIn,googleLogIn,moviesFetchUser,movieSearch};
+export { signUp, logIn, googleLogIn, moviesFetchUser, movieSearch };

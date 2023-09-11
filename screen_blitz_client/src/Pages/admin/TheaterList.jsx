@@ -14,7 +14,7 @@ function TheaterList() {
     }
 
     fetchData().then(data => {
-        setTheaterDetails(data.theatersDetails);
+        setTheaterDetails(data?.theatersDetails);
     });
   }, []);
 

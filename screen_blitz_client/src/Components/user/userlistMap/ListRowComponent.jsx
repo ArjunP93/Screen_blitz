@@ -23,7 +23,7 @@ function ListRowComponent(props) {
     }
   return (
     
-    <tr key={props.key}>
+    <tr key={props._id}>
     <td className={props.classes}>
       <div className="flex items-center gap-3">
      { props.profilePic.length!==0 ?<Avatar src={profilePic[0]} alt={name} size="sm" /> :null}

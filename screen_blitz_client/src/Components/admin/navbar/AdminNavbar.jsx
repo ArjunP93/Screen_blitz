@@ -264,7 +264,7 @@ export function AdminNavbar() {
   }, []);
  
   return (
-    <Navbar className=" bg-blue-gray-500 rounded-none border-none mx-auto w-100 p-2">
+    <Navbar className=" bg-blue-gray-500 rounded-none border-none max-w-none w-screen p-2">
       <div className="relative mx-auto flex items-center text-blue-gray-900">
         <Typography
           as="a"

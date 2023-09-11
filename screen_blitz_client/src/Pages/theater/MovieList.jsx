@@ -11,7 +11,6 @@ function MovieList(props) {
   const dispatch =useDispatch()
 
   const movieDetails = useSelector((store)=>store.theater.allMovieList)
-
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(()=>{

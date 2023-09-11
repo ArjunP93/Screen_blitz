@@ -21,7 +21,7 @@ const movieSchema = new Schema({
         type:String
     },
     releaseDate:{
-        type:String
+        type:Date
     },
     poster:{
         type:String
@@ -41,7 +41,20 @@ const movieSchema = new Schema({
     
 
 
-},{timestamps:true})
+},{
+    timestamps:true,
+    // toJSON:{
+    //     transform(doc,ret){
+    //         ret.id = ret._id
+    //         delete ret._id
+    //         delete ret.__v
+    //     }
+    // }
+})
+
+// movieSchema.pre('save',()=>{
+    
+// })
 
 const Movie = model('Movie',movieSchema)
 export default Movie

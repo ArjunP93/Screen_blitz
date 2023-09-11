@@ -277,7 +277,7 @@ export function TheaterSideBar() {
         <DialogHeader >Add Movie</DialogHeader>
         
         <DialogBody>
-          <AddMovieForm/>
+          <AddMovieForm handleMovieAddOpen={handleMovieAddOpen} />
           
 
         </DialogBody>

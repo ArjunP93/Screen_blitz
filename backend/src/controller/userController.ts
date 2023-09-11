@@ -6,7 +6,7 @@ import movieHelper from "../helpers/movieHelper";
 const userController = {
   getAllMovies: async (req: Request, res: Response) => {
     try {
-      const moviesList = await Movie.find();
+      const moviesList = await Movie.find().sort({releaseDate:-1});
 
       res.json({ movieData: moviesList, status: "success" });
     } catch (error) {

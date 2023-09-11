@@ -7,7 +7,7 @@ const theaterRouter= express.Router()
 
 theaterRouter.post('/addmovie',theaterController.addMovie)
 theaterRouter.get('/movieslist',theaterController.getMovies)
-theaterRouter.delete('/deletemovie',theaterController.deleteMovie)
+theaterRouter.delete('/deletemovie/:id',theaterController.deleteMovie)
 
 
 

@@ -14,7 +14,7 @@ function UserList() {
     }
 
     fetchData().then(data => {
-      setUserDetails(data.usersDetails);
+      setUserDetails(data?.usersDetails);
     });
   }, []);
 

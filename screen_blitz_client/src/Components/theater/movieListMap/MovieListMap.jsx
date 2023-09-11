@@ -4,11 +4,26 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { Typography, Tooltip, IconButton } from "@material-tailwind/react";
 import { deleteMovie } from "../../../api/theaterApi";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { setAllMovielist } from "../../../redux/theaterSlice";
+import { AlertDialog } from "../../alertDialogue/AlertDialog";
 
 function MovieListMap(props) {
-  const handleDelete = async()=>{
-    const response = await deleteMovie({movie_id:props.key})
-    if(response.useState==="success"){
+  const [deleteAlert, setDeleteAlert] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const movieList = useSelector((store) => store.theater.allMovieList);
+
+  const handleDelete = async () => {
+    const updatedMovieList = movieList.filter((data) => {
+      return data._id != props.id;
+    });
+    dispatch(setAllMovielist(updatedMovieList));
+
+    const response = await deleteMovie(props.id);
+
+    if (response.status === "success") {
       toast.success(`${response.message}`, {
         position: "top-right",
         autoClose: 5000,
@@ -19,7 +34,7 @@ function MovieListMap(props) {
         progress: undefined,
         theme: "light",
       });
-    }else{
+    } else {
       toast.error(`${response.message}`, {
         position: "top-right",
         autoClose: 5000,
@@ -30,31 +45,30 @@ function MovieListMap(props) {
         progress: undefined,
         theme: "light",
       });
-
     }
-  }
+    setDeleteAlert(!deleteAlert);
+  };
   return (
     <tr key={props.key}>
       <td className={props.classes}>
-        <div className="flex items-center gap-3">
-          <div className="flex flex-col">
+      
+          <div className="flex gap-6 items-center  ">
+            <div >
+            <img src={props.poster} className="w-12 h-15 rounded-md"   ></img>
+
+            </div>
             <Typography
               variant="small"
               color="blue-gray"
-              className="font-normal"
+              className="font-semibold "
             >
               {props.movieName}
             </Typography>
-            {/* <Typography
-            variant="small"
-            color="blue-gray"
-            className="font-normal opacity-70"
-          >
-            {props.directorName}
-          </Typography> */}
+          
           </div>
-        </div>
+
       </td>
+    
 
       <td className={props.classes}>
         <Typography variant="small" color="blue-gray" className="font-normal">
@@ -62,7 +76,7 @@ function MovieListMap(props) {
         </Typography>
       </td>
       <td className={props.classes}>
-        <Typography variant="small" color="blue-gray" className="font-normal">
+        <Typography variant="small" color="blue-gray" className=" uppercase font-normal">
           {props.language}
         </Typography>
       </td>
@@ -74,7 +88,18 @@ function MovieListMap(props) {
         </Tooltip> */}
         <Tooltip content="Delete Movie">
           <IconButton variant="text">
-            <TrashIcon onClick={handleDelete} class="h-6 w-6 text-gray-800" />
+            <TrashIcon
+              onClick={() => setDeleteAlert(true)}
+              class="h-6 w-6 text-gray-800"
+            />
+
+            <AlertDialog
+              state={deleteAlert}
+              setState={setDeleteAlert}
+              actionHandler={handleDelete}
+              heading={'Delete Confirmation'}
+              message={'Are you sure you want to delete'}
+            />
           </IconButton>
         </Tooltip>
       </td>

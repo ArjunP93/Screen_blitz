@@ -80,7 +80,7 @@ import ListMap from "../../admin/theatreListMap/ListMap";
             </thead>
             <tbody>
               {console.log('test theater',props.data)}
-              {props.data.map(
+              {props.data?.map(
                 ({ _id, theatername, email, blockedstatus,approvalStatus}, index) => {
                   const isLast = index === props.data.length - 1;
                   const classes = isLast

@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { MovieTMDBCard } from "../../card/MovieTMDBCard";
 
-export function AddMovieForm() {
+export function AddMovieForm(props) {
   const navigate = useNavigate();
   const [searchKeyword, setSearchKeyword] = useState("");
   const [tmdbData, setTmdbData] = useState([]);
@@ -65,7 +65,8 @@ export function AddMovieForm() {
       <div className=" flex flex-wrap ">
         {tmdbData.length > 0 ? (
           tmdbData.map((movie, index) => (
-            <MovieTMDBCard key={index} data={movie} />
+            <MovieTMDBCard key={index} data={movie} handleMovieAddOpen={props.handleMovieAddOpen}
+            />
           ))
         ) : (
           <p>No movies found.</p>

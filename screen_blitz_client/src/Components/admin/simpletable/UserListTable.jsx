@@ -122,7 +122,7 @@ import ListRowComponent from "../../user/userlistMap/ListRowComponent";
             </thead>
             <tbody>
             
-              {props.data.map(
+              {props.data?.map(
                 ({ _id, name, email, blockedStatus, profilePic}, index) => {
                   const isLast = index === props.data.length - 1;
                   const classes = isLast
@@ -130,7 +130,7 @@ import ListRowComponent from "../../user/userlistMap/ListRowComponent";
                     : "p-4 border-b border-blue-gray-50";
    
                   return (
-                   <ListRowComponent classes={classes} key = {_id} id={_id} name ={name} email={email} blockedStatus={blockedStatus} profilePic = {profilePic} />
+                   <ListRowComponent classes={classes} key={_id} id={_id} name ={name} email={email} blockedStatus={blockedStatus} profilePic = {profilePic} />
                   );
                 },
               )}
