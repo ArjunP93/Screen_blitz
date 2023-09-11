@@ -19,11 +19,16 @@ const theaterLogIn = async (values)=>{
 
 const addMovie = async(values)=>{
     console.log('valus in addMovie theater api',values)
+
     const response = await theater_baseURL.post('theater/addmovie',values)
 
     return response?.data
 
 
+}
+const deleteMovie =async(id)=>{
+    const response = await theater_baseURL.delete('theater/deletemovie',id)
+    return response?.data
 }
 
 const fetchMovies = async()=>{
@@ -42,4 +47,4 @@ const fetchScreens = async()=>{
 
 
 
-export  {theaterSignup,theaterLogIn,addMovie,fetchMovies,fetchScreens};
+export  {theaterSignup,theaterLogIn,addMovie,fetchMovies,fetchScreens,deleteMovie};

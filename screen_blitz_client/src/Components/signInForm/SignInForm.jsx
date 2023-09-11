@@ -46,7 +46,6 @@ export function SignInForm(props) {
         });
         navigate(props.locateHome);
       }else {
-        console.log(`${response.message}`);
         toast.error(`${response.message}`, {
           position: "top-right",
           autoClose: 5000,
@@ -90,12 +89,15 @@ export function SignInForm(props) {
         
         
       } else if (response?.theater) {
+        
         const theaterData= {
           theaterToken:response.token,
-          theaterId:response.theater._id
+          theaterId:response.theater._id,
+          approvalStatus:response.theater.approvalStatus
         }
         localStorage.setItem("theaterData", JSON.stringify(theaterData));
-        console.log("responsem mmmmmmmmmmmm",response.theater)
+
+        
         dispatch(setTheaterData(response.theater))
         dispatch(setTheater(theaterData))
       }

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, json } from "react-router-dom";
 
 import HomePage from "./Pages/user/homePage/HomePage";
 import { SignUpForm } from "./Components/signUpForm/SignUpForm";
@@ -14,8 +14,7 @@ import AdminDashboard from "./Pages/admin/adminDash/AdminDashboard";
 import { useSelector } from "react-redux";
 import UserList from "./Pages/admin/UserList";
 import TheaterList from "./Pages/admin/TheaterList";
-
-
+import MovieList from "./Pages/theater/MovieList";
 
 function App() {
   const userReduxToken = useSelector((state) => state.user.userRedux.userToken);
@@ -25,16 +24,15 @@ function App() {
   const adminReduxToken = useSelector(
     (state) => state.admin.adminRedux.adminToken
   );
-  
 
+  const theaterReduxData = useSelector((state) => state.theater.theaterData);
 
-
-  const theaterReduxData = useSelector((state)=> state.theater.theaterData)
-console.log('the dataaaaa',theaterReduxData)
+  const TheaterLocalStoreData = localStorage.getItem("theaterData");
+  const tempData = JSON.parse(TheaterLocalStoreData);
+  const theaterApproval = tempData?.approvalStatus;
 
   return (
     <>
-      
       <ToastContainer />
       <BrowserRouter>
         <Routes>
@@ -83,16 +81,16 @@ console.log('the dataaaaa',theaterReduxData)
             }
           ></Route>
 
-
-
-{/* theater routes */}
-
+          {/* theater routes */}
 
           <Route
             path="/theater"
             element={
               theaterReduxToken ? (
-                <TheaterDashboard data={theaterReduxData}/>
+                <TheaterDashboard
+                  approval={theaterApproval}
+                  data={theaterReduxData}
+                />
               ) : (
                 <SignInForm
                   onSubmit={theaterLogIn}
@@ -115,34 +113,24 @@ console.log('the dataaaaa',theaterReduxData)
             }
           ></Route>
           <Route
-          path="/theater/listmovie" element={ theaterReduxToken ? 
-            
-          null : (
-            <SignInForm
-              onSubmit={theaterLogIn}
-              heading="Theater Sign In"
-              locateHome="/theaterdash"
-              locateSignUp="/theater/signup"
-            />
-          )} >
-        
-          </Route>
-
-
-
-
-
-
-
-
-
-
+            path="/theater/listmovie"
+            element={
+              theaterReduxToken ? null : (
+                <SignInForm
+                  onSubmit={theaterLogIn}
+                  heading="Theater Sign In"
+                  locateHome="/theaterdash"
+                  locateSignUp="/theater/signup"
+                />
+              )
+            }
+          ></Route>
 
           <Route
-            path="/theaterdash"
+            path="/theaterlistmovies"
             element={
               theaterReduxToken ? (
-                <TheaterDashboard data={theaterReduxData} />
+                <MovieList approval={theaterApproval} data={theaterReduxData} />
               ) : (
                 <SignInForm
                   onSubmit={theaterLogIn}
@@ -154,24 +142,45 @@ console.log('the dataaaaa',theaterReduxData)
             }
           ></Route>
 
+          <Route
+            path="/theaterdash"
+            element={
+              theaterReduxToken ? (
+                <TheaterDashboard
+                  approval={theaterApproval}
+                  data={theaterReduxData}
+                />
+              ) : (
+                <SignInForm
+                  onSubmit={theaterLogIn}
+                  heading="Theater Sign In"
+                  locateHome="/theaterdash"
+                  locateSignUp="/theater/signup"
+                />
+              )
+            }
+          ></Route>
 
           {/* admin Routes */}
 
-          <Route path="/admin" element={adminReduxToken ? <AdminDashboard /> : <AdminSignInForm />}></Route>
+          <Route
+            path="/admin"
+            element={adminReduxToken ? <AdminDashboard /> : <AdminSignInForm />}
+          ></Route>
           <Route
             path="/admindash"
             element={adminReduxToken ? <AdminDashboard /> : <AdminSignInForm />}
           ></Route>
-          <Route path="/admin/userlist" element={adminReduxToken ? <UserList/> : <AdminSignInForm />}>
-
-          </Route>
-          <Route path="/admin/theaterlist" element={adminReduxToken ? <TheaterList/> : <AdminSignInForm />}>
-
-          </Route>
+          <Route
+            path="/admin/userlist"
+            element={adminReduxToken ? <UserList /> : <AdminSignInForm />}
+          ></Route>
+          <Route
+            path="/admin/theaterlist"
+            element={adminReduxToken ? <TheaterList /> : <AdminSignInForm />}
+          ></Route>
         </Routes>
       </BrowserRouter>
-
-      
     </>
   );
 }

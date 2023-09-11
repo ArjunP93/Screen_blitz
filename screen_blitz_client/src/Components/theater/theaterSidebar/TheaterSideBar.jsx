@@ -40,9 +40,9 @@ export function TheaterSideBar() {
   };
 
 
-  const [addMivieOpen, setaddMivieOpen] = React.useState(false);
+  const [addMovieOpen, setaddMovieOpen] = React.useState(false);
  
-  const handleMovieAddOpen = () => setaddMivieOpen(!addMivieOpen);
+  const handleMovieAddOpen = () => setaddMovieOpen(!addMovieOpen);
  
 
   
@@ -124,6 +124,12 @@ export function TheaterSideBar() {
                 </ListItemPrefix>
                 Add Movie
               </ListItem>
+              <ListItem onClick={()=>navigate('/theaterlistmovies')}>
+                <ListItemPrefix>
+                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                </ListItemPrefix>
+                Movie List
+              </ListItem>
               {/* <ListItem>
                 <ListItemPrefix>
                   <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
@@ -174,7 +180,7 @@ export function TheaterSideBar() {
 
 
 
-        <Accordion
+        {/* <Accordion
           open={open === 4}
           icon={
             <ChevronDownIcon
@@ -182,8 +188,8 @@ export function TheaterSideBar() {
               className={`mx-auto h-4 w-4 transition-transform ${open === 4 ? "rotate-180" : ""}`}
             />
           }
-        >
-          <ListItem className="p-0" selected={open === 4}>
+        > */}
+          {/* <ListItem className="p-0" selected={open === 4}>
             <AccordionHeader onClick={() => handleOpen(4)} className="border-b-0 p-3">
               <ListItemPrefix>
                 <ShoppingBagIcon className="h-5 w-5" />
@@ -200,7 +206,7 @@ export function TheaterSideBar() {
                   <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                 </ListItemPrefix>
                 Theater Application Form
-              </ListItem>
+              </ListItem> */}
               
               {/* <ListItem>
                 <ListItemPrefix>
@@ -214,9 +220,9 @@ export function TheaterSideBar() {
                 </ListItemPrefix>
                 Approvals55
               </ListItem> */}
-            </List>
+            {/* </List>
           </AccordionBody>
-        </Accordion>
+        </Accordion> */}
 
         
 
@@ -259,12 +265,14 @@ export function TheaterSideBar() {
       {/* dialog - ----AddMovie */}
 
       <Dialog
-        open={addMivieOpen}
+        open={addMovieOpen}
+        size="xl"
         handler={handleMovieAddOpen}
         animate={{
           mount: { scale: 1, y: 0 },
           unmount: { scale: 0.9, y: -100 },
         }}
+      
       >
         <DialogHeader >Add Movie</DialogHeader>
         

@@ -17,7 +17,7 @@ function TheaterDashboard(props) {
 
         <TheaterSideBar/>
         <div className='  ms-[20rem]   bg-blue-gray-50 w-[calc(100vw-20rem)] h-[calc(100vh-56px)]'>
-        {props.data.approvalStatus ? null : <Approve/>}
+        {props.approval ? null : <Approve/>}
 
         </div>
         

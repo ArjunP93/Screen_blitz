@@ -5,7 +5,7 @@ const BaseUrl = "http://localhost:4000/api/";
 const theater_baseURL = axios.create({
   baseURL: BaseUrl,
 });
-// console.log("baseURL",baseURL)
+
 
 theater_baseURL.interceptors.request.use(
   (config) => {

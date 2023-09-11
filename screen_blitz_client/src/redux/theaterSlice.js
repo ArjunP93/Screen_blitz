@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const checkToken = () => {
   const theatertkn = localStorage.getItem("theaterData");
-  console.log("theaterdar", theatertkn);
   if (theatertkn) {
     return JSON.parse(theatertkn);
   } else {
@@ -11,7 +10,8 @@ const checkToken = () => {
 };
 const initialState = {
   theaterRedux: checkToken(),
-  theaterData: {}
+  theaterData: {},
+  allMovieList:[]
 };
 
 const theaterSlice = createSlice({
@@ -21,20 +21,20 @@ const theaterSlice = createSlice({
     setTheater: (state, action) => {
       state.theaterRedux = action.payload;
     },
-    setTheaterData:(state,action)=>{
-      state.theaterData = action.payload
-
-
-
+    setTheaterData: (state, action) => {
+      state.theaterData = action.payload;
+    },
+    setAllMovielist:(state,action)=>{
+      state.allMovieList = action.payload
     },
     logOut: (state) => {
       state.theaterRedux = {
         theaterToken: "",
         theaterId: "",
       };
-      state.theaterData = {}
+      state.theaterData = {};
     },
   },
 });
-export const { setTheater, logOut,setTheaterData } = theaterSlice.actions;
+export const { setTheater, logOut, setTheaterData,setAllMovielist } = theaterSlice.actions;
 export default theaterSlice.reducer;

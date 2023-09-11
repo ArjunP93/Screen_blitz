@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import{toast} from 'react-toastify'
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { logOut } from "../../../redux/userSlice";
-
-
+import { logOut,setMovieData } from "../../../redux/userSlice";
+import { movieSearch } from "../../../api/userApi";
 
 import {
   Navbar,
@@ -18,6 +17,9 @@ import {
  
 export function HomeNavbar() {
   const [openNav, setOpenNav] = React.useState(false);
+  const [seachText,setSearchText] = useState('')
+
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
  
@@ -27,6 +29,18 @@ export function HomeNavbar() {
       () => window.innerWidth >= 960 && setOpenNav(false)
     );
   }, []);
+
+
+const handleMovieSearch=async()=>{
+ const response = await movieSearch({searchKey:seachText})
+ console.log('search results navbar',response)
+ if(response.status==='success'){
+  dispatch(setMovieData(response.results))
+ }
+
+}
+
+
   const signOut=()=>{
     localStorage.removeItem('userData')
     dispatch(logOut())
@@ -41,13 +55,16 @@ export function HomeNavbar() {
           <Input
             type="search"
             color="deep-purple"
-            label="Type here..."
+            label="search movie..."
+            value={seachText}
+            onChange={(e)=>{setSearchText(e.target.value)}}
             className="pr-20"
             containerProps={{
               className: "min-w-[288px]",
             }}
           />
-          <Button size="sm" color="deep-purple" className="!absolute right-1 top-1 rounded">
+          <Button
+          onClick={handleMovieSearch} size="sm" color="deep-purple" className="!absolute right-1 top-1 rounded">
             Search
           </Button>
         </div>

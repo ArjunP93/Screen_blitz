@@ -22,12 +22,16 @@ import {
 
   import { useState } from "react";
 import MovieListMap from "../movieListMap/MovieListMap";
+import Loading from "../../loading/Loading";
+import { deleteMovie } from "../../../api/theaterApi";
+
+
 
   
    
   
    
-  const TABLE_HEAD = ["Owner","Status", "Action"];
+  const TABLE_HEAD = ["Movie", "Release Date","Language"," "];
    
    
   export function MovieListTable(props) {
@@ -56,7 +60,10 @@ import MovieListMap from "../movieListMap/MovieListMap";
           </div>
           
         </CardHeader>
+
         <CardBody className="overflow-scroll px-0">
+
+          {props.loading ?(<Loading/>) :(
           <table className="mt-4 w-full min-w-max table-auto text-left">
             <thead>
               <tr>
@@ -81,20 +88,22 @@ import MovieListMap from "../movieListMap/MovieListMap";
             </thead>
             <tbody>
               
-              {props.data.map(
-                ({ _id, theatername, email, blockedstatus,approvalStatus}, index) => {
+            {props.data.map(
+                ({ _id, movieName, releaseDate,language}, index) => {
                   const isLast = index === props.data.length - 1;
                   const classes = isLast
                     ? "p-4"
                     : "p-4 border-b border-blue-gray-50";
    
                   return (
-                   <MovieListMap key={_id} classes={classes} id={_id} theatername={theatername} email={email} approvalStatus={approvalStatus} />
+                  <MovieListMap key={_id} classes={classes} id={_id} movieName={movieName}  releaseDate={releaseDate} language={language} />
                   );
                 },
               )}
             </tbody>
           </table>
+          )
+              }
         </CardBody>
         <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
           <Typography variant="small" color="blue-gray" className="font-normal">

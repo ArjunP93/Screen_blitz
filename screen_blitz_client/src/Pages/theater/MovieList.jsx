@@ -5,10 +5,14 @@ import { Approve } from '../../Components/theater/Approve'
 import { useState } from 'react'
 import { fetchMovies } from '../../api/theaterApi'
 import { MovieListTable } from '../../Components/theater/theaterSimpleTable/MovieListTable'
+import { useDispatch,useSelector } from 'react-redux'
+import { setAllMovielist } from '../../redux/theaterSlice'
+function MovieList(props) {
+  const dispatch =useDispatch()
 
-function MovieAdd(props) {
+  const movieDetails = useSelector((store)=>store.theater.allMovieList)
 
-  const [movieDetails,setMovieDetails] = useState([])
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(()=>{
 
@@ -17,10 +21,16 @@ function MovieAdd(props) {
       return response
       
     }
-    fetchMoviesData.then((data)=>{
-      setMovieDetails(data.movies)
+    fetchMoviesData().then((data)=>{
+      
+      dispatch(setAllMovielist(data.movieData))
+      setIsLoading(false)
+
     })
   },[])
+
+  
+
 
 
   return (
@@ -29,7 +39,7 @@ function MovieAdd(props) {
 
         <TheaterSideBar/>
         <div className='  ms-[20rem]   bg-blue-gray-50 w-[calc(100vw-20rem)] h-[calc(100vh-56px)]'>
-        {props.data.approvalStatus ? <MovieListTable data={movieDetails}/> :<Approve/>}
+        {props.approval ? <MovieListTable data={movieDetails} loading={isLoading}/>:<Approve/>}
 
         </div>
         
@@ -40,4 +50,4 @@ function MovieAdd(props) {
   )
 }
 
-export default MovieAdd
+export default MovieList

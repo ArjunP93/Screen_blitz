@@ -1,3 +1,4 @@
+import dotENV from 'dotenv';
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import {getAuth,GoogleAuthProvider}  from "firebase/auth"
@@ -7,7 +8,7 @@ import {getAuth,GoogleAuthProvider}  from "firebase/auth"
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyD4xSmRM8aXqRvlC6A5unEJPsVVE3M-AVw",
+  apiKey: import.meta.env.VITE_FIREBASE_api_key,
   authDomain: "screen-blitz-8f14a.firebaseapp.com",
   projectId: "screen-blitz-8f14a",
   storageBucket: "screen-blitz-8f14a.appspot.com",

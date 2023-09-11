@@ -26,5 +26,17 @@ const googleLogIn = async (values)=>{
 
 }
 
+const moviesFetchUser = async()=>{
+    
+    const response = await user_baseURL.get('user/movielist')
+    return response?.data
+}
 
-export  {signUp,logIn,googleLogIn};
+const movieSearch = async(textData)=>{
+    const response = await user_baseURL.post('user/searchmovie',textData)
+    return response?.data
+
+}
+
+
+export  {signUp,logIn,googleLogIn,moviesFetchUser,movieSearch};

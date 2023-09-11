@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const checkToken = () => {
   const usertkn = localStorage.getItem("userData");
 
-  console.log("userdata", JSON.parse(usertkn));
   if (usertkn) {
     return JSON.parse(usertkn);
   } else {
@@ -13,6 +12,7 @@ const checkToken = () => {
 
 const initialState = {
   userRedux: checkToken(),
+  movieData: [],
 };
 
 const userSlice = createSlice({
@@ -20,8 +20,10 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      console.log("payload", action.payload);
       state.userRedux = action.payload;
+    },
+    setMovieData: (state, action) => {
+      state.movieData = action.payload;
     },
     logOut: (state) => {
       state.userRedux = {
@@ -31,5 +33,6 @@ const userSlice = createSlice({
     },
   },
 });
-export const { setUser, logOut } = userSlice.actions;
+
+export const { setUser, logOut, setMovieData } = userSlice.actions;
 export default userSlice.reducer;

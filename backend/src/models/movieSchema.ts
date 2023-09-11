@@ -6,6 +6,7 @@ const movieSchema = new Schema({
 
     movieName:{
         type:String
+
     },
     language:{
         type:String
@@ -20,17 +21,27 @@ const movieSchema = new Schema({
         type:String
     },
     releaseDate:{
-        type:Date
+        type:String
     },
     poster:{
-        type:[]
+        type:String
+    },
+    backgroundPoster:{
+        type:String
     },
     duration:{
         type:String
+    },
+    overview:{
+        type:String
+    },
+    movieId:{
+        type:Number
     }
+    
 
 
-})
+},{timestamps:true})
 
 const Movie = model('Movie',movieSchema)
 export default Movie
