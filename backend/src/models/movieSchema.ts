@@ -37,7 +37,11 @@ const movieSchema = new Schema({
     },
     movieId:{
         type:Number
-    }
+    },
+    
+    theaterIds:[{ type: Schema.Types.ObjectId, ref: 'Theater' }], // An array of ObjectIds referencing 'Theater' model
+
+    
     
 
 

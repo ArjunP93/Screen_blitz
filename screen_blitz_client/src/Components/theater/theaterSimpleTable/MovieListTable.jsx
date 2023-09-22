@@ -76,7 +76,7 @@ export function MovieListTable(props) {
               </tr>
             </thead>
             <tbody>
-              {props.data.map(
+              {props.data?.map(
                 ({ _id, movieName, releaseDate, language, poster }, index) => {
                   const isLast = index === props.data.length - 1;
                   const classes = isLast

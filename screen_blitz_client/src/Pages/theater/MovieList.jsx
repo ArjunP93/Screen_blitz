@@ -7,22 +7,26 @@ import { fetchMovies } from '../../api/theaterApi'
 import { MovieListTable } from '../../Components/theater/theaterSimpleTable/MovieListTable'
 import { useDispatch,useSelector } from 'react-redux'
 import { setAllMovielist } from '../../redux/theaterSlice'
+
 function MovieList(props) {
   const dispatch =useDispatch()
 
   const movieDetails = useSelector((store)=>store.theater.allMovieList)
   const [isLoading, setIsLoading] = useState(true);
-
+  const theaterId = useSelector((store)=>store.theater.theaterRedux.theaterId)
+console.log('theaterId',theaterId)
   useEffect(()=>{
+    
+
 
     async function fetchMoviesData(){
-      const response = await fetchMovies()
+      const response = await fetchMovies(theaterId)
       return response
       
     }
     fetchMoviesData().then((data)=>{
       
-      dispatch(setAllMovielist(data.movieData))
+      dispatch(setAllMovielist(data?.movieData))
       setIsLoading(false)
 
     })

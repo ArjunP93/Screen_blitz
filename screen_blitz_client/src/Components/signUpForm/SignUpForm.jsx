@@ -34,9 +34,9 @@ import {
 
     },
     validationSchema : Yup.object({
-      name: Yup.string().matches(/^[A-Za-z]+$/, 'Only alphabets are allowed').max(15, 'Must be 15 characters or less')
+      name: Yup.string().matches(/^(?! )(?=.*[A-Za-z])[A-Za-z\s]*[A-Za-z](?<! )$/, 'Only alphabets and spaces are allowed').max(15, 'Must be 15 characters or less')
       .required('Required'),
-      mobile:Yup.number().min(1).required('Required'),
+      mobile:Yup.number().min(1).max(10).required('Required'),
       email: Yup.string()
           .email('Invalid email address')
           .required('Required'),

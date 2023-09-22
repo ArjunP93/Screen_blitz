@@ -47,5 +47,22 @@ const movieSearch = async (textData) => {
     console.log("user Api error", error);
   }
 };
+const getLocations = async () => {
+  try {
+    const response = await user_baseURL.get("user/locations");
+    return response?.data;
+  } catch (error) {
+    console.log("user Api error", error);
+  }
+};
+const moviePageData = async (values) => {
+  try {
+    const response = await user_baseURL.post("user/movie",values);
+    return response?.data;
+  } catch (error) {
+    console.log("user Api error", error);
+  }
+};
 
-export { signUp, logIn, googleLogIn, moviesFetchUser, movieSearch };
+
+export { signUp, logIn, googleLogIn, moviesFetchUser, movieSearch,getLocations,moviePageData };

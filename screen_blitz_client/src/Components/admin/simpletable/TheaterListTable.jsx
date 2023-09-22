@@ -26,7 +26,7 @@ import ListMap from "../../admin/theatreListMap/ListMap";
    
   
    
-  const TABLE_HEAD = ["Owner","Status", "Action"];
+  const TABLE_HEAD = ["Owner","Approval Status", "Action",'Account Status',''];
    
    
   export function TheaterListTable(props) {
@@ -42,15 +42,15 @@ import ListMap from "../../admin/theatreListMap/ListMap";
               </Typography>
              
             </div>
-            <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
+            {/* <div className="flex flex-col items-center justify-between gap-2 md:flex-row"> */}
             
-            <div className="w-full md:w-72">
+            {/* <div className="w-full md:w-72">
               <Input
                 label="Search"
                 icon={<MagnifyingGlassIcon className="h-5 w-5" />}
               />
-            </div>
-          </div>
+            </div> */}
+          {/* </div> */}
           
           </div>
           
@@ -79,7 +79,7 @@ import ListMap from "../../admin/theatreListMap/ListMap";
               </tr>
             </thead>
             <tbody>
-              {console.log('test theater',props.data)}
+            
               {props.data?.map(
                 ({ _id, theatername, email, blockedstatus,approvalStatus}, index) => {
                   const isLast = index === props.data.length - 1;
@@ -88,7 +88,7 @@ import ListMap from "../../admin/theatreListMap/ListMap";
                     : "p-4 border-b border-blue-gray-50";
    
                   return (
-                   <ListMap key={_id} classes={classes} id={_id} theatername={theatername} email={email} approvalStatus={approvalStatus} />
+                   <ListMap key={_id} classes={classes} id={_id} theatername={theatername} email={email} approvalStatus={approvalStatus} blockedstatus={blockedstatus} />
                   );
                 },
               )}

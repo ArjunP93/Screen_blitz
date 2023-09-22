@@ -33,9 +33,9 @@ expressConfig(app)
 //routes
 
 app.use('/api/auth', authRoute)
-app.use('/api/admin',authMiddleware.tokenCheck,adminRoute)
-app.use('/api/theater',authMiddleware.tokenCheck,theaterRoute)
-app.use('/api/user',userRoute)
+app.use('/api/admin',authMiddleware('admin'),adminRoute)
+app.use('/api/theater',authMiddleware('theater'),theaterRoute)
+app.use('/api/user',authMiddleware('user'),userRoute)
 
 //start the server
 serverConfig(server)

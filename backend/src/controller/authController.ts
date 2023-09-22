@@ -30,7 +30,7 @@ const authController = {
               } else {
                 //generate jwt and send to client
                 const user_id = userFile._id.toString();
-                const jwt = generateJWT(user_id);
+                const jwt = generateJWT(user_id,"user");
 
                 res.json({
                   user: userFile,
@@ -88,7 +88,7 @@ const authController = {
 
       const newUserId = returnData._id;
 
-      const jwt = generateJWT(newUserId.toString());
+      const jwt = generateJWT(newUserId.toString(),"user");
 
       res.json({
         user: newUserData,
@@ -118,7 +118,7 @@ const authController = {
             } else {
               //generate jwt and send to client
               const theater_id = theaterFile._id.toString();
-              const jwt = generateJWT(theater_id);
+              const jwt = generateJWT(theater_id,"theater");
 
               res.json({
                 theater: theaterFile,
@@ -179,7 +179,7 @@ const authController = {
 
       const newTheaterId: string = returnTheaterData._id.toString();
 
-      const jwt = generateJWT(newTheaterId);
+      const jwt = generateJWT(newTheaterId,"theater");
       res.json({
         user: newTheaterData,
         created: true,
@@ -202,7 +202,7 @@ const authController = {
           if (result === true) {
             //generate jwt and send to client
             const admin_id = adminFile._id.toString();
-            const jwt = generateJWT(admin_id);
+            const jwt = generateJWT(admin_id,"admin");
 
             res.json({
               admin: adminFile,
@@ -248,7 +248,7 @@ const authController = {
         } else {
           //generate jwt and send to client
           const user_id = userFile._id.toString();
-          const jwt = generateJWT(user_id);
+          const jwt = generateJWT(user_id,"user");
 
           res.json({
             user: userFile,
@@ -267,7 +267,7 @@ const authController = {
 
         const newUserId = returnData._id;
 
-        const jwt = generateJWT(newUserId.toString());
+        const jwt = generateJWT(newUserId.toString(),"user");
 
         res.json({
           user: newUserData,

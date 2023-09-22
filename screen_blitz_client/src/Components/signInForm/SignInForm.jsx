@@ -93,7 +93,8 @@ export function SignInForm(props) {
         const theaterData= {
           theaterToken:response.token,
           theaterId:response.theater._id,
-          approvalStatus:response.theater.approvalStatus
+          approvalStatus:response.theater.approvalStatus,
+          theaterName:response.theater.theaterName
         }
         localStorage.setItem("theaterData", JSON.stringify(theaterData));
 

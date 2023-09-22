@@ -4,15 +4,16 @@ import { HomeNav } from "../../../Components/user/navbar/HomeNav";
 import { HomeCarosal } from "../../../Components/user/carosel/HomeCarosal";
 import { MovieCard } from "../../../Components/card/MovieCard";
 import { UserFooter } from "../../../Components/footer/UserFooter";
-import { moviesFetchUser } from "../../../api/userApi";
+import { moviesFetchUser, } from "../../../api/userApi";
 import { useDispatch,useSelector } from "react-redux";
-import { setMovieData } from "../../../redux/userSlice";
+import { setMovieData,setuserOperationsData } from "../../../redux/userSlice";
+import { useNavigate } from "react-router-dom";
 
 
 
 
 function HomePage() {
-
+const navigate = useNavigate()
   const movies = useSelector((store)=>store.user.movieData)
   const [banners, setBanners] = useState([]);
   const dispatch = useDispatch()
@@ -34,6 +35,15 @@ function HomePage() {
     });
   }, []);
 
+  async function bookClickHandle(movId){
+    const data ={
+      movieId:movId
+    }
+    localStorage.setItem('userOperationsData',JSON.stringify(data))
+    dispatch(setuserOperationsData(data))
+    navigate('/movie')
+  }
+
 
   return (
     <div className="">
@@ -51,7 +61,7 @@ function HomePage() {
         </div>
       <div className="grid md:grid-cols-4 grid-flow-col md:grid-flow-row md:h-full overflow-y-auto  gap-3">
         {movies.length > 0 ? (
-          movies.map((movie, _id) => <MovieCard key={_id} data={movie} />)
+          movies.map((movie, _id) => <MovieCard bookHandle={bookClickHandle} key={_id} data={movie} />)
         ) : (
           <p>No movies found.</p>
         )}

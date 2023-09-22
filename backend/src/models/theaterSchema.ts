@@ -6,7 +6,7 @@ import {Schema,model} from 'mongoose'
 
 const theaterSchema = new Schema (
     {
-        theatername:{
+        theaterName:{
             type:String,
             required:true
         },

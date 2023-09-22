@@ -84,7 +84,7 @@ import ListRowComponent from "../../user/userlistMap/ListRowComponent";
               </Typography>
              
             </div>
-            <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
+            {/* <div className="flex flex-col items-center justify-between gap-2 md:flex-row">
             
             <div className="w-full md:w-72">
               <Input
@@ -92,7 +92,7 @@ import ListRowComponent from "../../user/userlistMap/ListRowComponent";
                 icon={<MagnifyingGlassIcon className="h-5 w-5" />}
               />
             </div>
-          </div>
+          </div> */}
           
           </div>
           

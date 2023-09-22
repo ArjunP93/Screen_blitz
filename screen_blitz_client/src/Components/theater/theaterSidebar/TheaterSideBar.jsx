@@ -29,6 +29,7 @@ import {
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import { AddMovieForm } from "../addMovieForm/AddMovieForm";
+import { AddScreenForm } from "../addScreenForm/AddScreenForm";
  
 export function TheaterSideBar() {
   const [open, setOpen] = React.useState(0);
@@ -41,8 +42,11 @@ export function TheaterSideBar() {
 
 
   const [addMovieOpen, setaddMovieOpen] = React.useState(false);
+  const [addScreenOpen, setaddScreenOpen] = React.useState(false);
  
   const handleMovieAddOpen = () => setaddMovieOpen(!addMovieOpen);
+ 
+  const handleScreenAddOpen = () => setaddScreenOpen(!addScreenOpen);
  
 
   
@@ -162,18 +166,53 @@ export function TheaterSideBar() {
           </ListItem>
           <AccordionBody className="py-1">
             <List className="p-0">
-              <ListItem>
+              <ListItem onClick={handleScreenAddOpen}>
                 <ListItemPrefix>
                   <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                 </ListItemPrefix>
                 Add Screen
               </ListItem>
-              {/* <ListItem>
+              <ListItem onClick={()=>navigate('/screenlist')}>
                 <ListItemPrefix>
                   <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                 </ListItemPrefix>
-                Products
-              </ListItem> */}
+                Screens
+              </ListItem>
+            </List>
+          </AccordionBody>
+        </Accordion>
+
+
+
+
+        <Accordion
+          open={open === 4}
+          icon={
+            <ChevronDownIcon
+              strokeWidth={2.5}
+              className={`mx-auto h-4 w-4 transition-transform ${open === 4 ? "rotate-180" : ""}`}
+            />
+          }
+        >
+          <ListItem className="p-0" selected={open === 4}>
+            <AccordionHeader onClick={() => handleOpen(4)} className="border-b-0 p-3">
+              <ListItemPrefix>
+                <ShoppingBagIcon className="h-5 w-5" />
+              </ListItemPrefix>
+              <Typography color="white" className="mr-auto font-normal">
+                Show Management
+              </Typography>
+            </AccordionHeader>
+          </ListItem>
+          <AccordionBody className="py-1">
+            <List className="p-0">
+              <ListItem onClick={()=>navigate('/allocatemovies')}>
+                <ListItemPrefix>
+                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                </ListItemPrefix>
+                Allocate movies
+              </ListItem>
+              
             </List>
           </AccordionBody>
         </Accordion>
@@ -295,6 +334,32 @@ export function TheaterSideBar() {
             <span>Confirm</span>
           </Button>
         </DialogFooter> */}
+      </Dialog>
+
+
+
+
+      {/* dialog - ----AddScreen */}
+
+      <Dialog
+        open={addScreenOpen}
+        size="xl"
+        handler={handleScreenAddOpen}
+        animate={{
+          mount: { scale: 1, y: 0 },
+          unmount: { scale: 0.9, y: -100 },
+        }}
+      
+      >
+        <DialogHeader >Add Screen</DialogHeader>
+        
+        <DialogBody>
+          <AddScreenForm handleScreenAddOpen={handleScreenAddOpen} />
+          
+
+        </DialogBody>
+        
+        
       </Dialog>
 
 

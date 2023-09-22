@@ -34,6 +34,17 @@ const addMovie = async (values) => {
     console.log("theater Api error", error);
   }
 };
+const addScreen = async (values) => {
+  try {
+    console.log("valus in add screen theater api", values);
+
+    const response = await theater_baseURL.post("theater/addscreen", values);
+
+    return response?.data;
+  } catch (error) {
+    console.log("theater Api error", error);
+  }
+};
 const deleteMovie = async (id) => {
   try {
     const response = await theater_baseURL.delete(`theater/deletemovie/${id}`);
@@ -42,24 +53,42 @@ const deleteMovie = async (id) => {
     console.log("theater Api error", error);
   }
 };
-
-const fetchMovies = async () => {
+const deleteScreen = async (id) => {
   try {
-    const response = await theater_baseURL.get("theater/movieslist");
+    const response = await theater_baseURL.delete(`theater/deletescreen/${id}`);
+    return response?.data;
+  } catch (error) {
+    console.log("theater Api error", error);
+  }
+};
+
+const fetchMovies = async (id) => {
+  try {
+    
+    const response = await theater_baseURL.get(`theater/movieslist/${id}`);
 
     return response?.data;
   } catch (error) {
     console.log("theater Api error", error);
   }
 };
-const fetchScreens = async () => {
+const fetchScreens = async (id) => {
   try {
-    const response = await theater_baseURL.get("theater/screenlist");
+    const response = await theater_baseURL.get(`theater/screenlist/${id}`);
     return response?.data;
   } catch (error) {
     console.log("theater Api error", error);
   }
 };
+const movieScreenAllocate =async (values)=>{
+  try {
+    const response= await theater_baseURL.post('theater/movieallocate',values)
+    return response?.data
+  } catch (error) {
+    console.log("theater Api error", error);
+
+  }
+}
 
 export {
   theaterSignup,
@@ -68,4 +97,7 @@ export {
   fetchMovies,
   fetchScreens,
   deleteMovie,
+  addScreen,
+  deleteScreen,
+  movieScreenAllocate
 };

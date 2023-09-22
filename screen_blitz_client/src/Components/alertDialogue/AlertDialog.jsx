@@ -11,6 +11,7 @@ export function AlertDialog(props) {
     
  
   const handleOpen = () => props.setState(!props.state);
+  const deleteAction = ()=>props.actionHandler()
  
   return (
     <>
@@ -36,7 +37,7 @@ export function AlertDialog(props) {
           >
             <span>Cancel</span>
           </Button>
-          <Button variant="gradient" color="green" onClick={props.actionHandler}>
+          <Button variant="gradient" color="green" onClick={deleteAction}>
             <span>Confirm</span>
           </Button>
         </DialogFooter>

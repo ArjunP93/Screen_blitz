@@ -1,11 +1,13 @@
 import express from "express";
 import { NextFunction, Request, Response } from "express";
 import { verifyJWT } from "../authService/JwtAuth";
+import { JwtPayload } from "jsonwebtoken";
 
-const authMiddleware = {
-  tokenCheck: async (req: Request, res: Response, next: NextFunction) => {
+const authMiddleware = (role:string)=>{
+
+  return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      // console.log('request headers',req.headers);
+      
 
       let token: string | null = null;
       if (
@@ -14,11 +16,10 @@ const authMiddleware = {
       ) {
         token = req.headers.authorization.split(" ")[1];
       }
-      console.log("tokennnn", token);
 
-      const response = verifyJWT(token as string);
+      const response = verifyJWT(token as string) as JwtPayload;
       console.log("responsessssss", response);
-      if (response) {
+      if (response && response.role === role) {
         next();
       } else {
         res.status(401).json({ message: "Unauthorized Access" });
@@ -28,7 +29,17 @@ const authMiddleware = {
     } catch (error) {
       res.status(401).json({ message: "Unauthorised Access" });
     }
-  },
-};
+  }
+
+
+
+
+
+
+
+
+}
+  
+ 
 
 export default authMiddleware;

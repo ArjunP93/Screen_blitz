@@ -19,7 +19,7 @@ export function MovieCard(props) {
           <span className="uppercase text-sm font-semibold"> {props.data.language}</span>
         </div>
         <div className="">
-          <button className="uppercase w-full bg-purple-800 py-2 border-2  border-purple-800 hover:text-purple-800 hover:bg-white font-semibold rounded-md text-gray-50 transition duration-500">book now</button>
+          <button onClick={()=>props.bookHandle(props.data._id)} className="uppercase w-full bg-purple-800 py-2 border-2  border-purple-800 hover:text-purple-800 hover:bg-white font-semibold rounded-md text-gray-50 transition duration-500">book now</button>
         </div>
       </div>
       {/* <div className="flex justify-between items-center">

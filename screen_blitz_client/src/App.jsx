@@ -15,12 +15,20 @@ import { useSelector } from "react-redux";
 import UserList from "./Pages/admin/UserList";
 import TheaterList from "./Pages/admin/TheaterList";
 import MovieList from "./Pages/theater/MovieList";
+import Notfound404 from "./Pages/errorPages/notFound404/Notfound404";
+import MovieListAdmin from "./Pages/admin/MovieListAdmin";
+import ScreenList from "./Pages/theater/ScreenList";
+import ShowManage from "./Pages/theater/ShowManage";
+import MoviePage from "./Pages/user/MoviePage";
+import Location from "./Pages/admin/Location";
+import ScreenSeatSelect from "./Pages/user/ScreenSeatSelect";
 
 function App() {
   const userReduxToken = useSelector((state) => state.user.userRedux.userToken);
   const theaterReduxToken = useSelector(
     (state) => state.theater.theaterRedux.theaterToken
   );
+  console.log('hghhhgh',theaterReduxToken);
   const adminReduxToken = useSelector(
     (state) => state.admin.adminRedux.adminToken
   );
@@ -41,6 +49,38 @@ function App() {
             element={
               userReduxToken ? (
                 <HomePage />
+              ) : (
+                <SignInForm
+                  onSubmit={logIn}
+                  heading="User Sign In"
+                  locateHome="/userhome"
+                  locateSignUp="/user/signup"
+                  google="true"
+                />
+              )
+            }
+          ></Route>
+          <Route
+            path="/movie"
+            element={
+              userReduxToken ? (
+                <MoviePage/>
+              ) : (
+                <SignInForm
+                  onSubmit={logIn}
+                  heading="User Sign In"
+                  locateHome="/userhome"
+                  locateSignUp="/user/signup"
+                  google="true"
+                />
+              )
+            }
+          ></Route>
+          <Route
+            path="/selectseats"
+            element={
+              userReduxToken ? (
+                <ScreenSeatSelect/>
               ) : (
                 <SignInForm
                   onSubmit={logIn}
@@ -112,10 +152,14 @@ function App() {
               />
             }
           ></Route>
+          
+
           <Route
-            path="/theater/listmovie"
+            path="/theaterlistmovies"
             element={
-              theaterReduxToken ? null : (
+              theaterReduxToken ? (
+                <MovieList approval={theaterApproval}  />
+              ) : (
                 <SignInForm
                   onSubmit={theaterLogIn}
                   heading="Theater Sign In"
@@ -125,12 +169,27 @@ function App() {
               )
             }
           ></Route>
-
+          
           <Route
-            path="/theaterlistmovies"
+            path="/screenlist"
             element={
               theaterReduxToken ? (
-                <MovieList approval={theaterApproval} data={theaterReduxData} />
+                <ScreenList approval={theaterApproval} data={theaterReduxData}  />
+              ) : (
+                <SignInForm
+                  onSubmit={theaterLogIn}
+                  heading="Theater Sign In"
+                  locateHome="/theaterdash"
+                  locateSignUp="/theater/signup"
+                />
+              )
+            }
+          ></Route>
+          <Route
+            path="/allocatemovies"
+            element={
+              theaterReduxToken ? (
+                <ShowManage approval={theaterApproval} data={theaterReduxData}  />
               ) : (
                 <SignInForm
                   onSubmit={theaterLogIn}
@@ -179,6 +238,20 @@ function App() {
             path="/admin/theaterlist"
             element={adminReduxToken ? <TheaterList /> : <AdminSignInForm />}
           ></Route>
+
+          <Route
+            path="/admin/movielist"
+            element={adminReduxToken ? <MovieListAdmin /> : <AdminSignInForm />}
+          ></Route>
+          <Route
+            path="/admin/locations"
+            element={adminReduxToken ? <Location /> : <AdminSignInForm />}
+          ></Route>
+
+
+          <Route path="/test" element={<Notfound404/>}>
+
+          </Route>
         </Routes>
       </BrowserRouter>
     </>

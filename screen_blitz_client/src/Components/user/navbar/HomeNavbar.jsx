@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import{toast} from 'react-toastify'
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { logOut,setMovieData } from "../../../redux/userSlice";
-import { movieSearch } from "../../../api/userApi";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut, setMovieData,setChoosenLocation, setLocationData } from "../../../redux/userSlice";
+
+import { movieSearch,getLocations } from "../../../api/userApi";
 
 import {
   Navbar,
@@ -12,62 +13,104 @@ import {
   Button,
   IconButton,
   Card,
-  Input
+  Input,
+  Select,Option
 } from "@material-tailwind/react";
- 
+
 export function HomeNavbar() {
   const [openNav, setOpenNav] = React.useState(false);
-  const [seachText,setSearchText] = useState('')
+  const [seachText, setSearchText] = useState("");
+  const availableLoc = useSelector((store)=>store.user.locationData) 
+  const defaultloc = useSelector((store)=>store.user.choosenLocation)
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
- 
   React.useEffect(() => {
     window.addEventListener(
       "resize",
       () => window.innerWidth >= 960 && setOpenNav(false)
     );
   }, []);
+  useEffect(()=>{
+    async function locationFetch(){
+      const response =await getLocations()
+      return response
 
+    }
+    locationFetch().then((data)=>{
+    
+      dispatch(setLocationData(data.locData))
+    })
+  },[])
 
-const handleMovieSearch=async()=>{
- const response = await movieSearch({searchKey:seachText})
- console.log('search results navbar',response)
- if(response.status==='success'){
-  dispatch(setMovieData(response.results))
- }
-
-}
-
-
-  const signOut=()=>{
-    localStorage.removeItem('userData')
-    dispatch(logOut())
-    toast.success("Signout success")
-    navigate('/user')
-
+  const handleMovieSearch = async () => {
+    const response = await movieSearch({ searchKey: seachText });
+    console.log("search results navbar", response);
+    if (response.status === "success") {
+      dispatch(setMovieData(response.results));
+      navigate('/userhome')
+    }
+  };
+  async function locationSelectClickHandle(locName) {
+    localStorage.setItem('location',locName)
+    dispatch(setChoosenLocation(locName))
   }
- 
+
+  const signOut = () => {
+    localStorage.removeItem("userData");
+    dispatch(logOut());
+    toast.success("Signout success");
+    navigate("/user");
+  };
+
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+      
+
       <div className="relative flex w-full gap-2 md:w-max">
-          <Input
-            type="search"
-            color="deep-purple"
-            label="search movie..."
-            value={seachText}
-            onChange={(e)=>{setSearchText(e.target.value)}}
-            className="pr-20"
-            containerProps={{
-              className: "min-w-[288px]",
-            }}
-          />
-          <Button
-          onClick={handleMovieSearch} size="sm" color="deep-purple" className="!absolute right-1 top-1 rounded">
-            Search
-          </Button>
-        </div>
+        <Input
+          type="search"
+          color="deep-purple"
+          label="search movie..."
+          value={seachText}
+          onChange={(e) => {
+            setSearchText(e.target.value);
+          }}
+          className="pr-20"
+          containerProps={{
+            className: "min-w-[288px]",
+          }}
+        />
+        <Button
+          onClick={handleMovieSearch}
+          size="sm"
+          color="deep-purple"
+          className="!absolute right-1 top-1 rounded"
+        >
+          Search
+        </Button>
+      </div>
+      <div className="">
+        <Select
+        color="orange"
+          label="choose location"
+          value={defaultloc}
+          animate={{
+            mount: { y: 0 },
+            unmount: { y: 25 },
+          }}
+        >
+          {availableLoc.length>0?(availableLoc.map((obj) => (
+            <Option
+              key={obj._id}
+              onClick={() => locationSelectClickHandle(obj.location)}
+            >
+              {obj.location}
+            </Option>
+          ))):null}
+        </Select>
+      </div>
       <Typography
         as="li"
         variant="small"
@@ -78,7 +121,7 @@ const handleMovieSearch=async()=>{
           Account
         </a>
       </Typography>
-      <Typography
+      {/* <Typography
         as="li"
         variant="small"
         color="white"
@@ -87,7 +130,7 @@ const handleMovieSearch=async()=>{
         <a href="#" className="flex items-center">
           Blocks
         </a>
-      </Typography>
+      </Typography> */}
       <Typography
         as="li"
         variant="small"
@@ -100,15 +143,15 @@ const handleMovieSearch=async()=>{
       </Typography>
     </ul>
   );
- 
+
   return (
-    <div className=" max-h-[768px] ">
-      <Navbar  className="bg-black fixed top-0 z-10 h-max max-w-full rounded-none py-2 px-4 lg:px-8 lg:py-4 border-none">
+    // <div className=" max-h-[768px] ">
+      <Navbar className="bg-black fixed top-0 z-10 h-max max-w-full rounded-none py-2 px-4 lg:px-8 lg:py-4 border-none">
         <div className="flex items-center justify-between text-white">
           <Typography
             as="a"
             href="#"
-            className="mr-4 cursor-pointer py-1.5 font-bold"
+            className="mr-4 cursor-pointer py-1.5 font-bold text-2xl"
           >
             Screen Blitz
           </Typography>
@@ -161,7 +204,7 @@ const handleMovieSearch=async()=>{
             </IconButton>
           </div>
         </div>
-        <MobileNav  open={openNav}>
+        <MobileNav open={openNav}>
           {navList}
           <Button variant="gradient" size="sm" fullWidth className="mb-2">
             <span>Buy Now</span>
@@ -169,9 +212,7 @@ const handleMovieSearch=async()=>{
         </MobileNav>
       </Navbar>
 
-
-      
-      { /* <div className="mx-auto max-w-screen-md py-12">
+      /* <div className="mx-auto max-w-screen-md py-12">
         <Card className="mb-12 overflow-hidden">
           <img
             alt="nature"
@@ -197,7 +238,7 @@ const handleMovieSearch=async()=>{
           to be a chunk of change. There are more projects lined up charge extra
           the next time.
         </Typography>
-      </div>  */}
-     </div>
+      </div>  */
+    // </div>
   )
 }

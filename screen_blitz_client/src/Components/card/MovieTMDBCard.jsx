@@ -19,17 +19,28 @@ export function MovieTMDBCard(props) {
   const movieListForUpdation = useSelector(
     (store) => store.theater.allMovieList
   );
+ 
 
   const navigate = useNavigate();
+
+  const theaterInfo = useSelector((store)=>store.theater.theaterData) 
+
+
   const addMovieData = props.data;
+  addMovieData.theaterId = theaterInfo.theaterId
+  addMovieData.theaterName= theaterInfo.theaterName
+
 
   async function handleAddMovie(MovieData) {
     const response = await addMovie(MovieData);
 
-    const updatedList = [...movieListForUpdation, response?.addedMovObj];
-    dispatch(setAllMovielist(updatedList));
+    console.log('response in add movie',response)
+
+    
 
     if (response.status === "success") {
+      const updatedList = [...movieListForUpdation, response?.addedMovObj];
+    dispatch(setAllMovielist(updatedList));
       toast.success(`movie added sucessfully !!`, {
         position: "top-right",
         autoClose: 5000,
