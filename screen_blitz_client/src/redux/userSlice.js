@@ -9,33 +9,47 @@ const checkToken = () => {
     return { userToken: "", userId: "" };
   }
 };
-const checkLocation = ()=>{
-  const loc = localStorage.getItem('location')
+const checkLocation = () => {
+  const loc = localStorage.getItem("location");
   if (loc) {
-    return loc
-    
-  }else{
-    return ''
+    return loc;
+  } else {
+    return "";
   }
-}
-const checkOperations =()=>{
-  const operations = localStorage.getItem('userOperationsData')
-  if(operations){
-    return JSON.parse(operations)
-  }
-  else{
+};
+const checkOperations = () => {
+  const operations = localStorage.getItem("userOperationsData");
+  if (operations) {
+    return JSON.parse(operations);
+  } else {
     return {
-      movieId:''
+      movieId: "",
+      selectedScreen: "",
+      selectedShow: "",
+      selectedTheater: "",
+      showDate: "",
+      screenId: "",
+      screenRows: "",
+      screenCols: "",
+      movieName: "",
+      ticketPrice:0,
+     
 
-    }
+    };
   }
-}
+};
 const initialState = {
   userRedux: checkToken(),
   movieData: [],
-  userOperationsData:checkOperations(),
-  locationData:[],
-  choosenLocation:checkLocation()
+  userOperationsData: checkOperations(),
+  locationData: [],
+  choosenLocation: checkLocation(),
+  choosenShowDate: "",
+  userSelectedSeats:[],
+  userSeatCount:0,
+  totalAmount:0
+
+
 };
 
 const userSlice = createSlice({
@@ -47,30 +61,60 @@ const userSlice = createSlice({
     },
     setMovieData: (state, action) => {
       state.movieData = action.payload;
-
     },
-    setuserOperationsData:(state,action)=>{
-      state.userOperationsData = action.payload
-
+    setuserOperationsData: (state, action) => {
+      console.log('inside redux',action.payload);
+      state.userOperationsData = action.payload;
     },
-    setLocationData:(state,action)=>{
-      state.locationData = action.payload
+    setLocationData: (state, action) => {
+      state.locationData = action.payload;
     },
-    setChoosenLocation:(state,action)=>{
-      state.choosenLocation= action.payload
+    setChoosenLocation: (state, action) => {
+      state.choosenLocation = action.payload;
+    },
+    setChoosenShowDate: (state, action) => {
+      state.choosenShowDate = action.payload;
+    },
+    setUserSelectedSeats:(state,action)=>{
+      state.userSelectedSeats = action.payload
+    },
+    setUserSeatCount:(state,action)=>{
+      state.userSeatCount = state.userSeatCount+action.payload
+    },
+    setTotalAmount:(state,action)=>{
+      state.totalAmount = action.payload
     },
     logOut: (state) => {
       state.userRedux = {
         userToken: "",
         userId: "",
       };
-      state.choosenLocation=''
-      state.userOperationsData={
-        movieId:''
-      }
+      state.userSelectedSeats =[]
+      state.choosenLocation = "";
+      state.userOperationsData = {
+        movieId: "",
+        selectedScreen: "",
+        selectedShow: "",
+        selectedTheater: "",
+        showDate: "",
+        screenId: "",
+        screenRows: "",
+        screenCols: "",
+        movieName: "",
+        ticketPrice:0,
+      };
     },
   },
 });
 
-export const { setUser, logOut, setMovieData,setChoosenLocation,setLocationData,setuserOperationsData } = userSlice.actions;
+export const {
+  setUser,
+  logOut,
+  setMovieData,
+  setChoosenLocation,
+  setLocationData,
+  setuserOperationsData,
+  setChoosenShowDate,
+  setUserSelectedSeats,setUserSeatCount,setTotalAmount
+} = userSlice.actions;
 export default userSlice.reducer;

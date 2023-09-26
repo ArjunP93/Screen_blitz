@@ -7,6 +7,7 @@ import { ButtonGroup, Button } from "@material-tailwind/react";
 import moment from "moment";
 import { moviePageData } from "../../api/userApi";
 import TheaterMapComponent from "./moviePageLists/TheaterMapComponent";
+import { setChoosenShowDate } from "../../redux/userSlice";
 
 function MoviePage() {
   const [currentDate, setCurrentDate] = useState(moment());
@@ -15,14 +16,19 @@ function MoviePage() {
   const [theaterShowResults, setTheaterShowResults] = useState([]); // data for this page including theater and show details
 
   const [movieInfo, setMovieInfo] = useState({}); //to store movie details of selected movie
-  const [showDate, setShowDate] = useState(currentDate);
   const currentLocation = useSelector((store) => store.user.choosenLocation);
   const choosenMovie = useSelector(
     (store) => store.user.userOperationsData.movieId
   );
 
-  const movies = useSelector((store) => store.user.movieData);
+
+
   const dispatch = useDispatch();
+
+
+  function showDateClickHandle (date){
+   dispatch(setChoosenShowDate(date.format('YYYY-MM-DDTHH:mm:ss.SSSZ')))
+  }
 
   //to get and update date and time
   useEffect(() => {
@@ -67,13 +73,13 @@ function MoviePage() {
     });
   }, []);
   return (
-    <div className="w-screen h-screen bg-blue-gray-200 overflow-y-auto ">
+    <div className="w-full h-full bg-blue-gray-200 overflow-y-auto ">
       <div className="">
         <HomeNavbar />
       </div>
 
       <div
-        className="bg-cover bg-no-repeat bg-gradient-to-tl h-4/5 "
+        className="bg-cover bg-no-repeat  h-4/5 "
         style={{
           backgroundImage:
             `url(${movieInfo.backgroundPoster})`,
@@ -82,8 +88,8 @@ function MoviePage() {
         }}
       >
         <div className="flex flex-wrap mx-14  gap-3">
-          <div className="bg-white h-96 w-72 ms-32 mt-20 rounded-md border-solid">
-            <img src={movieInfo.poster} alt="" />
+          <div className="bg-white  w-72 ms-32 mt-20 rounded-md border-solid">
+            <img  src={movieInfo.poster} alt="" />
           </div>
           <div className="w-1/2 h-64 rounded-md mt-28  bg-transparent">
             <h1 className="ps-5 pt-3 font-semibold text-white uppercase text-4xl">
@@ -91,7 +97,7 @@ function MoviePage() {
               
             </h1>
             <h1 className="ps-5 pt-3 text-xl uppercase text-white">{movieInfo.language}</h1>
-            <h1 className="ps-5 pt-3 text-xl text-white">Release on:   {moment(movieInfo.releaseDate).format('MMMM DD, YYYY')}</h1>
+            <h1 className="ps-5 pt-3 text-xl text-white">Released on:   {moment(movieInfo.releaseDate).format('MMMM DD, YYYY')}</h1>
             <h1 className="ps-5 pt-3 text-white">Description: {movieInfo.overview}</h1>
           </div>
         </div>
@@ -102,7 +108,7 @@ function MoviePage() {
             <ButtonGroup color="deep-purple" size="lg">
               {nextDays.length > 0
                 ? nextDays.map((date, index) => (
-                    <Button  key={index}>{date.format("ddd Do MMM")}</Button>
+                    <Button  key={index} onClick={()=>showDateClickHandle(date)}>{date.format("ddd Do MMM")}</Button>
                   ))
                 : null}
             </ButtonGroup>
@@ -121,7 +127,7 @@ function MoviePage() {
 
                 {theaterShowResults?.length > 0 ? (
                   theaterShowResults?.map((theater) => (
-                   <TheaterMapComponent theater={theater}/> 
+                   <TheaterMapComponent  theater={theater}/> 
                   ))
                 ) : (
                   <h1>no shows available</h1>

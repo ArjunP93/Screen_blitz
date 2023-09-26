@@ -16,6 +16,7 @@ function ScreenList(props) {
 const screenDetails =useSelector((store)=>store.theater.allScreenList)
  const theaterInfo = useSelector((store)=>store.theater.theaterRedux)
   useEffect(()=>{
+    console.log('theaterInfo',theaterInfo.theaterId)
     async function fetchScreenDetails(dataId){
       const response = await fetchScreens(dataId)
       console.log('screenliar',response)

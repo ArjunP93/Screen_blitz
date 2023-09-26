@@ -10,7 +10,7 @@ function TheaterMapComponent(props) {
                       
                       {props.theater?.screen?.length > 0
                         ? props.theater?.screen?.map((screen) => (
-                          <ScreenMapComponent screen={screen}/>  
+                          <ScreenMapComponent  theater={props.theater.theaterName} screen={screen}/>  
                           ))
                         : null}
                     </div>

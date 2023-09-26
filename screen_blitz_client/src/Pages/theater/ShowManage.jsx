@@ -14,11 +14,14 @@ function ShowManage(props) {
 
   const [isLoading, setIsLoading] = useState(true);
 const screenDetails =useSelector((store)=>store.theater.allScreenList)
+console.log('screenDetails',screenDetails)
 const movieDetails = useSelector((store)=>store.theater.allMovieList)
- const theaterInfo = useSelector((store)=>store.theater.theaterData)
+console.log('movieDetails',movieDetails)
+ const theaterInfo = useSelector((store)=>store.theater.theaterRedux)
   useEffect(()=>{
     
     async function fetchData () {
+      console.log('theaterInfo',theaterInfo)
         const screenResData = await fetchScreens(theaterInfo.theaterId);
         const movieResData = await fetchMovies(theaterInfo.theaterId);
          console.log('screenResData',screenResData)

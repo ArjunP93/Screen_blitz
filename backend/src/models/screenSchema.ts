@@ -14,7 +14,8 @@ const screenSchema = new Schema({
     movieId:{ type: Schema.Types.ObjectId, ref: 'Movie' }, 
     movieName:{type:String},
     theaterId:{ type: Schema.Types.ObjectId, ref: 'Theater' },
-    theaterName:{type:String}
+    theaterName:{type:String},
+    ticketRate:{type:Number}
 
 
 

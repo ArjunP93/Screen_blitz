@@ -35,15 +35,18 @@ export function AddScreenForm(props) {
       show4: "00:00",
       show5: "00:00",
       show6: "00:00",
+      ticketRate:0
     },
     validationSchema: Yup.object({
       screenName: Yup.string()
 
-        .max(25, "Must be 25 characters or less")
-        .required("Required"),
-      Rows: Yup.number().required("Required"),
+      .matches(/^[^\s].*[^\s]$/, 'Cannot start or end with spaces')
+      .max(25, 'Must be 25 characters or less')
+      .required('Required'),
+      Rows: Yup.number().moreThan(0, 'Rows must be a positive, nonzero number')
+      .max(27, 'Rows cannot exceed 27').required('Required'),
       Columns:
-        Yup.number()
+        Yup.number().positive('Columns rate must be a positive, nonzero number')
         .required("Required"),
 
       show1: Yup.string()
@@ -82,6 +85,8 @@ export function AddScreenForm(props) {
           "Invalid time format (HH:MM)"
         )
         .required("Required"),
+        ticketRate:Yup.number().positive('Ticket rate must be a positive, nonzero number')
+        .required('Required')
     }),
 
     onSubmit: async (values) => {
@@ -92,10 +97,13 @@ export function AddScreenForm(props) {
 
      
 
-      console.log(" page ", response);
+      console.log(" page daaaaaaaaaaaaaaaa ", response);
       if (response?.status === "success") {
+        const dCopyScreenListForUpdation = JSON.stringify(screenListForUpdation)
+        const dCpyResult = JSON.parse(dCopyScreenListForUpdation)
+
         const updatedScrnList = [
-          ...screenListForUpdation,
+          ...dCpyResult,
           response?.addedScreenObj,
         ];
         dispatch(setAllScreenlist(updatedScrnList));
@@ -175,7 +183,22 @@ export function AddScreenForm(props) {
                   : null}
               </p>
             </div>
+            <div className="w-80">
+              <Typography color="black">Ticket Price</Typography>
+              <Input
+                color="teal"
+                label="enter the ticket price"
+                type="number"
+                {...formik.getFieldProps("ticketRate")}
+              />
+              <p className=" text-xs ml-2 text-red-800">
+                {formik.touched.ticketRate && formik.errors.ticketRate
+                  ? formik.errors.ticketRate
+                  : null}
+              </p>
+            </div>
           </div>
+
           <div className="grid grid-cols-3 ">
             <div className="w-20">
               <Typography color="black">show 1</Typography>

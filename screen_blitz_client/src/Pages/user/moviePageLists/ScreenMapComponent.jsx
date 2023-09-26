@@ -7,7 +7,7 @@ function ScreenMapComponent(props) {
       <h1 className="font-semibold text-sm">{props.screen.screenName}</h1>
       {props?.screen?.shows?.length > 0
         ? props?.screen?.shows?.map((time, index) => (
-           <ShowMapComponent time={time} index={index}/>
+           <ShowMapComponent screenObj={props.screen} screen={props.screen.screenName} theater={props.theater} time={time} index={index}/>
           ))
         : null}
     </div>
