@@ -45,9 +45,9 @@ const addScreen = async (values) => {
     console.log("theater Api error", error);
   }
 };
-const deleteMovie = async (id) => {
+const deleteMovie = async (data) => {
   try {
-    const response = await theater_baseURL.delete(`theater/deletemovie/${id}`);
+    const response = await theater_baseURL.delete(`theater/deletemovie/${data.moviId}/${data.theater}`);
     return response?.data;
   } catch (error) {
     console.log("theater Api error", error);
@@ -89,6 +89,21 @@ const movieScreenAllocate =async (values)=>{
 
   }
 }
+const addProfilePic = async (theaterId,fileData) => {
+  try {
+  
+    const formData = new FormData();
+    formData.append('theaterProfileImage',fileData); // 'profileImage' should match your server's expected field name for the file
+    formData.append('theater', theaterId);
+
+    const response = await theater_baseURL.post("theater/addprofilepic",formData,{headers:{'Content-Type':'multipart/form-data'}});
+    return response?.data;
+  } catch (error) {
+    console.log("theater Api error at add profile pic", error);
+  }
+}
+
+
 
 export {
   theaterSignup,
@@ -99,5 +114,6 @@ export {
   deleteMovie,
   addScreen,
   deleteScreen,
-  movieScreenAllocate
+  movieScreenAllocate,
+  addProfilePic
 };

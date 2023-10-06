@@ -85,7 +85,7 @@ export function MovieListTable(props) {
 
                   return (
                     <MovieListMap
-                      key={_id}
+                    key={index}
                       classes={classes}
                       id={_id}
                       movieName={movieName}

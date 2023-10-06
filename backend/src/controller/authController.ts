@@ -12,6 +12,55 @@ const adminCredentials = {
 };
 
 const authController = {
+  findUser: async (req:Request,res:Response)=>{
+    try {
+      const userinfo = req.params.id
+      const mobile = parseInt(userinfo)
+      const userData = await User.findOne({mobile:mobile})
+      if (userData) {
+        
+        res.json({status:true,user:userData})
+      }else{
+        res.json({status:false,message:'user not found'})
+
+      }
+    } catch (error) {
+console.log('error at auth controller finduser',error)
+res.json({status:false,message:'invalid user'})
+
+
+    }
+
+  },
+  userOtpLogin: async (req: Request, res: Response) => {
+    try {
+      const userId = req.body.id;
+      //find user in db
+      const userFile = await User.findOne({ _id:userId });
+
+      if (userFile) {
+        if (userFile.blockedStatus) {
+                return res.json({
+                  userBlocked: true,
+                  message: "OOPS!! you are blocked by admin",
+                });
+              } else {
+                //generate jwt and send to client
+                const user_id = userFile._id.toString();
+                const jwt = generateJWT(user_id,"user");
+
+                res.json({
+                  user: userFile,
+                  created: true,
+                  token: jwt,
+                  status: "success",
+                });
+              }
+      }
+    } catch (error) {
+      res.json({ error, loginStatus: false, message: "login failed" });
+    }
+  },
   userLogin: async (req: Request, res: Response) => {
     try {
       const { email, password }: { email: string; password: string } = req.body;
@@ -59,15 +108,17 @@ const authController = {
     }
   },
 
+
   UserSignup: async (req: Request, res: Response) => {
     try {
       const {
         email,
         name,
         password,
-        mobile,
-      }: { email: string; name: string; password: string; mobile: number } =
+    
+      }: { email: string; name: string; password: string;} =
         req.body;
+        const mobile=parseInt(req.body.mobile)
 
       let hashedPassword: string = await bcrypt.hash(password, 10);
       // check for existing user
@@ -82,7 +133,7 @@ const authController = {
         email,
         name,
         password: hashedPassword,
-        mobile,
+        mobile:mobile
       });
       const returnData = await newUserData.save();
 
@@ -164,6 +215,8 @@ const authController = {
       // check for existing theater
       const existingTheater = await Theater.findOne({ email: email });
 
+      
+
       if (existingTheater) {
         return res.json({ userExist: true, message: "Theater already exists" });
       }
@@ -171,7 +224,7 @@ const authController = {
       // Creating a new theaterprofile
       const newTheaterData = new Theater({
         email,
-        theatername: name,
+        theaterName: name,
         password: hashedPassword,
         mobile,
       });

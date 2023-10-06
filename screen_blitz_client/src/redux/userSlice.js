@@ -17,6 +17,14 @@ const checkLocation = () => {
     return "";
   }
 };
+const checkStripe = () => {
+  const stripePaymentId = localStorage.getItem("stripeId");
+  if (stripePaymentId) {
+    return stripePaymentId;
+  } else {
+    return "";
+  }
+};
 const checkOperations = () => {
   const operations = localStorage.getItem("userOperationsData");
   if (operations) {
@@ -32,9 +40,9 @@ const checkOperations = () => {
       screenRows: "",
       screenCols: "",
       movieName: "",
-      ticketPrice:0,
-     
-
+      ticketPrice: 0,
+      selectedSeats: [],
+      ticketCount: 0,
     };
   }
 };
@@ -45,11 +53,11 @@ const initialState = {
   locationData: [],
   choosenLocation: checkLocation(),
   choosenShowDate: "",
-  userSelectedSeats:[],
-  userSeatCount:0,
-  totalAmount:0
-
-
+  userSelectedSeats: [],
+  userSeatCount: 0,
+  totalAmount: 0,
+  stripePaymentURL:'',
+  stripeId:checkStripe()
 };
 
 const userSlice = createSlice({
@@ -63,7 +71,6 @@ const userSlice = createSlice({
       state.movieData = action.payload;
     },
     setuserOperationsData: (state, action) => {
-      console.log('inside redux',action.payload);
       state.userOperationsData = action.payload;
     },
     setLocationData: (state, action) => {
@@ -75,21 +82,27 @@ const userSlice = createSlice({
     setChoosenShowDate: (state, action) => {
       state.choosenShowDate = action.payload;
     },
-    setUserSelectedSeats:(state,action)=>{
-      state.userSelectedSeats = action.payload
+    setUserSelectedSeats: (state, action) => {
+      state.userSelectedSeats = action.payload;
     },
-    setUserSeatCount:(state,action)=>{
-      state.userSeatCount = state.userSeatCount+action.payload
+    setUserSeatCount: (state, action) => {
+      state.userSeatCount = state.userSeatCount + action.payload;
     },
-    setTotalAmount:(state,action)=>{
-      state.totalAmount = action.payload
+    setTotalAmount: (state, action) => {
+      state.totalAmount = action.payload;
+    },
+    setsStripePaymentURL: (state, action) => {
+      state.totalAmount = action.payload;
+    },
+    setStripeId: (state, action) => {
+      state.totalAmount = action.payload;
     },
     logOut: (state) => {
       state.userRedux = {
         userToken: "",
         userId: "",
       };
-      state.userSelectedSeats =[]
+      state.userSelectedSeats = [];
       state.choosenLocation = "";
       state.userOperationsData = {
         movieId: "",
@@ -101,7 +114,9 @@ const userSlice = createSlice({
         screenRows: "",
         screenCols: "",
         movieName: "",
-        ticketPrice:0,
+        ticketPrice: 0,
+        selectedSeats: [],
+        ticketCount: 0,
       };
     },
   },
@@ -115,6 +130,10 @@ export const {
   setLocationData,
   setuserOperationsData,
   setChoosenShowDate,
-  setUserSelectedSeats,setUserSeatCount,setTotalAmount
+  setUserSelectedSeats,
+  setUserSeatCount,
+  setTotalAmount,
+  setsStripePaymentURL,
+  setStripeId
 } = userSlice.actions;
 export default userSlice.reducer;

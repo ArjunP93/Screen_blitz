@@ -36,7 +36,8 @@ import {
     validationSchema : Yup.object({
       name: Yup.string().matches(/^(?! )(?=.*[A-Za-z])[A-Za-z\s]*[A-Za-z](?<! )$/, 'Only alphabets and spaces are allowed').max(15, 'Must be 15 characters or less')
       .required('Required'),
-      mobile:Yup.number().min(1).max(10).required('Required'),
+      mobile:Yup.string().matches(/^[0-9]{10}$/,'Mobile number must be exactly 10 digits and contain only numbers from 0 to 9')
+      .required('Mobile number is required'),
       email: Yup.string()
           .email('Invalid email address')
           .required('Required'),
@@ -68,6 +69,32 @@ import {
 
         navigate(props.locateLogin)
       }
+      else if(!response.created){
+        toast.error(`something went wrong!!!${response.error._message}  !!`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
+
+      }
+      else if(response.userExist){
+        toast.error(`already exists!!!`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
+
+      }
     },
 
     
@@ -95,7 +122,7 @@ import {
              {...formik.getFieldProps('email')}/>
              <p className="text-xs ml-2 text-red-800">{formik.touched.email && formik.errors.email ?
                         formik.errors.email : null}</p>
-            <Input size="lg" label="mobile" type='number'
+            <Input size="lg" label="mobile" type='string'
             {...formik.getFieldProps('mobile')}/>
             <p className="text-xs ml-2 text-red-800">{formik.touched.mobile && formik.errors.mobile ?
                         formik.errors.mobile : null}</p>
@@ -108,7 +135,7 @@ import {
             <p className="text-xs ml-2 text-red-800">{formik.touched.retypePassword && formik.errors.retypePassword ?
                         formik.errors.retypePassword : null}</p>
           </div>
-          <Checkbox
+          {/* <Checkbox
             label={
               <Typography
                 variant="small"
@@ -125,7 +152,7 @@ import {
               </Typography>
             }
             containerProps={{ className: "-ml-2.5" }}
-          />
+          /> */}
           <Button type='submit' color='deep-purple' className="mt-6" fullWidth>
             Register
           </Button>

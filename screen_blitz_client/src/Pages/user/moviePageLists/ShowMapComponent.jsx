@@ -15,6 +15,7 @@ function ShowMapComponent(props) {
   const showDate = useSelector((store) => store.user.choosenShowDate);
   async function showTimeClickHandle(time) {
     const data = JSON.parse(localStorage.getItem("userOperationsData"));
+    data.theaterId=props.theaterId
     data.showDate = showDate;
     data.selectedTheater = props.theater;
     data.selectedScreen = props.screen;

@@ -21,7 +21,7 @@ const userSchema = new Schema (
             minlength:6
         },
         profilePic:{
-            type:Array
+            type:[]
         },
         blockedStatus:{
             type:Boolean,
@@ -29,7 +29,8 @@ const userSchema = new Schema (
         },
         mobile:{
             type:Number
-        }
+        },
+        city:{type:String}
 
     }
 

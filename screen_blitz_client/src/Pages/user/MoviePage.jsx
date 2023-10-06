@@ -22,12 +22,11 @@ function MoviePage() {
   );
 
 
-
   const dispatch = useDispatch();
 
 
   function showDateClickHandle (date){
-   dispatch(setChoosenShowDate(date.format('YYYY-MM-DDTHH:mm:ss.SSSZ')))
+   dispatch(setChoosenShowDate(date.format('YYYY-MM-DD')))
   }
 
   //to get and update date and time
@@ -75,7 +74,7 @@ function MoviePage() {
   return (
     <div className="w-full h-full bg-blue-gray-200 overflow-y-auto ">
       <div className="">
-        <HomeNavbar />
+        <HomeNavbar user={true} />
       </div>
 
       <div
@@ -103,7 +102,7 @@ function MoviePage() {
         </div>
       </div>
       <div className=" bg-blue-gray-200 w-screen">
-        <div>
+        
           <div className="w-1/2 mx-2 my-3 px-2 py-2 bg-white rounded-lg">
             <ButtonGroup color="deep-purple" size="lg">
               {nextDays.length > 0
@@ -113,7 +112,7 @@ function MoviePage() {
                 : null}
             </ButtonGroup>
           </div>
-        </div>
+        
       </div>
       <div className="w-screen my-3 bg-blue-gray-200">
         <div className="w-3/4 rounded-lg mx-auto ">
@@ -126,8 +125,8 @@ function MoviePage() {
                 {/* mapcomponent */}
 
                 {theaterShowResults?.length > 0 ? (
-                  theaterShowResults?.map((theater) => (
-                   <TheaterMapComponent  theater={theater}/> 
+                  theaterShowResults?.map((theater,index) => (
+                   <TheaterMapComponent key={index} theater={theater}/> 
                   ))
                 ) : (
                   <h1>no shows available</h1>

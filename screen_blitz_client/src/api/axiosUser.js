@@ -1,4 +1,6 @@
 import axios from "axios";
+import userResponseInterceptor from "./resInterceptors/userResInterceptor";
+
 
 const BaseUrl = "http://localhost:4000/api/";
 
@@ -6,7 +8,7 @@ const user_baseURL = axios.create({
   baseURL: BaseUrl,
 });
 
-
+//user req interceptor
 user_baseURL.interceptors.request.use(
   (config) => {
     const RawtokenData = localStorage.getItem("userData");
@@ -25,5 +27,19 @@ user_baseURL.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+console.log('response jjjjjjjjjjkjkjkjkjkjkjk interceptor')
+
+//user response interceptor
+
+userResponseInterceptor(user_baseURL)
+
+
+
+
+
+
+
+
 
 export default user_baseURL;

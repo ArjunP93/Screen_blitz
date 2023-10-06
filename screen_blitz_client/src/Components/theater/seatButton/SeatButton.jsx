@@ -6,7 +6,6 @@ function SeatButton(props) {
   const [isClicked, setIsClicked] = useState(false);
 
   function seatSelectHandle(selSeatId) {
-    console.log("seatObj", selSeatId);
 
     setIsClicked(!isClicked);
     if (!isClicked) {

@@ -17,6 +17,9 @@ export function SignInForm(props) {
 
 
 
+
+
+
   const handleGlogin =async()=>{
     signInWithPopup(auth,googleProvider).then(async(data)=>{
       console.log(data,'datta from firebse')
@@ -181,6 +184,20 @@ export function SignInForm(props) {
             </a>
           </Typography>
         </form>
+        {props.otp===true?
+       (<div className="m-3 mx-auto">
+       <Button
+        onClick={()=>navigate('/user/otplogin')}
+        size="sm"
+        variant="outlined"
+        
+        color="deep-purple"
+        className=""
+      >
+        OTP Login
+      </Button></div>): null
+      
+}
        {props.google==="true"?<Button
         onClick={handleGlogin}
         size="sm"
@@ -192,6 +209,7 @@ export function SignInForm(props) {
         Continue with Google
       </Button>: null
 }
+       
       </Card>
     </div>
   );

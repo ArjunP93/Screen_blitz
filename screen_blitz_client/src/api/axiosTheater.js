@@ -1,4 +1,5 @@
 import axios from "axios";
+import theaterResponseInterceptor from "./resInterceptors/theaterResInterceptor";
 
 const BaseUrl = "http://localhost:4000/api/";
 
@@ -25,5 +26,12 @@ theater_baseURL.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+
+
+theaterResponseInterceptor(theater_baseURL)
+
+
+
 
 export default theater_baseURL;

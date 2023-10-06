@@ -24,11 +24,15 @@ export function MovieTMDBCard(props) {
   const navigate = useNavigate();
 
   const theaterInfo = useSelector((store)=>store.theater.theaterData) 
+  console.log('theter info in tmdb movie card ',theaterInfo)
 
 
   const addMovieData = props.data;
   addMovieData.theaterId = theaterInfo.theaterId
   addMovieData.theaterName= theaterInfo.theaterName
+
+  console.log('add movie in tmdb movie card ',addMovieData)
+
 
 
   async function handleAddMovie(MovieData) {

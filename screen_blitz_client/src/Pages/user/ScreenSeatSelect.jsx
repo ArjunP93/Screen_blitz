@@ -3,11 +3,20 @@ import { UserFooter } from "../../Components/footer/UserFooter";
 import { HomeNavbar } from "../../Components/user/navbar/HomeNavbar";
 import { Button } from "@material-tailwind/react";
 import SeatColumn from "../../Components/user/seatAllocation/SeatColumn";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
+// import { bookingData } from "../../api/userApi";
+import { setuserOperationsData } from "../../redux/userSlice";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { getBookedSeats } from "../../api/userApi";
+
 
 function ScreenSeatSelect() {
-  const [totalAmount, setTotalAmount] = useState(0);
+  const dispatch = useDispatch()
+  const navigate=useNavigate()
+  const [bookedseats,setBookedseats] = useState([])
+
   const operationsDataUser = useSelector(
     (store) => store.user.userOperationsData
   );
@@ -15,6 +24,27 @@ function ScreenSeatSelect() {
     (store) => store.user.userSelectedSeats
   );
   const tickets = useSelector((store) => store.user.userSeatCount);
+
+  useEffect(()=>{
+    async function fetchBookedSeats(){
+      const data = {
+        date:operationsDataUser.showDate,
+        show:operationsDataUser.selectedShow,
+        theater:operationsDataUser.selectedTheater,
+        screen:operationsDataUser.screenId,
+        movie:operationsDataUser.movieId
+      }
+      const response = await getBookedSeats(data)
+      return response
+
+    }
+    fetchBookedSeats().then((data)=>{
+      setBookedseats(data?.bookedSeats)
+    })
+
+  },[])
+
+ 
 
   const formattedPricePerTicket = operationsDataUser.ticketPrice.toLocaleString(
     "en-IN",
@@ -24,12 +54,11 @@ function ScreenSeatSelect() {
     }
   );
   const rowCount = operationsDataUser.screenRows;
-  console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx", operationsDataUser);
 
   const rowArray = Array.from({ length: rowCount }, (_, index) => index); //array place holder row objects for maping
   const seatNameArr = Array.from({ length: rowCount }, (_, index) => index); //array to print the alphabets for rows
 
-  const bookedArray = [{ rowNo: 1, colNo: 2 }];
+
   // function for creating seat columns
   const seatColumnArray = [];
 
@@ -41,14 +70,49 @@ function ScreenSeatSelect() {
   }
   seatArrange(operationsDataUser.screenCols);
 
-  const bookingSubmitHandle = ()=>{
+  const bookingSubmitHandle = async()=>{
+    if(tickets>0){
+
+    const bookingDetails = {
+      ...operationsDataUser,
+      selectedSeats:selectedSeatsUser,
+      ticketCount:tickets
+
+
+    }
+    console.log('bookingDetails',bookingDetails);
+    localStorage.setItem('userOperationsData',JSON.stringify(bookingDetails))
+    dispatch(setuserOperationsData(bookingDetails))
+
+    navigate('/payment')
+
     
+    
+    // const bookResponse = await bookingData(bookingDetails)
+    // console.log('book responseeee',bookResponse)
+
+
+
+  }else{
+    toast.error(`please select seats to continue`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+
+
   }
 
   return (
     <div className="w-100 h-full bg-blue-gray-500">
       <div>
-        <HomeNavbar />
+        <HomeNavbar user={true} />
       </div>
 
       <div className="h-40 bg-gray-300 ">
@@ -105,7 +169,7 @@ function ScreenSeatSelect() {
                         key={rowIndex}
                         rowNo={rowIndex + 1}
                         seatColumnArray={seatColumnArray}
-                        bookedArray={bookedArray}
+                        bookedArray={bookedseats}
                       />
                     ))
                   : null}
@@ -143,7 +207,7 @@ function ScreenSeatSelect() {
               </div>
             </div>
             <div className="w-1/2 my-auto mx-10">
-              <Button color="deep-purple" size="lg">
+              <Button color="deep-purple" onClick={bookingSubmitHandle} size="lg">
                 Book Now
               </Button>
             </div>

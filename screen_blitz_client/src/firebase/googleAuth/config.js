@@ -20,6 +20,17 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+
+//google auth
 const googleProvider = new GoogleAuthProvider()
+
+
+
+//otp login
+
+
+
+
+
 
 export {auth,googleProvider}

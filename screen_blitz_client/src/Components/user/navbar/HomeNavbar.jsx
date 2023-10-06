@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut, setMovieData,setChoosenLocation, setLocationData } from "../../../redux/userSlice";
 
@@ -16,12 +16,20 @@ import {
   Input,
   Select,Option
 } from "@material-tailwind/react";
+import { guestMovieSearch } from "../../../api/guestApi";
+import { setGuestMovieSearch } from "../../../redux/guestSlice";
 
-export function HomeNavbar() {
+export function HomeNavbar(props) {
+  const location = useLocation()
+  
   const [openNav, setOpenNav] = React.useState(false);
   const [seachText, setSearchText] = useState("");
   const availableLoc = useSelector((store)=>store.user.locationData) 
   const defaultloc = useSelector((store)=>store.user.choosenLocation)
+  
+
+  
+
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -38,18 +46,28 @@ export function HomeNavbar() {
       return response
 
     }
-    locationFetch().then((data)=>{
-    
-      dispatch(setLocationData(data.locData))
-    })
+    if(props?.user){
+
+      locationFetch().then((data)=>{
+      
+        dispatch(setLocationData(data.locData))
+      }) 
+    }
   },[])
 
-  const handleMovieSearch = async () => {
+  const userHandleMovieSearch = async () => {
     const response = await movieSearch({ searchKey: seachText });
-    console.log("search results navbar", response);
     if (response.status === "success") {
       dispatch(setMovieData(response.results));
       navigate('/userhome')
+    }
+  };
+  const guestHandleMovieSearch = async () => {
+    const response = await guestMovieSearch({ searchKey: seachText });
+    console.log("search results guest navbar", response);
+    if (response.status === "success") {
+      dispatch(setGuestMovieSearch(response.results));
+    
     }
   };
   async function locationSelectClickHandle(locName) {
@@ -59,10 +77,17 @@ export function HomeNavbar() {
 
   const signOut = () => {
     localStorage.removeItem("userData");
+    localStorage.removeItem('userOperationsData')
+    localStorage.removeItem('stripeId')
+    localStorage.removeItem('location')
     dispatch(logOut());
     toast.success("Signout success");
     navigate("/user");
   };
+
+  const signIn =()=>{
+    navigate('/user')
+  }
 
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -83,7 +108,7 @@ export function HomeNavbar() {
           }}
         />
         <Button
-          onClick={handleMovieSearch}
+          onClick={props?.user ? userHandleMovieSearch:guestHandleMovieSearch}
           size="sm"
           color="deep-purple"
           className="!absolute right-1 top-1 rounded"
@@ -91,7 +116,9 @@ export function HomeNavbar() {
           Search
         </Button>
       </div>
-      <div className="">
+
+      {(location.pathname === "/userhome" ||location.pathname === "/user") && (
+        <div className="">
         <Select
         color="orange"
           label="choose location"
@@ -101,25 +128,30 @@ export function HomeNavbar() {
             unmount: { y: 25 },
           }}
         >
-          {availableLoc.length>0?(availableLoc.map((obj) => (
+          {availableLoc?.length ? (availableLoc.map((obj) => (
             <Option
               key={obj._id}
               onClick={() => locationSelectClickHandle(obj.location)}
             >
-              {obj.location}
+              {obj?.location}
             </Option>
-          ))):null}
+          ))):<p>no locattions</p>}
         </Select>
       </div>
+      ) }
+      
       <Typography
         as="li"
         variant="small"
         color="white"
         className="p-1 font-normal"
       >
-        <a href="#" className="flex items-center">
-          Account
-        </a>
+        {/* <a href="#" className="flex items-center">
+          
+        </a> */}
+        <button className="flex items-center" onClick={()=>navigate('/profile')}>
+        Account
+        </button>
       </Typography>
       {/* <Typography
         as="li"
@@ -131,7 +163,7 @@ export function HomeNavbar() {
           Blocks
         </a>
       </Typography> */}
-      <Typography
+      {props.user===true ? (<Typography
         as="li"
         variant="small"
         color="white"
@@ -140,7 +172,19 @@ export function HomeNavbar() {
         <button onClick={signOut} className="flex items-center">
           logout
         </button>
-      </Typography>
+      </Typography>)
+      :
+      (<Typography
+        as="li"
+        variant="small"
+        color="white"
+        className="p-1 font-normal"
+      >
+        <button onClick={signIn} className="flex items-center">
+          login/signup
+        </button>
+      </Typography>)
+      }
     </ul>
   );
 
@@ -162,6 +206,7 @@ export function HomeNavbar() {
               size="sm"
               className="hidden lg:inline-block"
               color="deep-purple"
+              onClick={()=>navigate('/userhome')}
             >
               <span>Book Now</span>
             </Button>

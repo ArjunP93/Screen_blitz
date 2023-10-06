@@ -10,7 +10,7 @@ const bookingSchema = new Schema({
      type: Schema.Types.ObjectId, ref: 'User'
     
       },
-      Email: {
+      email: {
         type: String,
     
       },
@@ -22,6 +22,8 @@ const bookingSchema = new Schema({
         type: String,
     
       },
+      showTime:{type:String},
+
       bookedDate: {
         type: Date,
     
@@ -29,6 +31,9 @@ const bookingSchema = new Schema({
       paymentId: {
         type: String,
     
+      },
+      paymentStatus:{
+
       },
       movieName: {
         type: String,
@@ -42,12 +47,16 @@ const bookingSchema = new Schema({
         type: String,
     
       },
+      screenId: {
+        type: Schema.Types.ObjectId, ref: 'Screen'
+    
+      },
       startAt: {
         type: String,
         trim: true,
       },
-      bookedseats: {
-        type: [{}],
+      bookedSeats: {
+        type: [],
     
       },
       theaterName: {

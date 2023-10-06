@@ -9,8 +9,8 @@ function TheaterMapComponent(props) {
                       </h1>
                       
                       {props.theater?.screen?.length > 0
-                        ? props.theater?.screen?.map((screen) => (
-                          <ScreenMapComponent  theater={props.theater.theaterName} screen={screen}/>  
+                        ? props.theater.screen.map((screen,index) => (
+                          <ScreenMapComponent key={index} theater={props.theater.theaterName} theaterId={props.theater._id} screen={screen}/>  
                           ))
                         : null}
                     </div>

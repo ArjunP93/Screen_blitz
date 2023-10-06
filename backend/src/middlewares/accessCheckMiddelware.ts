@@ -10,6 +10,7 @@ const accessCheckMiddelware ={
   userBlockCheck:async (req: Request, res: Response, next: NextFunction) => {
     try {
       
+      
 
       let token: string | null = null;
       if (
@@ -20,17 +21,17 @@ const accessCheckMiddelware ={
       }
 
       const response = verifyJWT(token as string) as JwtPayload;
-      console.log("responsessssss", response);
+    
       const id = response?.unique_id
       //check for blocked status
 
       const userStatus = await userHelper.blockedStatusUser(id)
 
 
-      if (response && userStatus) {
+      if (response && !userStatus) {
         next();
       } else {
-        res.json({ message: "access denied!! you are blocked by admin",status:'blocked' });
+        res.json({isBlocked:true, message: "access denied!! you are blocked by admin",status:'blocked' });
       }
       //   }
     } catch (error) {
@@ -52,17 +53,19 @@ const accessCheckMiddelware ={
       }
 
       const response = verifyJWT(token as string) as JwtPayload;
-      console.log("responsessssss", response);
+  
       const id = response?.unique_id
       //check for blocked status
 
       const theaterStatus = await theaterHelper.blockedStatusTheater(id)
+      console.log('tesrt  theater',theaterStatus)
 
 
-      if (response && theaterStatus) {
+      if (response && !theaterStatus) {
         next();
       } else {
-        res.json({ message: "access denied!! you are blocked by admin",status:'blocked' });
+        console.log('tesrt blocked true theater')
+        res.json({isBlocked:true, message: "access denied!! you are blocked by admin",status:'blocked' });
       }
       //   }
     } catch (error) {

@@ -15,6 +15,7 @@ function MovieList(props) {
   const [isLoading, setIsLoading] = useState(true);
   const theaterId = useSelector((store)=>store.theater.theaterRedux.theaterId)
 console.log('theaterId',theaterId)
+console.log('movieDetails',movieDetails)
   useEffect(()=>{
     
 

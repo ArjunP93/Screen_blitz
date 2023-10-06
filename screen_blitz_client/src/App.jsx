@@ -22,18 +22,27 @@ import ShowManage from "./Pages/theater/ShowManage";
 import MoviePage from "./Pages/user/MoviePage";
 import Location from "./Pages/admin/Location";
 import ScreenSeatSelect from "./Pages/user/ScreenSeatSelect";
+import PaymentPage from "./Pages/user/PaymentPage";
+import PaymentSuccess from "./Pages/user/PaymentSuccess";
+import PaymentFailed from "./Pages/user/PaymentFailed";
+import GuestHome from "./Pages/guest/GuestHome";
+import { OtpLogin } from "./Pages/user/OtpLogin";
+import Profile from "./Pages/user/Profile";
+import TheaterProfile from "./Pages/theater/TheaterProfile";
 
 function App() {
-  const userReduxToken = useSelector((state) => state.user.userRedux.userToken);
+  const userReduxToken = useSelector((state) => state.user?.userRedux?.userToken);
+  console.log('user',userReduxToken);
+
   const theaterReduxToken = useSelector(
-    (state) => state.theater.theaterRedux.theaterToken
+    (state) => state.theater?.theaterRedux?.theaterToken
   );
-  console.log('hghhhgh',theaterReduxToken);
+  console.log('theater',theaterReduxToken);
   const adminReduxToken = useSelector(
-    (state) => state.admin.adminRedux.adminToken
+    (state) => state.admin?.adminRedux?.adminToken
   );
 
-  const theaterReduxData = useSelector((state) => state.theater.theaterData);
+  const theaterReduxData = useSelector((state) => state.theater?.theaterData);
 
   const TheaterLocalStoreData = localStorage.getItem("theaterData");
   const tempData = JSON.parse(TheaterLocalStoreData);
@@ -45,6 +54,12 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route
+            path="/"
+            element={
+              <GuestHome/>
+            }
+          ></Route>
+          <Route
             path="/userhome"
             element={
               userReduxToken ? (
@@ -55,7 +70,29 @@ function App() {
                   heading="User Sign In"
                   locateHome="/userhome"
                   locateSignUp="/user/signup"
-                  google="true"
+                  google="true" otp={true}
+
+
+
+                />
+              )
+            }
+          ></Route>
+            <Route
+            path="/profile"
+            element={
+              userReduxToken ? (
+                <Profile/>
+              ) : (
+                <SignInForm
+                  onSubmit={logIn}
+                  heading="User Sign In"
+                  locateHome="/userhome"
+                  locateSignUp="/user/signup"
+                  google="true" otp={true}
+
+
+
                 />
               )
             }
@@ -71,7 +108,7 @@ function App() {
                   heading="User Sign In"
                   locateHome="/userhome"
                   locateSignUp="/user/signup"
-                  google="true"
+                  google="true" otp={true}
                 />
               )
             }
@@ -87,7 +124,55 @@ function App() {
                   heading="User Sign In"
                   locateHome="/userhome"
                   locateSignUp="/user/signup"
-                  google="true"
+                  google="true" otp={true}
+                />
+              )
+            }
+          ></Route>
+          <Route
+            path="/payment"
+            element={
+              userReduxToken ? (
+                <PaymentPage/>
+              ) : (
+                <SignInForm
+                  onSubmit={logIn}
+                  heading="User Sign In"
+                  locateHome="/userhome"
+                  locateSignUp="/user/signup"
+                  google="true" otp={true}
+                />
+              )
+            }
+          ></Route>
+          <Route
+            path="/stripe/payment/success"
+            element={
+              userReduxToken ? (
+              <PaymentSuccess/>
+              ) : (
+                <SignInForm
+                  onSubmit={logIn}
+                  heading="User Sign In"
+                  locateHome="/userhome"
+                  locateSignUp="/user/signup"
+                  google="true" otp={true}
+                />
+              )
+            }
+          ></Route>
+          <Route
+            path="/stripe/payment/cancel"
+            element={
+              userReduxToken ? (
+                <PaymentFailed/>
+              ) : (
+                <SignInForm
+                  onSubmit={logIn}
+                  heading="User Sign In"
+                  locateHome="/userhome"
+                  locateSignUp="/user/signup"
+                  google="true" otp={true}
                 />
               )
             }
@@ -104,11 +189,18 @@ function App() {
                   heading="User Sign In"
                   locateHome="/userhome"
                   locateSignUp="/user/signup"
-                  google="true"
+                  google="true" otp={true}
                 />
               )
             }
           ></Route>
+          <Route
+            path="/user/otplogin"
+            element={
+                <OtpLogin/>
+            }
+          ></Route>
+
           <Route
             path="/user/signup"
             element={
@@ -159,6 +251,21 @@ function App() {
             element={
               theaterReduxToken ? (
                 <MovieList approval={theaterApproval}  />
+              ) : (
+                <SignInForm
+                  onSubmit={theaterLogIn}
+                  heading="Theater Sign In"
+                  locateHome="/theaterdash"
+                  locateSignUp="/theater/signup"
+                />
+              )
+            }
+          ></Route>
+          <Route
+            path="/theaterprofile"
+            element={
+              theaterReduxToken ? (
+                <TheaterProfile approval={theaterApproval}  />
               ) : (
                 <SignInForm
                   onSubmit={theaterLogIn}

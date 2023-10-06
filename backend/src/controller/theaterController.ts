@@ -134,10 +134,17 @@ const theaterController = {
   },
   deleteMovie: async (req: Request, res: Response) => {
     try {
-      const id = req.params?.id;
-      const response = await Movie.deleteOne({ _id: id });
+      const {moviId,theater} = req.params;
+      // console.log(' before screenResult')
+      // console.log('movieId',movieId)
+      // console.log('theater',theater)
+
+      const screenResult = await Screen.updateMany({ theaterId:theater, movieId:moviId  }, { $set: { movieName: '', movieId:null} });
+      // console.log('screenResult',screenResult)
+      const response = await Movie.deleteOne({ _id: moviId });
       res.json({ status: "success", message: "Movie removed successfully" });
     } catch (error) {
+      console.log(error)
       res.json({ status: "failed", message: "Could not remove movie", error });
     }
   },

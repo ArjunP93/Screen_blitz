@@ -79,7 +79,7 @@ function ScreenListMap(props) {
       <td className={props.classes}>
         <div className="flex flex-col">
 
-        { props.shows.length>0? (props.shows.map((data,index)=>
+        { props.shows?.length>0? (props.shows.map((data,index)=>
         (
           <div>
             <Typography variant="small" color="blue-gray" className=" uppercase font-normal">

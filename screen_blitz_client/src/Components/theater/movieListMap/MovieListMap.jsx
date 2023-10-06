@@ -7,23 +7,26 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { setAllMovielist } from "../../../redux/theaterSlice";
 import { AlertDialog } from "../../alertDialogue/AlertDialog";
+import moment from "moment"
 
 function MovieListMap(props) {
   const [deleteAlert, setDeleteAlert] = useState(false);
-
+  const theaterId = useSelector((store)=>store.theater.theaterRedux.theaterId)
   const dispatch = useDispatch();
 
   const movieList = useSelector((store) => store.theater.allMovieList);
 
   const handleDelete = async () => {
-    const updatedMovieList = movieList.filter((data) => {
-      return data._id != props.id;
-    });
-    dispatch(setAllMovielist(updatedMovieList));
+   
 
-    const response = await deleteMovie(props.id);
+    const response = await deleteMovie({moviId:props.id,theater:theaterId});
 
     if (response.status === "success") {
+      const updatedMovieList = movieList.filter((data) => {
+        return data._id != props.id;
+      });
+      dispatch(setAllMovielist(updatedMovieList));
+
       toast.success(`${response.message}`, {
         position: "top-right",
         autoClose: 5000,
@@ -49,7 +52,7 @@ function MovieListMap(props) {
     setDeleteAlert(!deleteAlert);
   };
   return (
-    <tr key={props.key}>
+    <tr key={props.id}>
       <td className={props.classes}>
       
           <div className="flex gap-6 items-center  ">
@@ -72,7 +75,7 @@ function MovieListMap(props) {
 
       <td className={props.classes}>
         <Typography variant="small" color="blue-gray" className="font-normal">
-          {props.releaseDate}
+          {moment(props.releaseDate).format("DD-MM-YYYY") }
         </Typography>
       </td>
       <td className={props.classes}>
@@ -90,7 +93,7 @@ function MovieListMap(props) {
           <IconButton variant="text">
             <TrashIcon
               onClick={() => setDeleteAlert(true)}
-              class="h-6 w-6 text-gray-800"
+              className="h-6 w-6 text-gray-800"
             />
 
             <AlertDialog

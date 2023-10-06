@@ -7,5 +7,8 @@ export const configKeys = {
     JWT_SECRET_KEY:process.env.JWT_SECRET_KEY as string,
     JWT_EXPIRATION:process.env.JWT_EXPIRATION as string
    // CLIENT_URL:process.env.JWT_SECRET_KEY as string
+
+
+   
 }
 

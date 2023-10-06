@@ -1,7 +1,7 @@
 import { Button } from "@material-tailwind/react";
 import React, { useState } from "react";
 import SeatButton from "../../theater/seatButton/SeatButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setUserSeatCount,
   setUserSelectedSeats,
@@ -9,16 +9,21 @@ import {
 
 function SeatColumn(props) {
   const dispatch = useDispatch();
-  const [selectedSeats, setSelectedSeats] = useState([]);
+  const selectedSeats= useSelector((store)=>store.user.userSelectedSeats)
+  // const [selectedSeats, setSelectedSeats] = useState([]);
   const [sCount, setScount] = useState(0);
-  console.log("selectedSeats", selectedSeats);
+  console.log('before selectedSeats',selectedSeats)
 
   // Function to add  seat to the selectedSeats array
   const handleSeatSelect = (seatId) => {
+
     setScount((prevState) => prevState + 1);
-    setSelectedSeats([...selectedSeats, seatId]);
+    // setSelectedSeats([...selectedSeats, seatId]);
     dispatch(setUserSelectedSeats([...selectedSeats, seatId]));
     dispatch(setUserSeatCount(+1));
+    console.log('selectedSeats after click',selectedSeats)
+
+
   };
 
   // Function to remove  seat from the selectedSeats array
@@ -28,7 +33,7 @@ function SeatColumn(props) {
     );
     setScount((prevState) => prevState - 1);
 
-    setSelectedSeats(newSeats);
+    // setSelectedSeats(newSeats);
 
     dispatch(setUserSelectedSeats(newSeats));
     dispatch(setUserSeatCount(-1));
@@ -47,6 +52,7 @@ function SeatColumn(props) {
                 seatId={seatId}
                 onSeatSelect={handleSeatSelect}
                 onSeatDeselect={handleSeatDeselect}
+                bookedArray={props.bookedArray}
               />
             );
           })

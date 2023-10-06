@@ -41,6 +41,9 @@ const theaterSchema = new Schema (
         },
         description:{
             type:String
+        },
+        profilePic:{
+            type:String
         }
 
 
