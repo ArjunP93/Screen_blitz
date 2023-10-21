@@ -40,6 +40,8 @@ const bookingSchema = new Schema({
     
         
       },
+      bookingStatus:{type:String, default:'confirmed'},
+      
       theaterId: {
         type: Schema.Types.ObjectId, ref: 'Theater'     
       },

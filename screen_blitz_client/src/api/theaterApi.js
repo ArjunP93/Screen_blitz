@@ -102,6 +102,34 @@ const addProfilePic = async (theaterId,fileData) => {
     console.log("theater Api error at add profile pic", error);
   }
 }
+const getTheaterProfileInfo = async (id) => {
+  try {
+ 
+
+    const response = await theater_baseURL.get(`theater/getprofile/${id}`);
+    return response?.data;
+  } catch (error) {
+    console.log("theater Api error at get profile info", error);
+  }
+}
+const editTheaterProfile = async (formData) => {
+  try {
+    const response = await theater_baseURL.post(`theater/edittheaterprofile`,formData);
+    return response?.data;
+  } catch (error) {
+    console.log("user Api error at theater edit profile ", error);
+  }
+}
+const getChartData = async (id)=>{
+  try {
+    const response = await theater_baseURL.get(`theater/getChart/${id}`);
+    return response?.data;
+    
+  } catch (error) {
+    console.log("user Api error at theater chart ", error);
+
+  }
+}
 
 
 
@@ -115,5 +143,6 @@ export {
   addScreen,
   deleteScreen,
   movieScreenAllocate,
-  addProfilePic
+  addProfilePic,
+  getTheaterProfileInfo,editTheaterProfile,getChartData
 };

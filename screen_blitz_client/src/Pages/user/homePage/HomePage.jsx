@@ -3,7 +3,7 @@ import { HomeNavbar } from "../../../Components/user/navbar/HomeNavbar";
 import { HomeCarosal } from "../../../Components/user/carosel/HomeCarosal";
 import { MovieCard } from "../../../Components/card/MovieCard";
 import { UserFooter } from "../../../Components/footer/UserFooter";
-import { moviesFetchUser, } from "../../../api/userApi";
+import { bannerFetchUser, moviesFetchUser, } from "../../../api/userApi";
 import { useDispatch,useSelector } from "react-redux";
 import { setMovieData,setuserOperationsData } from "../../../redux/userSlice";
 import { useNavigate } from "react-router-dom";
@@ -27,12 +27,15 @@ const selectedLocation = useSelector((store)=>store.user.choosenLocation)
       return movieResponse;
     }
     async function fetchAllBanners() {
-      // const bannerResponse = await
-      // return bannerResponse
+      const bannerResponse = await bannerFetchUser()
+      return bannerResponse
     }
+    fetchAllBanners().then((data)=>{
+      setBanners(data?.banners)
+    })
 
     fetchAllMovies().then((data) => {
-      dispatch(setMovieData(data.movieData));
+      dispatch(setMovieData(data?.movieData));
     });
   }, []);
 
@@ -67,7 +70,7 @@ const selectedLocation = useSelector((store)=>store.user.choosenLocation)
       </div>
 
       <div className="mt-16 h-96">
-        <HomeCarosal />
+        <HomeCarosal banners={banners}  />
       </div>
       {/* <div className='flex justify-center' > */}
       <div className=" px-5 py-5 ">

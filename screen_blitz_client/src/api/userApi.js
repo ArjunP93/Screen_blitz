@@ -66,6 +66,14 @@ const moviesFetchUser = async () => {
     console.log("user Api error", error);
   }
 };
+const bannerFetchUser = async () => {
+  try {
+    const response = await user_baseURL.get("user/bannerfetch");
+    return response?.data;
+  } catch (error) {
+    console.log("user Api banner fetch error", error);
+  }
+};
 
 const movieSearch = async (textData) => {
   try {
@@ -91,15 +99,7 @@ const moviePageData = async (values) => {
     console.log("user Api error", error);
   }
 };
-// const bookingData = async(values)=>{
-//   try {
-//     const response = await user_baseURL.post('user/booking',values)
-//     return response?.data
-//   } catch (error) {
-//     console.log("user Api error booking", error);
 
-//   }
-// }
 const movieInfoGet = async (id) => {
   try {
     const response = await user_baseURL.get(`user/movieinfo/${id}`);
@@ -168,6 +168,14 @@ const fetchUserBookings = async (id) => {
     console.log("user Api error at userbookings ", error);
   }
 }
+const cancelBooking = async (id) => {
+  try {
+    const response = await user_baseURL.get(`user/cancelbooking/${id}`);
+    return response?.data;
+  } catch (error) {
+    console.log("user Api error at cancel bookings ", error);
+  }
+}
 
 export {
   signUp,
@@ -177,6 +185,7 @@ export {
   userProfileDetails,
   googleLogIn,
   moviesFetchUser,
+  bannerFetchUser,
   movieSearch,
   getLocations,
   moviePageData,
@@ -186,5 +195,5 @@ export {
   PaymentStatusReturnCancel,
   getBookedSeats,
   fetchUserBookings,
-  addProfilePic,editUserProfile
+  addProfilePic,editUserProfile,cancelBooking,
 };

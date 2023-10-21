@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { fetchUserBookings } from "../../../api/userApi";
+import { cancelBooking, fetchUserBookings } from "../../../api/userApi";
 import { EllipsisHorizontalCircleIcon } from "@heroicons/react/24/outline";
 import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 import {
@@ -21,15 +21,17 @@ import {
   IconButton,
   Tooltip,
 } from "@material-tailwind/react";
+import moment from "moment";
+import { toast } from "react-toastify";
 
-const TABLE_HEAD = ["Movie", "Booked Date", "Booking Id", "Amount", ""];
 
-// const TABLE_HEAD = ["Movie", "Show Date", "Booking Id", "Amount"];
+const TABLE_HEAD = ["Movie", "Show Date", "Booking Id", "Amount", "", ""];
 
-export function TableInprofile() {
+export function TableInprofile(props) {
   const [bookings, setBookings] = useState([]);
   const [detailsDialog, setDetailsDialog] = useState(false);
   const [details, setDetails] = useState({});
+  const [cancel, setCancel] = useState(false);
   const userId = useSelector((store) => store.user.userRedux.userId);
   useEffect(() => {
     async function fetchBookings() {
@@ -40,18 +42,68 @@ export function TableInprofile() {
       setBookings(data?.bookings);
     });
   }, []);
+  console.log("bookings", bookings);
+  console.log("details", details);
 
   function handleDetails(id) {
     const result = bookings.filter((doc) => {
       return doc._id === id;
     });
 
+    //cheching dates for cancellation
+
+    const currentDate = moment().format("YYYY-MM-DD");
+    const showDate = result[0]?.showDate;
+    console.log("Current ",showDate);
+
+    if( (moment(currentDate).isBefore(showDate, "day"))&& result[0].bookingStatus === 'confirmed' ) {
+      setCancel(true);
+      console.log("Current date is before show date.");
+    }
+
     setDetails(result[0]);
     handleDetailsDialog();
   }
 
-  // console.log('details',details)
   const handleDetailsDialog = () => setDetailsDialog(!detailsDialog);
+
+
+
+  async function handleCancelButton (bookingId){
+    const response = await cancelBooking(bookingId)
+    if(response?.status==='success'){
+      props.setWallet(response?.updatedData?.wallet)
+
+      toast.success(` booking cancelled !! Amount will be credited to wallet`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });  
+        setCancel(false)
+        handleDetailsDialog()
+        
+      }else{
+        toast.error(` could't cancel booking !!`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          }); 
+          handleDetailsDialog()
+
+        }    
+    
+
+  }
 
   return (
     <Card className="h-full w-full">
@@ -135,6 +187,7 @@ export function TableInprofile() {
                         })}{" "}
                       </Typography>
                     </td>
+                    <td className={classes}></td>
 
                     <td className={classes}>
                       <Tooltip content="details">
@@ -180,6 +233,7 @@ export function TableInprofile() {
 
                     <tr className="p-4 text-lg">Seats</tr>
                     <tr className="p-4 text-lg">Booking Id</tr>
+                    <tr className="p-4 text-lg">Booking Status</tr>
                     <tr className="p-4 text-lg">Amount</tr>
                   </td>
                   <td className="p-2">
@@ -202,6 +256,7 @@ export function TableInprofile() {
                       {details?.bookedSeats?.toString()}
                     </tr>
                     <tr className="p-4 font-bold text-lg">{details?._id}</tr>
+                    <tr className="p-4 font-bold  text-lg">{details?.bookingStatus}</tr>
                     <tr className="p-4 font-bold text-lg">
                       {details?.totalAmount?.toLocaleString("en-IN", {
                         style: "currency",
@@ -212,7 +267,7 @@ export function TableInprofile() {
                 </table>
               </div>
             </div>
-            <div className="">
+            <div className="flex flex-row justify-end gap-3">
               <Button
                 className=""
                 color="deep-purple"
@@ -220,6 +275,7 @@ export function TableInprofile() {
               >
                 Back
               </Button>
+              {cancel  ? <Button color="red" onClick={()=>handleCancelButton(details?._id)}>cancel booking</Button> : null}
             </div>
           </DialogBody>
         </Dialog>

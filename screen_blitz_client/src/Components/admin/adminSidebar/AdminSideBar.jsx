@@ -10,57 +10,38 @@ import {
   Accordion,
   AccordionHeader,
   AccordionBody,
+  Dialog,
+  DialogBody,
+  DialogHeader,
 } from "@material-tailwind/react";
 import {
   PresentationChartBarIcon,
   ShoppingBagIcon,
   UserCircleIcon,
+  UsersIcon,
+  HomeModernIcon,
+  FilmIcon,
+  MapPinIcon,
+  PhotoIcon,
   Cog6ToothIcon,
   InboxIcon,
   PowerIcon,
 } from "@heroicons/react/24/solid";
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
- 
+import { BannerAddForm } from "../bannerAdd/BannerAddForm";
+
 export function AdminSideBar() {
   const [open, setOpen] = React.useState(0);
+  const [addBannerOpen, setAddBannerOpen] = React.useState(false);
 
-  const navigate = useNavigate()
- 
+  const navigate = useNavigate();
+  const handleBannerAddOpen = () => setAddBannerOpen(!addBannerOpen);
+
   const handleOpen = (value) => {
     setOpen(open === value ? 0 : value);
   };
 
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
- 
   return (
     <Card className=" bg-black rounded-none fixed h-[calc(100vh-2rem)] w-[20rem] max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
       {/* <div className="mb-2 p-4">
@@ -69,7 +50,18 @@ export function AdminSideBar() {
         </Typography>
       </div> */}
       <List>
-        <Accordion
+        <ListItem
+          className="text-white"
+          onClick={() => {
+            navigate("/admindash");
+          }}
+        >
+          <ListItemPrefix>
+            <PresentationChartBarIcon color="grey" className=" h-5 w-5" />
+          </ListItemPrefix>
+          Dashboard
+        </ListItem>
+        {/* <Accordion
           open={open === 1}
           icon={
             <ChevronDownIcon
@@ -110,20 +102,25 @@ export function AdminSideBar() {
               </ListItem>
             </List>
           </AccordionBody>
-        </Accordion>
+        </Accordion> */}
         <Accordion
           open={open === 2}
           icon={
             <ChevronDownIcon
               strokeWidth={2.5}
-              className={`mx-auto h-4 w-4 transition-transform ${open === 2 ? "rotate-180" : ""}`}
+              className={`mx-auto h-4 w-4 transition-transform ${
+                open === 2 ? "rotate-180" : ""
+              }`}
             />
           }
         >
           <ListItem className="p-0" selected={open === 2}>
-            <AccordionHeader onClick={() => handleOpen(2)} className="border-b-0 p-3">
+            <AccordionHeader
+              onClick={() => handleOpen(2)}
+              className="border-b-0 p-3"
+            >
               <ListItemPrefix>
-                <ShoppingBagIcon className="h-5 w-5" />
+                <UsersIcon color="grey" class="h-6 w-6" />
               </ListItemPrefix>
               <Typography color="white" className="mr-auto font-normal">
                 Users
@@ -132,7 +129,12 @@ export function AdminSideBar() {
           </ListItem>
           <AccordionBody className="py-1">
             <List className="p-0">
-              <ListItem onClick={()=>{navigate("/admin/userlist")}}>
+              <ListItem
+                className="text-white"
+                onClick={() => {
+                  navigate("/admin/userlist");
+                }}
+              >
                 <ListItemPrefix>
                   <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                 </ListItemPrefix>
@@ -148,21 +150,24 @@ export function AdminSideBar() {
           </AccordionBody>
         </Accordion>
 
-
-
         <Accordion
           open={open === 3}
           icon={
             <ChevronDownIcon
               strokeWidth={2.5}
-              className={`mx-auto h-4 w-4 transition-transform ${open === 3 ? "rotate-180" : ""}`}
+              className={`mx-auto h-4 w-4 transition-transform ${
+                open === 3 ? "rotate-180" : ""
+              }`}
             />
           }
         >
           <ListItem className="p-0" selected={open === 3}>
-            <AccordionHeader onClick={() => handleOpen(3)} className="border-b-0 p-3">
+            <AccordionHeader
+              onClick={() => handleOpen(3)}
+              className="border-b-0 p-3"
+            >
               <ListItemPrefix>
-                <ShoppingBagIcon className="h-5 w-5" />
+                <HomeModernIcon color="grey" class="h-6 w-6" />
               </ListItemPrefix>
               <Typography color="white" className="mr-auto font-normal">
                 Theaters
@@ -171,7 +176,12 @@ export function AdminSideBar() {
           </ListItem>
           <AccordionBody className="py-1">
             <List className="p-0">
-              <ListItem onClick={()=>{navigate("/admin/theaterlist")}}>
+              <ListItem
+                className="text-white"
+                onClick={() => {
+                  navigate("/admin/theaterlist");
+                }}
+              >
                 <ListItemPrefix>
                   <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                 </ListItemPrefix>
@@ -199,21 +209,24 @@ export function AdminSideBar() {
           </AccordionBody>
         </Accordion>
 
-
-
         <Accordion
           open={open === 4}
           icon={
             <ChevronDownIcon
               strokeWidth={2.5}
-              className={`mx-auto h-4 w-4 transition-transform ${open === 4 ? "rotate-180" : ""}`}
+              className={`mx-auto h-4 w-4 transition-transform ${
+                open === 4 ? "rotate-180" : ""
+              }`}
             />
           }
         >
           <ListItem className="p-0" selected={open === 4}>
-            <AccordionHeader onClick={() => handleOpen(4)} className="border-b-0 p-3">
+            <AccordionHeader
+              onClick={() => handleOpen(4)}
+              className="border-b-0 p-3"
+            >
               <ListItemPrefix>
-                <ShoppingBagIcon className="h-5 w-5" />
+                <FilmIcon color="grey" class="h-6 w-6" />
               </ListItemPrefix>
               <Typography color="white" className="mr-auto font-normal">
                 Movies
@@ -222,7 +235,12 @@ export function AdminSideBar() {
           </ListItem>
           <AccordionBody className="py-1">
             <List className="p-0">
-              <ListItem onClick={()=>{navigate("/admin/movielist")}}>
+              <ListItem
+                className="text-white"
+                onClick={() => {
+                  navigate("/admin/movielist");
+                }}
+              >
                 <ListItemPrefix>
                   <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                 </ListItemPrefix>
@@ -250,21 +268,24 @@ export function AdminSideBar() {
           </AccordionBody>
         </Accordion>
 
-
-
         <Accordion
           open={open === 5}
           icon={
             <ChevronDownIcon
               strokeWidth={2.5}
-              className={`mx-auto h-4 w-4 transition-transform ${open === 5 ? "rotate-180" : ""}`}
+              className={`mx-auto h-4 w-4 transition-transform ${
+                open === 5 ? "rotate-180" : ""
+              }`}
             />
           }
         >
           <ListItem className="p-0" selected={open === 5}>
-            <AccordionHeader onClick={() => handleOpen(5)} className="border-b-0 p-3">
+            <AccordionHeader
+              onClick={() => handleOpen(5)}
+              className="border-b-0 p-3"
+            >
               <ListItemPrefix>
-                <ShoppingBagIcon className="h-5 w-5" />
+                <MapPinIcon color="grey" class="h-6 w-6" />
               </ListItemPrefix>
               <Typography color="white" className="mr-auto font-normal">
                 Locations
@@ -273,23 +294,69 @@ export function AdminSideBar() {
           </ListItem>
           <AccordionBody className="py-1">
             <List className="p-0">
-              <ListItem onClick={()=>{navigate("/admin/locations")}}>
+              <ListItem
+                className="text-white"
+                onClick={() => {
+                  navigate("/admin/locations");
+                }}
+              >
                 <ListItemPrefix>
                   <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                 </ListItemPrefix>
                 Add or View Locations
               </ListItem>
-             
             </List>
           </AccordionBody>
         </Accordion>
-        
 
+        <Accordion
+          open={open === 6}
+          icon={
+            <ChevronDownIcon
+              strokeWidth={2.5}
+              className={`mx-auto h-4 w-4 transition-transform ${
+                open === 6 ? "rotate-180" : ""
+              }`}
+            />
+          }
+        >
+          <ListItem className="p-0" selected={open === 6}>
+            <AccordionHeader
+              onClick={() => handleOpen(6)}
+              className="border-b-0 p-3"
+            >
+              <ListItemPrefix>
+                <PhotoIcon color="grey" class="h-6 w-6" />
+              </ListItemPrefix>
+              <Typography color="white" className="mr-auto font-normal">
+                Banners
+              </Typography>
+            </AccordionHeader>
+          </ListItem>
+          <AccordionBody className="py-1">
+            <List className="p-0">
+              <ListItem className="text-white" onClick={handleBannerAddOpen}>
+                <ListItemPrefix>
+                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                </ListItemPrefix>
+                Add Banner
+              </ListItem>
+              <ListItem
+                className="text-white"
+                onClick={() => {
+                  navigate("/admin/banner");
+                }}
+              >
+                <ListItemPrefix>
+                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                </ListItemPrefix>
+                View Banners
+              </ListItem>
+            </List>
+          </AccordionBody>
+        </Accordion>
 
-
-
-
-        <hr className="my-2 border-blue-gray-50" />
+        {/* <hr className="my-2 border-blue-gray-50" />
         <ListItem>
           <ListItemPrefix>
             <InboxIcon className="h-5 w-5" />
@@ -298,26 +365,26 @@ export function AdminSideBar() {
           <ListItemSuffix>
             <Chip value="14" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
           </ListItemSuffix>
-        </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <UserCircleIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Profile
-        </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <Cog6ToothIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Settings
-        </ListItem>
-        {/* <ListItem>
-          <ListItemPrefix>
-            <PowerIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Log Out
         </ListItem> */}
       </List>
+
+      {/* dialog add banner */}
+
+      <Dialog
+        open={addBannerOpen}
+        size="xl"
+        handler={handleBannerAddOpen}
+        animate={{
+          mount: { scale: 1, y: 0 },
+          unmount: { scale: 0.9, y: -100 },
+        }}
+      >
+        <DialogHeader>Add Banner</DialogHeader>
+
+        <DialogBody>
+          <BannerAddForm handleBannerAddOpen={handleBannerAddOpen} />
+        </DialogBody>
+      </Dialog>
     </Card>
   );
 }

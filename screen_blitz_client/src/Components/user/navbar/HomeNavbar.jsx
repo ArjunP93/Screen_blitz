@@ -80,6 +80,7 @@ export function HomeNavbar(props) {
     localStorage.removeItem('userOperationsData')
     localStorage.removeItem('stripeId')
     localStorage.removeItem('location')
+    localStorage.removeItem('sId')
     dispatch(logOut());
     toast.success("Signout success");
     navigate("/user");

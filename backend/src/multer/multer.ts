@@ -48,15 +48,32 @@ import {v2 as cloudinary} from 'cloudinary'
         }
     }
 
+    const bannerPic = {
+        cloudinary: cloudinary,
+        params: {
+            folder: 'SB-banner-Pics',
+            allowed_formats: ['jpg', 'jpeg', 'png', 'svg', 'webp', 'gif', 'jfif', 'webp'],
+            public_id: (req: any, file: any) => {
+                console.log('cloudinary  filee', file, req.body);
+                const originalname = file.originalname.split('.');
+                return `image-${Date.now()}-${originalname[0]}`;
+            }
+        }
+    }
+
+    const bannerStorage = new CloudinaryStorage(bannerPic)
+    const uploadBanner = multer({storage:bannerStorage}).single('banner')
+
 
     const userProPicStorage = new CloudinaryStorage(userProfilePic);
    const uploadUserPics = multer({ storage: userProPicStorage }).single('userProfileImage');
-    const theaterProPicStorage = new CloudinaryStorage(userProfilePic);
-   const uploadTheaterPics = multer({ storage: theaterProPicStorage }).single('userProfileImage');
+
+    const theaterProPicStorage = new CloudinaryStorage(theaterProfilePic);
+   const uploadTheaterPics = multer({ storage: theaterProPicStorage }).single('theaterProfileImage');
 
 
 
-export { uploadUserPics };
+export { uploadUserPics,uploadTheaterPics,uploadBanner };
 
 
 

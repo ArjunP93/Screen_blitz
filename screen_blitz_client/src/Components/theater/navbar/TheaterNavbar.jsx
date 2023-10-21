@@ -56,6 +56,7 @@ const profileMenuItems = [
   {
     label: "My Profile",
     icon: UserCircleIcon,
+    profile:true
   },
   // {
   //   label: "Edit Profile",
@@ -105,13 +106,14 @@ const profileMenuItems = [
         </Button>
       </MenuHandler>
       <MenuList className="p-1">
-        {profileMenuItems.map(({ label, icon,signout }, key) => {
+        {profileMenuItems.map(({ label, icon,signout,profile }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
           return (
             <MenuItem
               key={label}
               onClick={() => {
                 closeMenu();
+                if(profile){navigate('/theaterprofile')}
                 if(signout) {signOut()}; // Call the onClick function if provided
               }}
               className={`flex items-center gap-2 rounded ${

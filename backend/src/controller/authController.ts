@@ -5,6 +5,7 @@ import Admin from "../models/adminSchema";
 import bcrypt from "bcrypt";
 
 import { generateJWT, verifyJWT } from "../authService/JwtAuth";
+import Wallet from "../models/userWalletSchema";
 
 const adminCredentials = {
   username: "admin",
@@ -135,11 +136,19 @@ res.json({status:false,message:'invalid user'})
         password: hashedPassword,
         mobile:mobile
       });
+     
       const returnData = await newUserData.save();
 
       const newUserId = returnData._id;
-
+      
       const jwt = generateJWT(newUserId.toString(),"user");
+      // create empty wallet for new user
+      const newUserWallet = new Wallet({
+        userId:newUserId,
+        balance:0,
+        transactions:[] 
+       })
+       await newUserWallet.save()
 
       res.json({
         user: newUserData,
@@ -321,6 +330,14 @@ res.json({status:false,message:'invalid user'})
         const newUserId = returnData._id;
 
         const jwt = generateJWT(newUserId.toString(),"user");
+
+        // create empty wallet for new user
+      const newUserWallet = new Wallet({
+        userId:newUserId,
+        balance:0,
+        transactions:[] 
+       })
+       await newUserWallet.save()
 
         res.json({
           user: newUserData,

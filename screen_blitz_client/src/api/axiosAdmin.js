@@ -1,6 +1,9 @@
 import axios from "axios";
+import adminResponseInterceptor from "./resInterceptors/adminResInterceptor";
 
 const BaseUrl = "http://localhost:4000/api/";
+// const BaseUrl = "https://screenblitz.online/api/";
+
 
 const admin_baseURL = axios.create({
   baseURL: BaseUrl,
@@ -24,5 +27,10 @@ admin_baseURL.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+
+
+
+adminResponseInterceptor(admin_baseURL)
 
 export default admin_baseURL;

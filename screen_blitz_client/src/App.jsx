@@ -29,15 +29,17 @@ import GuestHome from "./Pages/guest/GuestHome";
 import { OtpLogin } from "./Pages/user/OtpLogin";
 import Profile from "./Pages/user/Profile";
 import TheaterProfile from "./Pages/theater/TheaterProfile";
+import BannerListAdmin from "./Pages/admin/BannerListAdmin";
+import SomethingWrong from "./Pages/errorPages/somethingWrong/SomethingWrong";
+import Unauthorized from "./Pages/errorPages/unauthorized/Unauthorized";
 
 function App() {
   const userReduxToken = useSelector((state) => state.user?.userRedux?.userToken);
-  console.log('user',userReduxToken);
 
   const theaterReduxToken = useSelector(
     (state) => state.theater?.theaterRedux?.theaterToken
   );
-  console.log('theater',theaterReduxToken);
+  const successId = useSelector((state)=>state.user.successId)
   const adminReduxToken = useSelector(
     (state) => state.admin?.adminRedux?.adminToken
   );
@@ -146,7 +148,7 @@ function App() {
             }
           ></Route>
           <Route
-            path="/stripe/payment/success"
+            path={`/stripe/payment/success/${successId}`}
             element={
               userReduxToken ? (
               <PaymentSuccess/>
@@ -354,11 +356,15 @@ function App() {
             path="/admin/locations"
             element={adminReduxToken ? <Location /> : <AdminSignInForm />}
           ></Route>
+          <Route
+            path="/admin/banner"
+            element={adminReduxToken ? <BannerListAdmin/> : <AdminSignInForm />}
+          ></Route>
 
 
-          <Route path="/test" element={<Notfound404/>}>
-
-          </Route>
+          <Route path="/404" element={<Notfound404/>}></Route>
+          <Route path="/401" element={<Unauthorized/>}></Route>
+          <Route path="/oops" element={<SomethingWrong/>}></Route>
         </Routes>
       </BrowserRouter>
     </>

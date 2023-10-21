@@ -8,6 +8,7 @@ import {
   CardHeader,
   useSelect,
   Button,
+  Typography,
   Dialog,
   DialogHeader,
   DialogBody,
@@ -19,17 +20,23 @@ import {
 import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 
 import { TableInprofile } from "../../Components/user/table/TableInprofile";
-import { addProfilePic, editUserProfile, userProfileDetails } from "../../api/userApi";
+import {
+  addProfilePic,
+  editUserProfile,
+  userProfileDetails,
+} from "../../api/userApi";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { WalletTransactions } from "../../Components/user/table/WalletTransactions";
 
 function Profile() {
   const [profilePicOpen, setProfilePicOpen] = React.useState(false);
   const [profileEditOpen, setProfileEditOpen] = React.useState(false);
   const [picURL, setPicURL] = useState("");
   const [fileData, setFileData] = useState(null);
+  const [wallet, setWallet] = useState({});
 
   const handleProfilePicOpen = () => setProfilePicOpen(!profilePicOpen);
   const handleProfileEditOpen = () => setProfileEditOpen(!profileEditOpen);
@@ -43,7 +50,8 @@ function Profile() {
       return response;
     }
     userDetails().then((result) => {
-      setUserProfileInfo(result.user);
+      setUserProfileInfo(result?.user);
+      setWallet(result?.wallet);
     });
   }, []);
 
@@ -78,38 +86,35 @@ function Profile() {
     }),
 
     onSubmit: async (values) => {
-      values.id=userId 
-      const response = await editUserProfile(values)
-     if(response.status==="success"){
-      console.log('responseee',response.user)
-      setUserProfileInfo(response.user)
-      toast.success(`profile updated !!`, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      handleProfileEditOpen();
-    }else{
-      toast.error(`something went wrong couldn't update profile !!`, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      handleProfileEditOpen();
-
+      values.id = userId;
+      const response = await editUserProfile(values);
+      if (response.status === "success") {
+        console.log("responseee", response.user);
+        setUserProfileInfo(response.user);
+        toast.success(`profile updated !!`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        handleProfileEditOpen();
+      } else {
+        toast.error(`something went wrong couldn't update profile !!`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        handleProfileEditOpen();
       }
-
-
     },
   });
 
@@ -316,7 +321,11 @@ function Profile() {
                       </p>
                     </div>
                     <div className="flex justify-end gap-2">
-                      <Button color="red" className="" onClick={handleProfileEditOpen}>
+                      <Button
+                        color="red"
+                        className=""
+                        onClick={handleProfileEditOpen}
+                      >
                         Cancel
                       </Button>
                       <Button type="submit" color="deep-purple" className="">
@@ -330,13 +339,35 @@ function Profile() {
           </div>
 
           <div className=" my-5  p-4  pb-4 shadow-2xl bg-white rounded-xl">
-            <TableInprofile />
+            <TableInprofile setWallet={setWallet} />
           </div>
         </div>
         <div className="w-5/12 h-52 pt-28 ">
           <Card className="shadow-2xl">
             <CardBody>
-              <p className="text-center font-bold uppercase text-lg">wallet</p>
+              <div>
+                <Typography
+                  className="text-lg font-bold text-center  p-2 uppercase"
+                  variant="h5"
+                  color="blue-gray"
+                >
+                  wallet{" "}
+                </Typography>
+              </div>
+              <div className="w-full">
+                <p className="p-4 font-semibold">
+                  Balance :{" "}
+                  <span className="font-extrabold text-lg">
+                    {wallet?.balance?.toLocaleString("en-IN", {
+                      style: "currency",
+                      currency: "INR",
+                    })}
+                  </span>
+                </p>
+              </div>
+              <div>
+                <WalletTransactions transactions={wallet.transactions} />
+              </div>
             </CardBody>
           </Card>
         </div>

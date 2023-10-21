@@ -51,7 +51,7 @@ const dispatch = useDispatch()
         <HomeNavbar />
       </div>
 
-      <div className="mt-24 h-64">
+      <div className="mt-16 h-96">
         <HomeCarosal />
       </div>
       {/* <div className='flex justify-center' > */}

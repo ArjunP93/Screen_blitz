@@ -25,6 +25,14 @@ const checkStripe = () => {
     return "";
   }
 };
+const checkSuccessId = () => {
+  const sId = localStorage.getItem("sId");
+  if (sId) {
+    return sId;
+  } else {
+    return "";
+  }
+};
 const checkOperations = () => {
   const operations = localStorage.getItem("userOperationsData");
   if (operations) {
@@ -57,7 +65,8 @@ const initialState = {
   userSeatCount: 0,
   totalAmount: 0,
   stripePaymentURL:'',
-  stripeId:checkStripe()
+  stripeId:checkStripe(),
+  successId:checkSuccessId()
 };
 
 const userSlice = createSlice({
@@ -97,6 +106,9 @@ const userSlice = createSlice({
     setStripeId: (state, action) => {
       state.totalAmount = action.payload;
     },
+    setSuccessId: (state, action) => {
+      state.successId = action.payload;
+    },
     logOut: (state) => {
       state.userRedux = {
         userToken: "",
@@ -117,7 +129,8 @@ const userSlice = createSlice({
         ticketPrice: 0,
         selectedSeats: [],
         ticketCount: 0,
-      };
+      },
+      state.successId = ''
     },
   },
 });
@@ -134,6 +147,6 @@ export const {
   setUserSeatCount,
   setTotalAmount,
   setsStripePaymentURL,
-  setStripeId
+  setStripeId,setSuccessId
 } = userSlice.actions;
 export default userSlice.reducer;

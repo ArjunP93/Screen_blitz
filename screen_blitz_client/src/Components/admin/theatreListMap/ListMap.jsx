@@ -95,7 +95,7 @@ function ListMap(props) {
       <Button />
       </div> */}
 
-        <Switch checked={isSwitchOn} onChange={toggleHandle}></Switch>
+        <Switch color='deep-purple' checked={isSwitchOn} onChange={toggleHandle}></Switch>
         {/* <Tooltip content="Edit User">
         <IconButton variant="text">
           <PencilIcon className="h-4 w-4" />

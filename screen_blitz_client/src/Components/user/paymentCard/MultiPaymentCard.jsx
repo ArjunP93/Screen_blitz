@@ -10,7 +10,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { openPaymentGateway } from "../../../api/userApi";
 import { Link, useNavigate } from "react-router-dom";
-import { setStripeId } from "../../../redux/userSlice";
+import { setStripeId, setSuccessId } from "../../../redux/userSlice";
 
 function MultiPaymentCard() {
   const dispatch = useDispatch();
@@ -28,10 +28,11 @@ function MultiPaymentCard() {
 
     const response = await openPaymentGateway(bookingDetails);
     console.log("tesssssssssssst paymntid", response);
-    console.log("tesssssssssssst paymntid", response);
-    localStorage.setItem("stripeId", response?.paymentURL.id);
-    dispatch(setStripeId(response?.paymentURL.id));
-    const paymentURL = response?.paymentURL.url;
+    localStorage.setItem("stripeId", response?.paymentURL?.session?.id);
+    localStorage.setItem('sId',response?.paymentURL?.successId)
+    dispatch(setStripeId(response?.paymentURL?.session?.id),setSuccessId(response?.paymentURL?.successId));
+    const paymentURL = response?.paymentURL?.session?.url;
+    console.log('paymentURL',paymentURL)
 
     // Navigate to the payment URL
     window.location.href = paymentURL;

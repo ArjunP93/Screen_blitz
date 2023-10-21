@@ -10,6 +10,8 @@ import userHelper from "../helpers/userHelper";
 import mongoose from "mongoose";
 import Booking from "../models/bookingSchema";
 import { ObjectId } from "mongodb";
+import Wallet from "../models/userWalletSchema";
+import Banner from "../models/bannerSchema";
 
 
 
@@ -132,6 +134,14 @@ const userController = {
       res.json({status:'failed',message:'could not get movie result',error:error})
     }
   },
+  getbanners:async(req:Request,res:Response)=>{
+    try {
+      const result = await Banner.find({bannerState:true})
+      res.json({status:'success',banners:result})
+    } catch (error) {
+      res.json({status:'failed',message:'could not get banner result',error:error})
+    }
+  },
 
 
   getUserBookings:async(req:Request,res:Response)=>{
@@ -144,10 +154,11 @@ const userController = {
   },
   getUserProfileInfo:async(req:Request,res:Response)=>{
     try {
-      const result = await User.findOne({_id:new mongoose.Types.ObjectId(req.params.id)})
-      res.json({status:'success',user:result})
+      const result = await User.findOne({_id:new mongoose.Types.ObjectId(req.params?.id)})
+      const wallet = await Wallet.findOne({userId:new mongoose.Types.ObjectId(req.params?.id)})
+      res.json({status:'success',user:result,wallet:wallet})
     } catch (error) {
-      res.json({status:'failed',message:'could not get user result',error:error})
+      res.json({status:'failed',message:'could not get user result and wallet',error:error})
     }
   },
   addProfilePic:async(req:Request,res:Response)=>{
@@ -188,6 +199,17 @@ const userController = {
     } catch (error) {
       console.log('error',error)
       res.json({status:'failed',message:'could not update user details',error:error})
+    }
+  },
+  cancelBooking:async(req:Request,res:Response)=>{
+    try {
+      const bookingId  = req.params?.id
+      const response = await userHelper.cancelBooking(bookingId)
+
+      res.json({status:'success',updatedData:response})
+    } catch (error) {
+      console.log('error',error)
+      res.json({status:'failed',message:'could not cancel booking',error:error})
     }
   },
 

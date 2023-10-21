@@ -1,4 +1,5 @@
-console.log(`${process.env.CLIENT_STRIPE_PAYMENT_REDIRECT_URL}success`)
+import {v4 as uuidv4 } from 'uuid'
+
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const PaymentServices = {
     generateStripePaymentUrl: async (
@@ -9,6 +10,10 @@ const PaymentServices = {
 
   ) => {
     try {
+
+     const successId = uuidv4() // create uniqe id for successpage
+
+
       console.log("got to payment service....", userId, movieName, totalAmount);
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -27,13 +32,13 @@ const PaymentServices = {
           quantity: 1,
         },
       ],
-      success_url: `${process.env.CLIENT_STRIPE_PAYMENT_REDIRECT_URL}/success`,
+      success_url: `${process.env.CLIENT_STRIPE_PAYMENT_REDIRECT_URL}/success/${successId}`,
       cancel_url: `${process.env.CLIENT_STRIPE_PAYMENT_REDIRECT_URL}/cancel`,
     //   success_url: `https://www.instagram.com/`,
     //   cancel_url: `https://www.instagram.com/`,
     });
 
-    return session;
+    return {session:session,successId:successId};
     } catch (error) {
       console.log("error creating chekout session",error)
     }

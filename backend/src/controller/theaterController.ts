@@ -6,6 +6,8 @@ import constants from "../assets/constants";
 import { ObjectId } from "mongodb";
 
 import mongoose from "mongoose";
+import Location from "../models/locationSchema";
+import theaterHelper from "../helpers/theaterHelper";
 
 const theaterController = {
   addMovie: async (req: Request, res: Response) => {
@@ -135,12 +137,9 @@ const theaterController = {
   deleteMovie: async (req: Request, res: Response) => {
     try {
       const {moviId,theater} = req.params;
-      // console.log(' before screenResult')
-      // console.log('movieId',movieId)
-      // console.log('theater',theater)
+      
 
       const screenResult = await Screen.updateMany({ theaterId:theater, movieId:moviId  }, { $set: { movieName: '', movieId:null} });
-      // console.log('screenResult',screenResult)
       const response = await Movie.deleteOne({ _id: moviId });
       res.json({ status: "success", message: "Movie removed successfully" });
     } catch (error) {
@@ -192,6 +191,72 @@ const theaterController = {
       });
     }
   },
+  addProfilePic:async(req:Request,res:Response)=>{
+    try {
+      const {theater}:{theater:string} = req.body
+      console.log('form body',req.body)
+
+      console.log('file url',req.file)
+      const imageURL=req.file?.path
+      console.log('imageURL',imageURL)
+
+      const updateResponse = await Theater.findByIdAndUpdate(
+        { _id: new ObjectId(theater) },
+        { $set: { profilePic: imageURL } },
+        { new: true, acknowledged: true } // Set acknowledged to true
+      );
+      
+      res.json({status:'success',theater:updateResponse})
+    } catch (error) {
+      console.log('error',error);
+      
+      res.json({status:'failed',message:'could not get theater result',error:error})
+    }
+  },
+  getTheaterProfile: async (req: Request, res: Response) => {
+    try {
+      const id = req.params?.id;
+      
+      const profile = await Theater.findOne({ _id: new ObjectId(id) });
+      const locations = await Location.find({})
+      const screens = await Screen.countDocuments({theaterId:new ObjectId(id)})
+      const result={...profile,screens:screens}
+      res.json({ theater:result , status: "success" ,locations:locations });
+    } catch (error) {
+      res.json({ message: "could not get theater profile", status: "failed", error });
+    }
+  },
+  editTheaterProfileInfo:async(req:Request,res:Response)=>{
+    try {
+      const {id,name,location,mobile,description}:{id:string,name:string,location:string,mobile:string,description:string}  = req.body
+
+      const phone = parseInt(mobile)
+      console.log('mobile',mobile)
+      console.log('req.body',req.body)
+      const screens = await Screen.countDocuments({theaterId:new ObjectId(id)})
+
+      const result = await Theater.findByIdAndUpdate({_id:new ObjectId(id)},{$set:{theaterName:name,mobile:phone,location:location,description:description}},{ new: true, acknowledged: true })
+      res.json({status:'success',theater:result,screens:screens})
+    } catch (error) {
+      console.log('error',error)
+      res.json({status:'failed',message:'could not update theater details',error:error})
+    }
+  },
+  getChartData:async(req:Request,res:Response)=>{
+    try {
+       const theater = req.params.id
+    const chartDataResult = await theaterHelper.chartData(theater)
+    const dashInfo = await theaterHelper.dashInfo(theater)
+    res.json({status:"success",dashInfo:dashInfo, chartData:chartDataResult})
+
+    } catch (error) {
+      console.log('error',error)
+      res.json({status:'failed',message:'could get  theater dash  details',error:error})
+    
+    }
+   
+  },
+
 };
 
 export default theaterController;

@@ -4,6 +4,7 @@ import {
     Typography,
     Chip,
     Switch,
+    Avatar
   } from "@material-tailwind/react";
 
   import {userApprove} from '../../../api/adminApi'
@@ -26,7 +27,7 @@ function ListRowComponent(props) {
     <tr key={props._id}>
     <td className={props.classes}>
       <div className="flex items-center gap-3">
-     { props.profilePic.length!==0 ?<Avatar src={profilePic[0]} alt={name} size="sm" /> :null}
+     { props.profilePic.length!==0 ?<Avatar src={props.profilePic[props.profilePic.length - 1]} alt={name} size="sm" /> :null}
         <div className="flex flex-col">
           <Typography
             variant="small"
@@ -45,24 +46,7 @@ function ListRowComponent(props) {
         </div>
       </div>
     </td>
-    {/* <td className={classes}>
-      <div className="flex flex-col">
-        <Typography
-          variant="small"
-          color="blue-gray"
-          className="font-normal"
-        >
-          {job}
-        </Typography>
-        <Typography
-          variant="small"
-          color="blue-gray"
-          className="font-normal opacity-70"
-        >
-          {org}
-        </Typography>
-      </div>
-    </td> */}
+    
    <td className={props.classes}>
   <div className="w-max">
     <Chip
@@ -73,22 +57,10 @@ function ListRowComponent(props) {
     />
   </div>
 </td>
-    {/* <td className={classes}>
-      <Typography
-        variant="small"
-        color="blue-gray"
-        className="font-normal"
-      >
-        {date}
-      </Typography> 
-    </td> */}
+   
     <td className={props.classes}>
-      <Switch checked={isSwitchOn} onChange={toggleHandle}></Switch>
-      {/* <Tooltip content="Edit User">
-        <IconButton variant="text">
-          <PencilIcon className="h-4 w-4" />
-        </IconButton>
-      </Tooltip> */}
+      <Switch color='deep-purple' checked={isSwitchOn} onChange={toggleHandle}></Switch>
+      
     </td>
   </tr> 
   )
