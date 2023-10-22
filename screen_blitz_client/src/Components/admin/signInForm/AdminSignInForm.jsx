@@ -64,7 +64,8 @@ export function AdminSignInForm() {
 
   return (
     <div className="flex items-center justify-center h-screen bg-blue-gray-100">
-      <Card color="transparent" shadow={false}>
+      <Card className="w-96 shadow-xl" color="transparent" shadow={false}>
+        <div className="m-auto py-4">
         <Typography variant="h4" color="blue-gray">
           Admin Sign In
         </Typography>
@@ -99,10 +100,11 @@ export function AdminSignInForm() {
             </p>
           </div>
 
-          <Button type="submit" className="mt-6" fullWidth>
+          <Button color="purple" type="submit" className="mt-6" fullWidth>
             Log In
           </Button>
         </form>
+        </div>
       </Card>
     </div>
   );

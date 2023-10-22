@@ -2,7 +2,9 @@ import axios from "axios";
 import userResponseInterceptor from "./resInterceptors/userResInterceptor";
 
 
-const BaseUrl = "http://localhost:4000/api/";
+// const BaseUrl = "http://localhost:4000/api/";
+const BaseUrl = "https://screenblitz.online/api/";
+
 
 const user_baseURL = axios.create({
   baseURL: BaseUrl,

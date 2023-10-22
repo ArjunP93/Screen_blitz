@@ -1,7 +1,9 @@
 import axios from "axios";
 import theaterResponseInterceptor from "./resInterceptors/theaterResInterceptor";
 
-const BaseUrl = "http://localhost:4000/api/";
+// const BaseUrl = "http://localhost:4000/api/";
+const BaseUrl = "https://screenblitz.online/api/";
+// 
 
 const theater_baseURL = axios.create({
   baseURL: BaseUrl,

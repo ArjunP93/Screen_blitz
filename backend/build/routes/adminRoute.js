@@ -1,0 +1,24 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const adminController_1 = __importDefault(require("../controller/adminController"));
+const multer_1 = require("../multer/multer");
+const adminRoute = express_1.default.Router();
+adminRoute.get('/userlist', adminController_1.default.userFetch);
+adminRoute.get('/theaterlist', adminController_1.default.theaterFetch);
+adminRoute.put('/theaterlist/approval', adminController_1.default.theaterApprove);
+adminRoute.put('/userlist/approval', adminController_1.default.userApprove);
+adminRoute.put('/theaterlist/block', adminController_1.default.theaterBlockUnblock);
+adminRoute.get('/allmovies', adminController_1.default.getAllMovies);
+adminRoute.post('/addlocation', adminController_1.default.addLocations);
+adminRoute.get('/locations', adminController_1.default.availableLocations);
+adminRoute.delete('/removelocation/:id', adminController_1.default.deleteLocation);
+adminRoute.post('/banner', multer_1.uploadBanner, adminController_1.default.addBanners);
+adminRoute.get('/bannerlist', adminController_1.default.bannerList);
+adminRoute.put('/bannerlist/activate', adminController_1.default.activateBanner);
+adminRoute.delete('/deletebanner/:id', adminController_1.default.deleteBanner);
+adminRoute.get('/getchart', adminController_1.default.getAdminChartData);
+exports.default = adminRoute;

@@ -1,0 +1,24 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const userController_1 = __importDefault(require("../controller/userController"));
+const multer_1 = require("../multer/multer");
+const userRouter = express_1.default.Router();
+userRouter.get('/movielist', userController_1.default.getAllMovies);
+userRouter.post('/searchmovie', userController_1.default.searchMovie);
+userRouter.get("/locations", userController_1.default.getAllLocations);
+userRouter.post('/movie', userController_1.default.moviePageData);
+userRouter.post('/booking/paymentURL', userController_1.default.bookingDataPost);
+userRouter.get('/movieinfo/:id', userController_1.default.getMovieInfo);
+userRouter.get('/bannerfetch', userController_1.default.getbanners);
+userRouter.post('/booking/confirmation', userController_1.default.bookingCreate);
+userRouter.post('/bookedseats', userController_1.default.bookedSeats);
+userRouter.get('/userbookings/:id', userController_1.default.getUserBookings);
+userRouter.get('/userprofile/:id', userController_1.default.getUserProfileInfo);
+userRouter.post('/addprofilepic', multer_1.uploadUserPics, userController_1.default.addProfilePic);
+userRouter.post('/edituserprofile', userController_1.default.editUserProfileInfo);
+userRouter.get('/cancelbooking/:id', userController_1.default.cancelBooking);
+exports.default = userRouter;

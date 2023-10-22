@@ -107,7 +107,8 @@ import {
   
     return (
       <div className="flex items-center justify-center h-screen bg-blue-gray-100">
-      <Card color="transparent" shadow={false}>
+      <Card className=' w-96 shadow-xl' color="transparent" shadow={false}>
+        <div className='m-auto py-4'>
         <Typography variant="h4" color="blue-gray">
           {props.heading}
         </Typography>
@@ -160,12 +161,13 @@ import {
             Already have an account?{" "}
             <a
               href={props.locateAftersignup}
-              className="font-medium text-blue-500 transition-colors hover:text-blue-700"
+              className="font-medium text-purple-900 transition-colors hover:text-blue-700"
             >
               Sign In
             </a>
           </Typography>
         </form>
+        </div>
 
       </Card>
       </div>
