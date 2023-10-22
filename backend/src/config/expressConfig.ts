@@ -9,7 +9,7 @@ const expressConfig = (app:Application)=>{
     // enable cors
 
     const enableCors = {
-        origin:['https://screenblitz.online'],
+        origin:['https://screenblitz.online/'],
         exposeHeadrs:['Cross-Origin-Opener-Policy','Cross-Origin-Resource-Policy']
     }
     // express middlwares config
