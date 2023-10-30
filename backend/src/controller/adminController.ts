@@ -14,6 +14,7 @@ const adminController = {
       res.json({ usersDetails: usersData });
     } catch (error) {
       res.json({ message: "couldn't fetch userdetails", error });
+      //this is  error
     }
   },
 

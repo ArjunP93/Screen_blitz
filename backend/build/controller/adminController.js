@@ -27,6 +27,7 @@ const adminController = {
         }
         catch (error) {
             res.json({ message: "couldn't fetch userdetails", error });
+            //this is  error
         }
     }),
     theaterFetch: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
